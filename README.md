@@ -7,16 +7,15 @@ features：
 5.地图based， 美食展示 *
 6.推荐系统（距离，种类）
 7.植入交易系统 
-8.
-React + Python django + mongoDB + redis 
+8.React + Python django + mongoDB + redis 
 
 
-### Week 0 May 3 - May 7 
-Feature: Post Django and React
-Meething: 5.10 10:00pm Beijing Time
+### Week 0: May 3 - May 7 
+##### Feature: Post Django and React
+##### Meething: 5.10 10:00pm Beijing Time
 
-### Week 1 May 8 - May 14 
-
+### Week 1: May 8 - May 14 
+##### Feature:
 Profile:(Lu and Han)
 1.页面显示profile 
 2.头像 
