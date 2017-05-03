@@ -11,7 +11,7 @@ features：
 
 
 ### Week 0: May 3 - May 7 
-Feature: Post Django and React
+Feature: Post Django and React  
 Meething: 5.10 10:00pm Beijing Time
 
 ### Week 1: May 8 - May 14 
