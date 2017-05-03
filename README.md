@@ -15,22 +15,22 @@ Feature: Post Django and React
 Meething: 5.10 10:00pm Beijing Time
 
 ### Week 1: May 8 - May 14 
-Feature:
-Profile:(Lu and Han)
-1.页面显示profile 
-2.头像 
-3.姓名（username)  
-4.update information 
-5.关注者
+Feature:  
+Profile:(Lu and Han)  
+1.页面显示profile   
+2.头像   
+3.姓名（username)    
+4.update information   
+5.关注者  
 
-Share(share 我们的网站 和微信) Like and Comment(Dr. Wei)
+Share(share 我们的网站 和微信) Like and Comment(Dr. Wei)  
 
-关注 Show Feed (Liping and Shuwen)
+关注 Show Feed (Liping and Shuwen)  
 
 ### Week 2 May 15 - May 21
-Search(Filter)
-地图based
+Search(Filter)  
+地图based  
 
 ### Week 3
-交易系统
-chat
+交易系统  
+chat  
