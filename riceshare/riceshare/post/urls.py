@@ -6,13 +6,8 @@ from . import views
 urlpatterns = [
     url(
         regex=r'^$',
-        view=views.index,
-        name='index'
+        view=views.post_home,
+        name='post_home'
     ),
 
-    url(
-        regex=r'^create$',
-        view=views.create_post,
-        name='create_post'
-    ),
 ]
