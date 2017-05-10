@@ -5,10 +5,10 @@ from riceshare.post.models import Post
 
 
 def post_home(request):
-    post_form = PostForm(request.POST or None)
+    post_form = PostForm(request.POST or None, request.FILES or None)
     if request.method == "POST":
         if post_form.is_valid():
-            post = Post(user=request.user, post=post_form.cleaned_data['post'])
+            post = Post(user=request.user, post=post_form.cleaned_data['post'], image=post_form.cleaned_data['image'])
             post.save()
             return HttpResponse("Post Successuflly")
     else:
