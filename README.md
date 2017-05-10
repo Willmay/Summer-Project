@@ -25,7 +25,8 @@ Profile - Lu and Han
 
 Share(share 我们的网站 和微信), Like and Comment - Dr. Wei
 
-关注, Show Feed（用户post内容，关注者post内容显示) - Liping and Shuwen  
+关注, Show Feed（用户post内容，关注者post内容显示) - Liping and Shuwen 
+
 Meeting Time:
 May 18 Bejing 10:00pm
 
