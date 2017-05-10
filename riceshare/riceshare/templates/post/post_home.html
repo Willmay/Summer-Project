@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form class="form-horizontal" enctype="multipart/form-data" method = "post" action = "{% url 'post:post_home' %}" style="display: inline;">
+  {% csrf_token %}
+  {{post_form|crispy}}
+  <div class="control-group">
+	  <div class="controls">
+	    <button type="submit" class="btn btn-primary">Create New Post</button>
+	  </div>
+	</div>
+
+</form>
+{% endblock %}

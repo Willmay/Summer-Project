@@ -58,6 +58,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # custom users app
     'riceshare.users.apps.UsersConfig',
+    'riceshare.post',
     # Your stuff: custom apps go here
 ]
 
