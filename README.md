@@ -26,6 +26,8 @@ Profile:(Lu and Han)
 5.关注者
 
 Share(share 我们的网站 和微信) Like and Comment(Dr. Wei)
+Meeting:
+May 18  Beijing 时间晚上10点
 
 关注 Show Feed (Liping and Shuwen)
 
