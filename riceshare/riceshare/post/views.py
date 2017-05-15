@@ -5,6 +5,7 @@ from riceshare.post.models import Post
 
 
 def post_home(request):
+
     post_form = PostForm(request.POST or None, request.FILES or None)
     if request.method == "POST":
         if post_form.is_valid():
@@ -12,8 +13,13 @@ def post_home(request):
             post.save()
             return HttpResponse("Post Successuflly")
     else:
-        post_form = PostForm()
-        return render(request, "post/post_home.html", context={"post_form": post_form})
 
+        post_form = PostForm()
+
+        user = request.user
+        posts = set()
+        for post in user.post_set.all():
+            posts.add(post)
+        return render(request, "post/post_home.html", context={"post_form": post_form, "posts": posts})
 
 
