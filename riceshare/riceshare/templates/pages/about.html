@@ -4,8 +4,12 @@
 <!-- Edit content of the page -->
 {% block content %}
 
-	{% for user in users_list %}
+	{% for user in users %}
+		<div>
 		{{ user.name }}
+		<button type="submit" class="btn btn-primary">Follow</button>
+		</div>
+		<br>
 	{% endfor %}
 
 {% endblock content %}

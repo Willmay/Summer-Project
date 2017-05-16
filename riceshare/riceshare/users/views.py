@@ -53,9 +53,9 @@ class UserListView(LoginRequiredMixin, ListView):
 
 
 
-def users_list(request):
-    users_list = User.objects.all()
-    return render(request, 'pages/about.html', {'users_list':users_list})
+def list_all_user(request):
+    users = User.objects.all()
+    return render(request, 'pages/about.html', {'users':users})
 
 
 def follow(request, username):
