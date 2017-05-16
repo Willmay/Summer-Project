@@ -14,10 +14,12 @@ class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
     # around the globe.
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
-    saved_users = models.ManyToManyField("self", null = True)
+    saved_users = models.ManyToManyField("self", null = True) #user who you follow
 
     def __str__(self):
         return self.username
 
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})
+
+    

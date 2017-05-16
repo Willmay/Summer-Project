@@ -1,1 +1,11 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+<!-- Edit content of the page -->
+{% block content %}
+
+	{% for user in users_list %}
+		{{ user.name }}
+	{% endfor %}
+
+{% endblock content %}
