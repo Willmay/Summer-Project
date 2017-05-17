@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from riceshare.post.forms import PostForm
@@ -22,13 +24,8 @@ def post_home(request):
 
         user = request.user
         saved_users = user.saved_users.all()
-        posts = set()
-        for post in user.post_set.all():
-            posts.add(post)
-        if saved_users.exists():
-            for user in saved_users:
-                for post in user.post_set.all():
-                    posts.add(post)
+        posts = Post.objects.filter(Q(user__in=saved_users ) | Q(user = user))
+        posts = posts.distinct().order_by('-created_at')
         return render(request, "post/post_home.html", context={"post_form": post_form, "posts": posts})
 
 
