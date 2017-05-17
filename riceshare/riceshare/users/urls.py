@@ -31,5 +31,14 @@ urlpatterns = [
         view=views.list_all_user,
         name='userlist'
     ),
-
+    url(
+        regex=r'^~follow/(?P<username>[\w.@+-]+)/$',
+        view=views.follow,
+        name='follow'
+    ),
+    url(
+        regex=r'^~unfollow/(?P<username>[\w.@+-]+)/$',
+        view=views.unfollow,
+        name='unfollow'
+    ),
 ]
