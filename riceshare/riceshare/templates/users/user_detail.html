@@ -8,8 +8,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-
-      <img src="/media/{{ object.photo }}" class="img-rounded" height="100" width="100">
+      <img src="{{ request.user.get_photo_url }}" class="img-rounded" height="100" width="100">
       <h2>{{ object.username }}</h2>
       {% if object.name %}
         <p>{{ object.name }}</p>

@@ -26,4 +26,9 @@ urlpatterns = [
         view=views.UserUpdateView.as_view(),
         name='update'
     ),
+    url(
+        regex=r'^~userlist/$',
+        view=views.list_all_user,
+        name='listUser'
+    ),
 ]

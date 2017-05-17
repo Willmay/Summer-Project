@@ -6,6 +6,9 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 from .models import User
 
 
@@ -26,7 +29,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ['name', 'photo', ]
+    fields = ['name', 'photo', 'background', 'short_description', ]
 
     # we already imported User in the view code above, remember?
     model = User
@@ -46,3 +49,14 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+
+def list_all_user(request):
+    users = User.objects.all()
+    return render(request, 'pages/about.html', {'users': users})
+
+
+def get_user_number(request):
+    user_count = User.objects.count()
+    print(user_count)
+    return render(request, 'post_home.html', {'user_count': user_count})
