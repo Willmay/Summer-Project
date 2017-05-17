@@ -55,15 +55,14 @@ class UserListView(LoginRequiredMixin, ListView):
 
 def list_all_user(request):
     users = User.objects.all()
-    return render(request, 'pages/about.html', {'users':users})
+    return render(request, 'users/user_list.html', {'user_list':users})
 
 
 def follow(request, username):
         if request.method == 'GET':
-            user.User.objects.get(username = username)
+            user = User.objects.get(username = username)
             request.user.saved_users.add(user)
             request.user.save()
-            messages.success(request, 'Following' + str(user))
             if request.GET.get('redirect_url'):
                 return redirect(request.GET.get('redirect_url'))
             else:
@@ -74,7 +73,6 @@ def unfollow(request, username):
             user = User.objects.get(username=username)
             request.user.saved_users.remove(user)
             request.user.save()
-            messages.success(request, 'Unfollowed ' + str(user))
             if request.GET.get('redirect_url'):
                 return redirect(request.GET.get('redirect_url'))
             else:
