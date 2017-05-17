@@ -6,6 +6,9 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 from .models import User
 
 
@@ -46,3 +49,33 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+
+
+
+def list_all_user(request):
+    users = User.objects.all()
+    return render(request, 'pages/about.html', {'users':users})
+
+
+def follow(request, username):
+        if request.method == 'GET':
+            user.User.objects.get(username = username)
+            request.user.saved_users.add(user)
+            request.user.save()
+            messages.success(request, 'Following' + str(user))
+            if request.GET.get('redirect_url'):
+                return redirect(request.GET.get('redirect_url'))
+            else:
+                return redirect(user.get_absolute_url())
+
+def unfollow(request, username):
+        if request.method == 'GET':
+            user = User.objects.get(username=username)
+            request.user.saved_users.remove(user)
+            request.user.save()
+            messages.success(request, 'Unfollowed ' + str(user))
+            if request.GET.get('redirect_url'):
+                return redirect(request.GET.get('redirect_url'))
+            else:
+                return redirect(user.get_absolute_url())
