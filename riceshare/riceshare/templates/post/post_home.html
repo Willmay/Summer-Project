@@ -13,17 +13,13 @@
 </form>
 
 <br>
-<button type="button" class="btn btn-default btn-lg">
-  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-  Follow
-</button>
-<br>
   <br>
   {% if posts %}
     <ul class='list-group'>
       {% for post in posts %}
         <li class='list-group-item'>
           <h5 style="display:inline-block;">{{post.post}} </a> </h5>
+          <img src="{{ post.image.urls }}" height="420">
               <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
             <p>Posted by:
               <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
