@@ -29,7 +29,7 @@ urlpatterns = [
     url(
         regex=r'^~userlist/$',
         view=views.list_all_user,
-        name='listUser'
+        name='userlist'
     ),
 
 ]

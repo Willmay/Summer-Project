@@ -7,7 +7,9 @@
 	{% for user in users %}
 		<div>
 		{{ user.name }}
-		<button type="submit" class="btn btn-primary">Follow</button>
+		<form action="{% url 'about' %}" method="GET">
+			<button type="submit" class="btn btn-primary">Follow</button>
+		</form>
 		</div>
 		<br>
 	{% endfor %}
