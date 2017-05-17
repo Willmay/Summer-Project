@@ -19,6 +19,7 @@
       {% for post in posts %}
         <li class='list-group-item'>
           <h5 style="display:inline-block;">{{post.post}} </a> </h5>
+          <img src="{{post.image.url}}" height="420"></img>
               <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
             <p>Posted by:
               <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
