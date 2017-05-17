@@ -29,6 +29,21 @@ urlpatterns = [
     url(
         regex=r'^~userlist/$',
         view=views.list_all_user,
-        name='listUser'
+        name='userlist'
+    ),
+    url(
+        regex=r'^~follow/(?P<username>[\w.@+-]+)/$',
+        view=views.follow,
+        name='follow'
+    ),
+    url(
+        regex=r'^~unfollow/(?P<username>[\w.@+-]+)/$',
+        view=views.unfollow,
+        name='unfollow'
+    ),
+    url(
+        regex=r'^~followerlist/$',
+        view=views.list_all_follower,
+        name='followerlist'
     ),
 ]
