@@ -31,4 +31,5 @@ urlpatterns = [
         view=views.list_all_user,
         name='listUser'
     ),
+
 ]
