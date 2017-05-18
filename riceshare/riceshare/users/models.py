@@ -15,7 +15,7 @@ class User(AbstractUser):
     # around the globe.
     name = models.CharField(_('Name of User'), blank=True, max_length=55)
     photo = models.ImageField(_('Photo of User'), upload_to='./user_pic', blank=True, null=True)
-    address = models.CharField(_('Address of User'), blank=True, max_length=255)
+    location = models.CharField(_('Location of User'), blank=True, max_length=255)
     background = models.ImageField(_('Background of User'), upload_to='./user_bac', blank=True, null=True)
     short_description = models.TextField(_('Brief Introduction'), blank=True, max_length=500)
 

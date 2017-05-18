@@ -29,4 +29,5 @@ def post_home(request):
             for user in saved_users:
                 for post in user.post_set.all():
                     posts.add(post)
-        return render(request, "post/post_home.html", context={"post_form": post_form, "posts": posts, "follower_count": follower_count})
+        return render(request, "post/post_home.html", context={"post_form": post_form, "posts": posts,
+                                                               "follower_count": follower_count})

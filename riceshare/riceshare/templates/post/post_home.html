@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="card text-sm-center">
-                    <div class="rv" style="background-image: url({{request.user.get_background_url}}); height: 30px"></div>
+                    <div class="cover" style="background-image: url({{request.user.get_background_url}}); height: 100px"></div>
                     <div class="card-block">
                         <a href = "{{user.get_absolute_url}}">
                             <img src="{{ request.user.get_photo_url }}" class="img-circle" height="80" width="80">
@@ -14,7 +14,7 @@
                             {{ user.username }}
                         </a>
                         <br>
-                        <small style="color: lightslategray;">Address: {{user.address}}</small>
+                        <small style="color: lightslategray;">Location: {{user.location}}</small>
                         <br>
                         <hr>
                         <a href = "{% url 'users:followerlist' %}">{{ follower_count }}</a>
