@@ -2,39 +2,65 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form class="form-horizontal" enctype="multipart/form-data" method = "post" action = "{% url 'post:post_home' %}" style="display: inline;">
-  {% csrf_token %}
-  {{post_form|crispy}}
-  <div class="control-group">
-	  <div class="controls">
-	    <button type="submit" class="btn btn-primary">Create New Post</button>
-	  </div>
-	</div>
-</form>
 
-<p>test for fun</p>
-<br>
-  <br>
-  {% if posts %}
-    <ul class='list-group'>
-      {% for post in posts %}
-        <li class='list-group-item'>
-          <h5 style="display:inline-block;">{{post.post}} </a> </h5>
-          {% if post.image %}
-            <br>
-            <img src="{{post.image.url}}" height="120"></img>
-          {% endif %}
-              <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card text-sm-center">
+                    <div class="cover" style="background-image: url({{request.user.get_background_url}}); height: 100px"></div>
+                    <div class="card-block">
+                        <a href = "{{user.get_absolute_url}}">
+                            <img src="{{ request.user.get_photo_url }}" class="img-circle" height="80" width="80">
+                            <br>
+                            {{ user.username }}
+                        </a>
+                        <br>
+                        <small style="color: lightslategray;">Location: {{user.location}}</small>
+                        <br>
+                        <hr>
+                        <a href = "{% url 'users:followerlist' %}">{{ follower_count }}</a>
+                        <p>Followers</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
 
-            <p>Posted by:
-              <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
-            </p>
-            <button id = "like" class="btn btn-primary">like</button>
-        </li>
-        <br>
-       {% endfor %}
-    </ul>
-{% else %}
-  <p>No Posts found</p>
-{% endif %}
+            <div class="col-sm-7">
+                <form class="form-horizontal" enctype="multipart/form-data" method = "post" action = "{% url 'post:post_home' %}" style="display: inline;">
+                  {% csrf_token %}
+                  {{post_form|crispy}}
+                  <div class="control-group">
+                      <div class="controls">
+                        <button type="submit" class="btn btn-primary">Create New Post</button>
+                      </div>
+                    </div>
+                </form>
+
+                <br>
+                <br>
+                {% if posts %}
+                    <ul class='list-group'>
+                      {% for post in posts %}
+                        <li class='list-group-item'>
+                           <h5 style="display:inline-block;">{{post.post}} </a> </h5>
+                           <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
+                           <br><br>
+                           {% if post.image %}
+                             <img src="{{ post.image.url }}" style="width: 40%">
+                           {% endif %}
+                           <br><br>
+                           <p>Posted by:
+                             <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
+                           </p>
+                           <button id = "like" class="btn btn-primary">like</button>
+                        </li>
+                        <br>
+                       {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No Posts found</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

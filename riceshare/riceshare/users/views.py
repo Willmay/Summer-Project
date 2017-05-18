@@ -5,6 +5,10 @@ from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -29,7 +33,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ['name', ]
+    fields = ['name', 'photo', 'location', 'background', 'short_description', ]
 
     # we already imported User in the view code above, remember?
     model = User
@@ -51,29 +55,36 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = 'username'
 
 
-
-
 def list_all_user(request):
     users = User.objects.all()
-    return render(request, 'users/user_list.html', {'user_list':users})
+    return render(request, 'users/user_list.html', {'user_list': users})
+
+
+def list_all_follower(request):
+    user = request.user
+    followers = user.saved_users.all()
+    return render(request, 'users/follower_list.html', {'follower_list': followers})
 
 
 def follow(request, username):
-        if request.method == 'GET':
-            user = User.objects.get(username = username)
-            request.user.saved_users.add(user)
-            request.user.save()
-            if request.GET.get('redirect_url'):
-                return redirect(request.GET.get('redirect_url'))
-            else:
-                return redirect(user.get_absolute_url())
+    if request.method == 'GET':
+        user = User.objects.get(username=username)
+        request.user.saved_users.add(user)
+        request.user.save()
+        messages.success(request, 'Following ' + str(user))
+        if request.GET.get('redirect_url'):
+            return redirect(request.GET.get('redirect_url'))
+        else:
+            return redirect(user.get_absolute_url())
+
 
 def unfollow(request, username):
-        if request.method == 'GET':
-            user = User.objects.get(username=username)
-            request.user.saved_users.remove(user)
-            request.user.save()
-            if request.GET.get('redirect_url'):
-                return redirect(request.GET.get('redirect_url'))
-            else:
-                return redirect(user.get_absolute_url())
+    if request.method == 'GET':
+        user = User.objects.get(username=username)
+        request.user.saved_users.remove(user)
+        request.user.save()
+        messages.success(request, 'Unfollowed ' + str(user))
+        if request.GET.get('redirect_url'):
+            return redirect(request.GET.get('redirect_url'))
+        else:
+            return redirect(user.get_absolute_url())
