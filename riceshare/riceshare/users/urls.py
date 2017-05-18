@@ -46,4 +46,5 @@ urlpatterns = [
         view=views.list_all_follower,
         name='followerlist'
     ),
+
 ]
