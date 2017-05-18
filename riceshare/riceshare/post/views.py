@@ -21,7 +21,6 @@ def post_home(request):
     else:
 
         post_form = PostForm()
-
         user = request.user
         saved_users = user.saved_users.all()
         posts = Post.objects.filter(Q(user__in=saved_users ) | Q(user = user))
