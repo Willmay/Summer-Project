@@ -13,12 +13,17 @@ class User(AbstractUser):
 
     # First Name and Last Name do not cover name patterns
     # around the globe.
+<<<<<<< HEAD
     name = models.CharField(_('Name of User'), blank=True, max_length=55)
     photo = models.ImageField(_('Photo of User'), upload_to='./user_pic', blank=True, null=True)
     background = models.ImageField(_('Background of User'), upload_to='./user_bac', blank=True, null=True)
     short_description = models.TextField(_('Brief Introduction'), blank=True, max_length=500)
 
     saved_users = models.ManyToManyField("self", null=True)
+=======
+    name = models.CharField(_('Name of User'), blank=True, max_length=255)
+    saved_users = models.ManyToManyField("self", null = True) #user who you follow
+>>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
 
     def __str__(self):
         return self.username
@@ -26,6 +31,7 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})
 
+<<<<<<< HEAD
     def get_photo_url(self):
         try:
             return self.photo.url
@@ -40,3 +46,6 @@ class User(AbstractUser):
 
     def get_name(self):
             return self.get_full_name()
+=======
+    
+>>>>>>> b13a77439a1b34654b817034129f5145e61bebc3

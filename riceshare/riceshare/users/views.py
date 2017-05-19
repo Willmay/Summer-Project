@@ -51,6 +51,7 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = 'username'
 
 
+<<<<<<< HEAD
 def list_all_user(request):
     users = User.objects.all()
     return render(request, 'pages/about.html', {'users': users})
@@ -60,3 +61,31 @@ def get_user_number(request):
     user_count = User.objects.count()
     print(user_count)
     return render(request, 'post_home.html', {'user_count': user_count})
+=======
+
+
+def list_all_user(request):
+    users = User.objects.all()
+    return render(request, 'users/user_list.html', {'user_list':users})
+
+
+def follow(request, username):
+        if request.method == 'GET':
+            user = User.objects.get(username = username)
+            request.user.saved_users.add(user)
+            request.user.save()
+            if request.GET.get('redirect_url'):
+                return redirect(request.GET.get('redirect_url'))
+            else:
+                return redirect(user.get_absolute_url())
+
+def unfollow(request, username):
+        if request.method == 'GET':
+            user = User.objects.get(username=username)
+            request.user.saved_users.remove(user)
+            request.user.save()
+            if request.GET.get('redirect_url'):
+                return redirect(request.GET.get('redirect_url'))
+            else:
+                return redirect(user.get_absolute_url())
+>>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
