@@ -14,16 +14,25 @@ class User(AbstractUser):
     # First Name and Last Name do not cover name patterns
     # around the globe.
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
     name = models.CharField(_('Name of User'), blank=True, max_length=55)
     photo = models.ImageField(_('Photo of User'), upload_to='./user_pic', blank=True, null=True)
+    location = models.CharField(_('Location of User'), blank=True, max_length=255)
     background = models.ImageField(_('Background of User'), upload_to='./user_bac', blank=True, null=True)
     short_description = models.TextField(_('Brief Introduction'), blank=True, max_length=500)
 
+<<<<<<< HEAD
     saved_users = models.ManyToManyField("self", null=True)
 =======
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
     saved_users = models.ManyToManyField("self", null = True) #user who you follow
 >>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
+=======
+    saved_users = models.ManyToManyField("self", null=True)  # user who you follow
+>>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
 
     def __str__(self):
         return self.username
@@ -32,6 +41,9 @@ class User(AbstractUser):
         return reverse('users:detail', kwargs={'username': self.username})
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
     def get_photo_url(self):
         try:
             return self.photo.url
@@ -46,6 +58,9 @@ class User(AbstractUser):
 
     def get_name(self):
             return self.get_full_name()
+<<<<<<< HEAD
 =======
     
 >>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
+=======
+>>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
