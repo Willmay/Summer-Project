@@ -29,14 +29,6 @@ urlpatterns = [
     url(
         regex=r'^~userlist/$',
         view=views.list_all_user,
-<<<<<<< HEAD
-<<<<<<< HEAD
-        name='listUser'
-    ),
-
-=======
-=======
->>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
         name='userlist'
     ),
     url(
@@ -49,14 +41,10 @@ urlpatterns = [
         view=views.unfollow,
         name='unfollow'
     ),
-<<<<<<< HEAD
->>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
-=======
     url(
         regex=r'^~followerlist/$',
         view=views.list_all_follower,
         name='followerlist'
     ),
 
->>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
 ]

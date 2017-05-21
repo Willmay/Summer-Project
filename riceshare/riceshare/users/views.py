@@ -33,7 +33,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ['name', 'photo', 'location', 'background', 'short_description', ]
+    fields = ['name', 'photo', 'location', 'background', 'short_description', 'age']
 
     # we already imported User in the view code above, remember?
     model = User
@@ -55,10 +55,6 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = 'username'
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
 def list_all_user(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'user_list': users})
@@ -83,17 +79,6 @@ def follow(request, username):
 
 
 def unfollow(request, username):
-<<<<<<< HEAD
-        if request.method == 'GET':
-            user = User.objects.get(username=username)
-            request.user.saved_users.remove(user)
-            request.user.save()
-            if request.GET.get('redirect_url'):
-                return redirect(request.GET.get('redirect_url'))
-            else:
-                return redirect(user.get_absolute_url())
->>>>>>> b13a77439a1b34654b817034129f5145e61bebc3
-=======
     if request.method == 'GET':
         user = User.objects.get(username=username)
         request.user.saved_users.remove(user)
@@ -103,4 +88,3 @@ def unfollow(request, username):
             return redirect(request.GET.get('redirect_url'))
         else:
             return redirect(user.get_absolute_url())
->>>>>>> ece8589e78cdeb7205151eec62b84c646e5120cb
