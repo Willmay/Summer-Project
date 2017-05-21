@@ -13,6 +13,7 @@ class User(AbstractUser):
 
     # First Name and Last Name do not cover name patterns
     # around the globe.
+
     name = models.CharField(_('Name of User'), blank=True, max_length=55)
     photo = models.ImageField(_('Photo of User'), upload_to='./user_pic', blank=True, null=True)
     location = models.CharField(_('Location of User'), blank=True, max_length=255)
