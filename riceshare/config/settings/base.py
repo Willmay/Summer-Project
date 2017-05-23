@@ -52,13 +52,17 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    #'haystack',
+    'riceshare.post'
 ]
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
     'riceshare.users.apps.UsersConfig',
+    'haystack',
     'riceshare.post',
+    'riceshare.search'
     # Your stuff: custom apps go here
 ]
 

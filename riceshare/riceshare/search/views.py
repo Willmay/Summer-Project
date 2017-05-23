@@ -1,18 +1,12 @@
-from django.http import HttpResponse
-
-from riceshare.search.utils import get_query
-from riceshare.users.models import User
 
 
-def index(request):
-    return HttpResponse("Hello world!")
+from haystack.views import SearchView
+from .models import *
 
-def searchUser(request):
-    if ('q' in request.GET) and request.GET['q'].strip():
-        query_string = request.GET['q']
-        entry_query_user = get_query(query_string, ['post',])
-        found_user_entries = User.objects.filter(entry_query_user)
-    context = {}
-    context['query_user'] = query_string
-    context['found_user_entries'] = found_user_entries
-    return render(request, template_name='search/search_user.html', context=context)
+
+class MySeachView(SearchView):
+    def extra_context(self):  # 重载extra_context来添加额外的context内容
+        context = super(MySeachView, self).extra_context()
+        side_list = Topic.objects.filter(kind='major').order_by('add_date')[:8]
+        context['side_list'] = side_list
+        return context

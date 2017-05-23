@@ -1,0 +1,3 @@
+{{ object.post }}
+{{ object.user.get_full_name }}
+{{ object.updated_at }}
