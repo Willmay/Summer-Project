@@ -15,10 +15,11 @@ class User(AbstractUser):
     # around the globe.
 
     name = models.CharField(_('Name of User'), blank=True, max_length=55)
-    photo = models.ImageField(_('Photo of User'), upload_to='./user_pic', blank=True, null=True)
-    location = models.CharField(_('Location of User'), blank=True, max_length=255)
-    background = models.ImageField(_('Background of User'), upload_to='./user_bac', blank=True, null=True)
-    short_description = models.TextField(_('Brief Introduction'), blank=True, max_length=500)
+    photo = models.ImageField(_('Profile photo'), upload_to='./user_pic', blank=True, null=True)
+    background = models.ImageField(_('Profile background'), upload_to='./user_bac', blank=True, null=True)
+    location = models.CharField(_('Where do you currently live?'), blank=True, max_length=255)
+    home = models.CharField(_('Where are you from?'), blank=True, max_length=255)
+    short_description = models.TextField(_('Profile introduction'), blank=True, max_length=500)
 
     saved_users = models.ManyToManyField("self", null=True)  # user who you follow
 

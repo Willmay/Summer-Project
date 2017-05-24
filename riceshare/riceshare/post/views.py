@@ -7,7 +7,6 @@ from riceshare.seller.models import Seller
 
 
 def post_home(request):
-
     post_form = PostForm(request.POST or None, request.FILES or None)
     context = {}
     if request.method == "POST":
