@@ -52,7 +52,36 @@
                            <p>Posted by:
                              <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
                            </p>
-                           <button id = "like" class="btn btn-primary">like</button>
+                           <!--
+                           <p>
+                             user:
+                             {{ request.user }}
+                           <p>
+                           <p>
+                             liked_users:
+                             {{ post.liked_users.all }}
+                           <p>
+                           <p>
+                             liked_users_number:
+                             {{ post.num_liked_users }}
+                           <p>
+                           -->
+                           {% if request.user in post.liked_users.all %}
+                             <a class="btn btn-outline-danger" href="{% url 'post:post_unlike' post.id %}">Unlike</a>
+                           {% else %}
+                             <a class="btn btn-outline-success" href="{% url 'post:post_like' post.id %}">Like</a>
+                           {% endif %}
+                           {{ post.num_liked_users }}
+                             users liked
+                           <br></br>
+                           <p>
+                             <a class="btn btn-outline-success" href="{% url 'comments:comment' post.id %}">Comment</a>
+                           </p>
+                           <p>
+                             <a href="https://plus.google.com/share?url=http://localhost{{ request.get_full_path|urlencode }}">Share to Google</a>
+                             <a href="http://www.linkedin.com/shareArticle?url=http://localhost{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain">Share to Linkedin</a>
+                             <a href="http://www.facebook.com/sharer/sharer.php?u=http://localhost{{ request.get_full_path|urlencode }}">Share to Facebook</a>
+                           </p>
                         </li>
                         <br>
                        {% endfor %}

@@ -59,6 +59,7 @@ LOCAL_APPS = [
     # custom users app
     'riceshare.users.apps.UsersConfig',
     'riceshare.post',
+    'riceshare.comments',
     # Your stuff: custom apps go here
 ]
 
