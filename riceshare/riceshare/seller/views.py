@@ -31,7 +31,7 @@ def register(request):
             messages.success(request, 'Register successfully! You have already become seller.')
             return redirect('post:post_home')
         else:
-            messages.success(request, 'Register failed!')
+            messages.success(request, 'Register seller failed!')
             return redirect('post:post_home')
     else:
         user = request.user

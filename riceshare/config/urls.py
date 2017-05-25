@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^post/', include('riceshare.post.urls', namespace='post')),
     url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
+    url(r'^search/', include('riceshare.search.urls', namespace='search')),
 
     # Your stuff: custom urls includes go here
 

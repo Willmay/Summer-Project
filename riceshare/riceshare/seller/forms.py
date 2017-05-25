@@ -6,6 +6,7 @@ from riceshare.users.models import User
 class SellerForm(forms.ModelForm):
     class Meta:
         model = Seller
+
         fields = ['introduction', 'goal', 'chef_type', 'chef_experience', 'cuisine_type']
         labels = {
             'introduction': 'Give a brief introduction about yourself.',

@@ -4,5 +4,14 @@
 <p><center>Eat New Food, Make New Friends</center></p>
 
 
-<input type="text" name="search" placeholder="Search..">
+<form method="GET" name="search" role="search" action="{% url 'search:searchUser' %}">
+      <p class="inp-wrap search-wrap">
+        <input type="search" name="q" id="search-field" class="grid-95" placeholder="Search.." />
+      </p>
+      <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+</form>
 {% endblock %}

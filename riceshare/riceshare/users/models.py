@@ -33,11 +33,11 @@ class User(AbstractUser):
         else:
             return reverse('users:detail', kwargs={'username': self.username})
 
-    def is_seller(self):
-        return True if hasattr(self, 'seller') else False
-
     def get_usertype(self):
         return "seller" if self.is_seller() else "customer"
+
+    def is_seller(self):
+        return True if hasattr(self, 'seller') else False
 
     def get_photo_url(self):
         try:
