@@ -10,9 +10,6 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-
 from .models import User
 
 

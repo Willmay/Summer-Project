@@ -9,5 +9,10 @@ urlpatterns = [
         view=views.register,
         name='register'
     ),
+    url(
+        regex=r'^(?P<username>[\w.@+-]+)/$',
+        view=views.home,
+        name='detail'
+    ),
 
 ]

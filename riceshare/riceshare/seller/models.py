@@ -32,7 +32,7 @@ CUISINE_TYPE_CHOICES = (
 
 
 class Seller(models.Model):
-    seller = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     introduction = models.TextField(blank=True, null=True, max_length=255)
     evaluation = models.CharField(blank=True, null=True, max_length=255)
     goal = models.CharField(blank=True, null=True, max_length=30, choices=GOAL_CHOICES)
