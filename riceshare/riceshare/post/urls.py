@@ -9,5 +9,14 @@ urlpatterns = [
         view=views.post_home,
         name='post_home'
     ),
-
+    url(
+        regex=r'^~like/(?P<post_id>[\w.@+-]+)/$',
+        view=views.post_like,
+        name='post_like'
+    ),
+    url(
+        regex=r'^~unlike/(?P<post_id>[\w.@+-]+)/$',
+        view=views.post_unlike,
+        name='post_unlike'
+    ),
 ]

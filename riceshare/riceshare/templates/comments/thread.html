@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <form class="form-horizontal" enctype="multipart/form-data" method = "post" action = "{% url 'comments:comment' post_id %}" style="display: inline;">
+                  {% csrf_token %}
+                  {{comment_form|crispy}}
+                  <div class="control-group">
+                    <div class="controls">
+                      <button type="submit" class="btn btn-primary">Create New Comment</button>
+                    </div>
+                  </div>
+                </form>
+
+                <br>
+                <br>
+                {% if comments %}
+                    <ul class='list-group'>
+                      {% for comment in comments %}
+                        <li class='list-group-item'>
+                           <h5 style="display:inline-block;">{{comment.text}} </a> </h5>
+                           <small class="pull-right" style="color: lightslategray;">{{ comment.updated_at}}</small>
+                           <br><br>
+                           {% if comment.image %}
+                             <img src="{{ comment.image.url }}" style="width: 40%">
+                           {% endif %}
+                           <br><br>
+                           <p>Posted by:
+                             <a href = "{{ comment.user.get_absolute_url }}"> {{ comment.user.username }}</a>
+                           </p>
+                        </li>
+                        <br>
+                       {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No Comments found</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
