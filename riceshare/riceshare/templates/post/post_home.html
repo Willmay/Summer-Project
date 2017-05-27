@@ -63,7 +63,6 @@
                 </div>
             </form>
 
-<<<<<<< HEAD
             <br>
             <br>
             {% if posts %}
@@ -82,26 +81,6 @@
                             </p>
                             <p>I am a {{ post.user.get_usertype }}</p>
                             <!--
-=======
-        <br>
-        <br>
-                {% if posts %}
-                    <ul class='list-group'>
-                      {% for post in posts %}
-                        <li class='list-group-item'>
-                           <h5 style="display:inline-block;">{{post.post}} </a> </h5>
-                           <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
-                           <br><br>
-                           {% if post.image %}
-                             <img src="{{ post.image.url }}" style="width: 40%">
-                           {% endif %}
-                           <br><br>
-                           <p>Posted by:
-                             <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
-                           </p>
-                           <p>I am a {{ post.user.get_usertype }}</p>
-                           <!--
->>>>>>> b5a46c7cf68bdb230cdd15d13efa1a59aad0c725
                            <p>
                              user:
                              {{ request.user }}
@@ -115,7 +94,6 @@
                              {{ post.num_liked_users }}
                            <p>
                            -->
-<<<<<<< HEAD
                             {% if request.user in post.liked_users.all %}
                                 <a class="btn btn-outline-danger" href="{% url 'post:post_unlike' post.id %}">Unlike</a>
                             {% else %}
@@ -143,32 +121,6 @@
             {% else %}
                 <p>No Posts found</p>
             {% endif %}
-=======
-                           {% if request.user in post.liked_users.all %}
-                             <a class="btn btn-outline-danger" href="{% url 'post:post_unlike' post.id %}">Unlike</a>
-                           {% else %}
-                             <a class="btn btn-outline-success" href="{% url 'post:post_like' post.id %}">Like</a>
-                           {% endif %}
-                           {{ post.num_liked_users }}
-                             users liked
-                           <br></br>
-                           <p>
-                             <a class="btn btn-outline-success" href="{% url 'comments:comment' post.id %}">Comment</a>
-                           </p>
-                           <p>
-                             <a href="https://plus.google.com/share?url=http://localhost{{ request.get_full_path|urlencode }}">Share to Google</a>
-                             <a href="http://www.linkedin.com/shareArticle?url=http://localhost{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain">Share to Linkedin</a>
-                             <a href="http://www.facebook.com/sharer/sharer.php?u=http://localhost{{ request.get_full_path|urlencode }}">Share to Facebook</a>
-                           </p>
-                        </li>
-                        <br>
-                       {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No Posts found</p>
-                {% endif %}
-            </div>
->>>>>>> b5a46c7cf68bdb230cdd15d13efa1a59aad0c725
         </div>
     </div>
 {% endblock %}
