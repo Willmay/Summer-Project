@@ -5,11 +5,8 @@ from . import views
 
 urlpatterns = [
     url(
-        regex=r'^$',
-        view=views.index,
-        name='index'
+        regex=r'^(?P<post_id>[\w.@+-]+)/$',
+        view=views.comment,
+        name='comment'
     ),
-    url(r'^searchUser/$',
-        view=views.searchUser,
-        name='searchUser'),
 ]

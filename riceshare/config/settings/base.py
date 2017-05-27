@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 from __future__ import absolute_import, unicode_literals
 
 import environ
+import os
 
 ROOT_DIR = environ.Path(__file__) - 3  # (riceshare/config/settings/base.py - 3 = riceshare/)
 APPS_DIR = ROOT_DIR.path('riceshare')
@@ -46,6 +47,7 @@ DJANGO_APPS = [
 
     # Admin
     'django.contrib.admin',
+    'haystack',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
@@ -59,7 +61,8 @@ LOCAL_APPS = [
     # custom users app
     'riceshare.users.apps.UsersConfig',
     'riceshare.post',
-    'riceshare.seller.apps.SellerConfig'
+    'riceshare.seller.apps.SellerConfig',
+    'riceshare.comments',
     # Your stuff: custom apps go here
 ]
 
@@ -117,6 +120,19 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///riceshare'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+# HAYSTACK WHOOSH ENGINE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: http://django-haystack.readthedocs.io/en/v2.6.0/tutorial.html
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+
+# auto update indexes when the database updated
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 # GENERAL CONFIGURATION

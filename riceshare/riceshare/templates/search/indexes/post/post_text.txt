@@ -1,0 +1,3 @@
+{{ object.post }}
+{{ object.user.username }}
+{{ object.created_at }}
