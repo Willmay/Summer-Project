@@ -8,5 +8,10 @@ class Post(models.Model):
     image = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+<<<<<<< HEAD
     liked_users = models.ManyToManyField(User, blank=True, null=True, related_name='post_liked_users')
     num_liked_users = models.IntegerField(default=0)
+=======
+    liked_users = models.ManyToManyField(User, blank = True, null = True, related_name = 'post_liked_users')
+    num_liked_users = models.IntegerField(default = 0)
+>>>>>>> b5a46c7cf68bdb230cdd15d13efa1a59aad0c725
