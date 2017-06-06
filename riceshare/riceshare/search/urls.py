@@ -13,13 +13,13 @@ urlpatterns = [
     ),
 
     url(
-        regex=r'^results/$',
+        regex=r'^~post_results/$',
         view=views.PostSearchView.as_view(),
         name='post_results'
     ),
 
     url(
-        regex=r'^results/$',
+        regex=r'^~user_results/$',
         view=views.UserSearchView.as_view(),
         name='user_results'
     )
