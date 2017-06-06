@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from riceshare.post.search_views import MySearchView
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
@@ -22,8 +23,9 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^post/', include('riceshare.post.urls', namespace='post')),
     url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
-    # url(r'^search/', include('riceshare.search.urls', namespace='search')),
-    url(r'^search/', include('haystack.urls')),
+    url(r'^haystack/basic/', include('haystack.urls')),
+    url(r'^search/custom_search/', MySearchView.as_view(), name='search_view'),
+    url(r'search/', include('riceshare.search.urls', namespace='search')),
     url(r'^comments/', include('riceshare.comments.urls', namespace='comments')),
     # Your stuff: custom urls includes go here
 

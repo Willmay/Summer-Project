@@ -52,75 +52,86 @@
         </div>
 
         <div class="fk">
-            <form class="form-horizontal" enctype="multipart/form-data" method="post"
-                  action="{% url 'post:post_home' %}" style="display: inline;">
-                {% csrf_token %}
-                {{ post_form|crispy }}
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn btn-primary">Create New Post</button>
-                    </div>
-                </div>
-            </form>
-
-            <br>
-            <br>
-            {% if posts %}
-                <ul class='list-group'>
+            <ul class="ca bqe bqf agk">
+                <li class="tu b ahx">
+                    <form class="form-horizontal" enctype="multipart/form-data" method="post"
+                          action="{% url 'post:post_home' %}" style="display: inline;">
+                        {% csrf_token %}
+                        {{ post_form|crispy }}
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-primary">Create New Post</button>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                {% if posts %}
                     {% for post in posts %}
-                        <li class='list-group-item'>
-                            <h5 style="display:inline-block;">{{ post.post }} </a> </h5>
-                            <small class="pull-right" style="color: lightslategray;">{{ post.updated_at }}</small>
-                            <br><br>
-                            {% if post.image %}
-                                <img src="{{ post.image.url }}" style="width: 40%">
-                            {% endif %}
-                            <br><br>
-                            <p>Posted by:
-                                <a href="{{ post.user.get_absolute_url }}"> {{ post.user.username }}</a>
-                            </p>
-                            <p>I am a {{ post.user.get_usertype }}</p>
-                            <!--
-                           <p>
-                             user:
-                             {{ request.user }}
-                           <p>
-                           <p>
-                             liked_users:
-                             {{ post.liked_users.all }}
-                           <p>
-                           <p>
-                             liked_users_number:
-                             {{ post.num_liked_users }}
-                           <p>
-                           -->
-                            {% if request.user in post.liked_users.all %}
-                                <a class="btn btn-outline-danger" href="{% url 'post:post_unlike' post.id %}">Unlike</a>
-                            {% else %}
-                                <a class="btn btn-outline-success" href="{% url 'post:post_like' post.id %}">Like</a>
-                            {% endif %}
-                            {{ post.num_liked_users }}
-                            users liked
-                            <br><br>
-                            <p>
-                                <a class="btn btn-outline-success"
-                                   href="{% url 'comments:comment' post.id %}">Comment</a>
-                            </p>
-                            <p>
-                                <a href="https://plus.google.com/share?url=http://localhost{{ request.get_full_path|urlencode }}">Share
-                                    to Google</a>
-                                <a href="http://www.linkedin.com/shareArticle?url=http://localhost{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain">Share
-                                    to Linkedin</a>
-                                <a href="http://www.facebook.com/sharer/sharer.php?u=http://localhost{{ request.get_full_path|urlencode }}">Share
-                                    to Facebook</a>
-                            </p>
+                        <li class="tu b ahx">
+                            <img class="bqa wp yy agc img-circle" src="{{ post.user.get_photo_url }}" height="60"
+                                 width="60">
+                            <div class="tv" style="word-wrap: break-word; word-break: break-all">
+                                <div class="bqj">
+                                    <small class="aec axr">
+                                        {{ post.updated_at }}
+                                    </small>
+                                    <h6>
+                                        <a href="{{ post.user.get_absolute_url }}"> {{ post.user.username }}</a>
+                                    </h6>
+                                </div>
+                                <p>
+                                    {{ post.post }}
+                                </p>
+                                <div class="bqg" data-grid="images">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" style="width: 40%">
+                                    {% endif %}
+                                </div>
+                                <p>I am a {{ post.user.get_usertype }}</p>
+                                <!--
+                                   <p>
+                                     user:
+                                     {{ request.user }}
+                                   <p>
+                                   <p>
+                                     liked_users:
+                                     {{ post.liked_users.all }}
+                                   <p>
+                                   <p>
+                                     liked_users_number:
+                                     {{ post.num_liked_users }}
+                                   <p>
+                                -->
+
+                                {% if request.user in post.liked_users.all %}
+                                    <a class="btn btn-outline-danger"
+                                       href="{% url 'post:post_unlike' post.id %}">Unlike</a>
+                                {% else %}
+                                    <a class="btn btn-outline-success"
+                                       href="{% url 'post:post_like' post.id %}">Like</a>
+                                {% endif %}
+                                {{ post.num_liked_users }}
+                                users liked
+                                <br><br>
+                                <p>
+                                    <a class="btn btn-outline-success"
+                                       href="{% url 'comments:comment' post.id %}">Comment</a>
+                                </p>
+                                <p>
+                                    <a href="https://plus.google.com/share?url=http://localhost{{ request.get_full_path|urlencode }}">Share
+                                        to Google</a>
+                                    <a href="http://www.linkedin.com/shareArticle?url=http://localhost{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain">Share
+                                        to Linkedin</a>
+                                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://localhost{{ request.get_full_path|urlencode }}">Share
+                                        to Facebook</a>
+                                </p>
+                            </div>
                         </li>
-                        <br>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>No Posts found</p>
-            {% endif %}
+                {% else %}
+                    <p>No Posts found</p>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}
