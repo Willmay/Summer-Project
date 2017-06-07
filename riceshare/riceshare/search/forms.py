@@ -1,7 +1,6 @@
 from django import forms
 from haystack.forms import ModelSearchForm
 from haystack.forms import SearchForm
-from haystack.query import SQ
 from riceshare.post.models import Post
 from riceshare.users.models import User
 
@@ -20,7 +19,8 @@ class PostSearchForm(SearchForm):
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, required=False)
 
     def search(self):
-        sqs = super(PostSearchForm, self).search().models(Post)  # important, only search in Post index.
+        # important, only search in Post model. Default is searching all models.
+        sqs = super(PostSearchForm, self).search().models(Post)
 
         for result in sqs:
             print('test:', hasattr(result.object.user, 'seller'))
@@ -34,6 +34,8 @@ class PostSearchForm(SearchForm):
         post_user = self.cleaned_data.get('by_user', '')
         if post_user:
             sqs = sqs.filter(author=post_user)
+            # highlight = Highlighter(post_user)
+            # highlight.highlight(sqs)
 
         types = self.cleaned_data.get('user_type', '')
         if types == 'seller':
@@ -59,9 +61,9 @@ class UserSearchForm(SearchForm):
     """
     Slightly customized search form that allows filtering on the SearchQuerySet
     """
-    by_name = forms.CharField(required=False)
-    by_loc = forms.CharField(required=False)
-    by_home = forms.CharField(required=False)
+    by_name = forms.CharField(label='By name', required=False)
+    by_loc = forms.CharField(label='By location', required=False)
+    by_home = forms.CharField(label='By home', required=False)
 
     def search(self):
         sqs = super(UserSearchForm, self).search().models(User)
@@ -74,14 +76,14 @@ class UserSearchForm(SearchForm):
 
         user_name = self.cleaned_data.get('by_name', '')
         if user_name:
-            sqs = sqs.filter(author=user_name)
+            sqs = sqs.filter(author_name=user_name)
 
         user_loc = self.cleaned_data.get('by_loc', '')
         if user_loc:
-            sqs = sqs.filter(author=user_loc)
+            sqs = sqs.filter(author_loc=user_loc)
 
         user_home = self.cleaned_data.get('by_home', '')
         if user_home:
-            sqs = sqs.filter(author=user_home)
+            sqs = sqs.filter(author_home=user_home)
 
         return sqs

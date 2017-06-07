@@ -9,6 +9,8 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     author_loc = indexes.EdgeNgramField(model_attr='location')
     author_home = indexes.EdgeNgramField(model_attr='home')
 
+    # author_type = indexes.CharField(model_attr='get_usertype')
+
     def get_model(self):
         return User
 

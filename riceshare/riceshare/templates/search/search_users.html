@@ -1,28 +1,23 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load highlight %}
 
 {% block content %}
-    <h2>Custom Search</h2>
+    <h2>Search in riceshare</h2>
 
-    <form method="get" action=".">
-        <table>
-            {{ form.as_table }}
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <input type="submit" value="Search">
-                </td>
-            </tr>
-        </table>
+    <form method="get" action="{% url 'search:user_results' %}">
+        {% csrf_token %}
+        {{ searchusers_form|crispy }}
+        <input type="submit" value="Search" class="btn btn-default">
 
+        <hr>
         {% if query %}
-            <h3>Results</h3>
+            <h3>Found {{ result_num }} results for you.</h3>
 
             {% for result in page_obj.object_list %}
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">
-                        user: {{ result.object.user.username }}
-                        post content: {{ result.object.post }}
-                        create time: {{ result.object.created_at }}
+                        user: {{ result.object.username }}
                     </a>
                 </p>
                 {% empty %}
@@ -36,8 +31,9 @@
                     Previous
                     {% if page_obj.has_previous %}</a>{% endif %}
                     |
-                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}
-                    Next &raquo;{% if page.has_next %}</a>{% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}">{% endif %}
+                    Next &raquo;{% if page_obj.has_next %}</a>{% endif %}
                 </div>
             {% endif %}
         {% else %}
