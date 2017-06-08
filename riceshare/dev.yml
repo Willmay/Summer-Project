@@ -21,6 +21,7 @@ services:
     depends_on:
       - postgres
       - mailhog
+      - redis
     environment:
       - POSTGRES_USER=riceshare
       - USE_DOCKER=yes
@@ -47,4 +48,8 @@ services:
     image: mailhog/mailhog
     ports:
       - "8025:8025"
+
+  redis:
+    image: redis:latest
+
 
