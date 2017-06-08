@@ -131,7 +131,7 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# auto update indexes when the database updated
+# auto update search indexes while the database has updated
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 

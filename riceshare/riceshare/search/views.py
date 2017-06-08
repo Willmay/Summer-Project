@@ -10,6 +10,7 @@ def index(request):
     return HttpResponse("Hello world!")
 
 
+# another method for searching in view.py
 # def search(request):
 #     """
 #     View function for searching all site content.
@@ -48,6 +49,7 @@ class UserSearchView(SearchView):
     template_name = 'search/search_users.html'
     form_class = UserSearchForm
     form_name = 'searchusers_form'
+    load_all = False
 
     def get_queryset(self):
         queryset = super(UserSearchView, self).get_queryset()

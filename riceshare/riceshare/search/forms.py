@@ -1,6 +1,7 @@
 from django import forms
-from haystack.forms import ModelSearchForm
 from haystack.forms import SearchForm
+from haystack.forms import ModelSearchForm
+from haystack.forms import HighlightedSearchForm
 from riceshare.post.models import Post
 from riceshare.users.models import User
 
@@ -57,7 +58,7 @@ class PostSearchForm(SearchForm):
         return sqs
 
 
-class UserSearchForm(SearchForm):
+class UserSearchForm(HighlightedSearchForm):
     """
     Slightly customized search form that allows filtering on the SearchQuerySet
     """

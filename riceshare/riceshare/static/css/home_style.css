@@ -1,3 +1,7 @@
 .profile_box {
   background-color: #b94a48;
 }
+
+.highlighted {
+  color: red;
+}

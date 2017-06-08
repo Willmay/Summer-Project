@@ -8,21 +8,25 @@
     <form method="get" action="{% url 'search:user_results' %}">
         {% csrf_token %}
         {{ searchusers_form|crispy }}
-        <input type="submit" value="Search" class="btn btn-default">
+        <input type="submit" value="Search" class="btn btn-primary">
 
         <hr>
         {% if query %}
             <h3>Found {{ result_num }} results for you.</h3>
+            <ul class='list-group'>
+                {% for result in page_obj.object_list %}
+                    <li class='list-group-item'>
+                        <a href="{{ result.object.get_absolute_url }}">
+                            user: {% highlight result.get_stored_fields.author with query %}<br>
+                            name: {% highlight result.get_stored_fields.author_name with query %}<br>
+                            location: {% highlight result.get_stored_fields.author_loc with query %}
+                        </a>
+                        {% empty %}
+                        <p>No results found.</p>
+                    </li>
+                {% endfor %}
+            </ul>
 
-            {% for result in page_obj.object_list %}
-                <p>
-                    <a href="{{ result.object.get_absolute_url }}">
-                        user: {{ result.object.username }}
-                    </a>
-                </p>
-                {% empty %}
-                <p>No results found.</p>
-            {% endfor %}
 
             {% if page_obj.has_previous or page_obj.has_next %}
                 <div>
