@@ -16,17 +16,17 @@
             <ul class='list-group'>
                 {% for result in page_obj.object_list %}
                     <li class='list-group-item'>
-                        <a href="{{ result.object.get_absolute_url }}">
-                            user: {% highlight result.get_stored_fields.author with query %}<br>
-                            name: {% highlight result.get_stored_fields.author_name with query %}<br>
-                            location: {% highlight result.get_stored_fields.author_loc with query %}
+                        <a href="{{ result.author_url }}">
+                            user: {% highlight result.author with query %} <br>
+                            name: {% highlight result.author_name with query %} <br>
+                            location: {% highlight result.author_loc with query %} <br>
+                            home: {% highlight result.author_home with query %}
                         </a>
                         {% empty %}
                         <p>No results found.</p>
                     </li>
                 {% endfor %}
             </ul>
-
 
             {% if page_obj.has_previous or page_obj.has_next %}
                 <div>

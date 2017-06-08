@@ -16,11 +16,11 @@
             <ul class='list-group'>
                 {% for result in page_obj.object_list %}
                     <li class='list-group-item'>
-                        <a href="{{ result.object.get_absolute_url }}">
-                            user: {% highlight result.object.user.username with query %} {{ result.object.user.get_usertype }}
+                        <a href="{{ result.author_url }}">
+                            user: {% highlight result.author with query %} {{ result.author_type }}
                             <br>
-                            post content: {% highlight result.object.post with query %} <br>
-                            create time: {{ result.object.created_at }}
+                            post content: {% highlight result.post_content with query %} <br>
+                            create time: {{ result.created_at }}
                         </a>
                         {% empty %}
                         <p>No results found.</p>
