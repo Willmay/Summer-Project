@@ -7,7 +7,7 @@
         <table>
             {{ form.as_table }}
             <tr>
-                <td> </td>
+                <td>&nbsp;</td>
                 <td>
                     <input type="submit" value="Search">
                 </td>
@@ -19,17 +19,24 @@
 
             {% for result in page.object_list %}
                 <p>
-                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                    <a href="{{ result.object.get_absolute_url }}">
+                        user: {{ result.object.user.username }}
+                        post content: {{ result.object.post }}
+                        create time: {{ result.object.created_at }}
+                    </a>
                 </p>
-            {% empty %}
+                {% empty %}
                 <p>No results found.</p>
             {% endfor %}
 
             {% if page.has_previous or page.has_next %}
                 <div>
-                    {% if page.has_previous %}<a href="?q={{ query }}&page={{ page.previous_page_number }}">{% endif %}« Previous{% if page.has_previous %}</a>{% endif %}
+                    {% if page.has_previous %}
+                        <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous
+                    {% if page.has_previous %}</a>{% endif %}
                     |
-                    {% if page.has_next %}<a href="?q={{ query }}&page={{ page.next_page_number }}">{% endif %}Next »{% if page.has_next %}</a>{% endif %}
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}
+                    Next &raquo;{% if page.has_next %}</a>{% endif %}
                 </div>
             {% endif %}
         {% else %}

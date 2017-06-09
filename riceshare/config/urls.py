@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
+    url(r'^contract/$', TemplateView.as_view(template_name='seller_contract.html'), name='contract'),
+
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
 
@@ -19,7 +21,11 @@ urlpatterns = [
     url(r'^users/', include('riceshare.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^post/', include('riceshare.post.urls', namespace='post')),
-    url(r'^search/', include('haystack.urls')),
+    url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
+    url(r'^comments/', include('riceshare.comments.urls', namespace='comments')),
+    url(r'^haystack/basic/', include('haystack.urls')),
+    url(r'^search/', include('riceshare.search.urls', namespace='search')),
+    # url(r'^search/custom_search/', MySearchView.as_view(), name='search_view'),
 
     # Your stuff: custom urls includes go here
 

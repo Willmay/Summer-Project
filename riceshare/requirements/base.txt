@@ -51,3 +51,9 @@ django-compressor==2.1.1
 
 
 # Your custom requirements go here
+
+# Search
+django-haystack==2.6.1
+
+# Search engine
+whoosh==2.7.4

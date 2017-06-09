@@ -2,65 +2,136 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="card text-sm-center">
-                    <div class="cover" style="background-image: url({{request.user.get_background_url}}); height: 100px"></div>
-                    <div class="card-block">
-                        <a href = "{{user.get_absolute_url}}">
-                            <img src="{{ request.user.get_photo_url }}" class="img-circle" height="80" width="80">
-                            <br>
-                            {{ user.username }}
-                        </a>
-                        <br>
-                        <small style="color: lightslategray;">Location: {{user.location}}</small>
-                        <br>
-                        <hr>
-                        <a href = "{% url 'users:followerlist' %}">{{ follower_count }}</a>
-                        <p>Followers</p>
-                        <hr>
-                    </div>
+    <div class="dq">
+        <div class="fh">
+            <div class="rp bqq agk">
+                <div class="rv"
+                     style="background-image: url({{ request.user.get_background_url }}); height: 120px"></div>
+                <div class="rq awx">
+                    <a href="{{ user.get_absolute_url }}">
+                        <img class="bqr img-circle" src="{{ request.user.get_photo_url }}" height="80" width="80">
+                    </a>
+                    <h6 class="rr">
+                        <a class="bph" href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+                    </h6>
+                    <p class="agk">
+                        {{ user.short_description }}
+                    </p>
+                    <ul class="bqs">
+                        <li class="bqt">
+                            <a class="bph" href="{% url 'users:followerlist' %}">
+                                Followers
+                                <h6 class="afl">{{ follower_count }}</h6>
+                            </a>
+                        </li>
+                        <li class="bqt">
+                            <a href="" class="bph">
+                                Posts
+                                <h6 class="afl">0</h6>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="col-sm-7">
-                <form class="form-horizontal" enctype="multipart/form-data" method = "post" action = "{% url 'post:post_home' %}" style="display: inline;">
-                  {% csrf_token %}
-                  {{post_form|crispy}}
-                  <div class="control-group">
-                      <div class="controls">
-                        <button type="submit" class="btn btn-primary">Create New Post</button>
-                      </div>
-                    </div>
-                </form>
-
-                <br>
-                <br>
-                {% if posts %}
-                    <ul class='list-group'>
-                      {% for post in posts %}
-                        <li class='list-group-item'>
-                           <h5 style="display:inline-block;">{{post.post}} </a> </h5>
-                           <small class="pull-right" style="color: lightslategray;">{{ post.updated_at}}</small>
-                           <br><br>
-                           {% if post.image %}
-                             <img src="{{ post.image.url }}" style="width: 40%">
-                           {% endif %}
-                           <br><br>
-                           <p>Posted by:
-                             <a href = "{{post.user.get_absolute_url}}"> {{post.user.username}}</a>
-                           </p>
-                           <button id = "like" class="btn btn-primary">like</button>
+            <div class="rp bra brb agk">
+                <div class="rq">
+                    <h6 class="agd">
+                        About
+                        <small>
+                            ·
+                            <a href="#">Edit</a>
+                        </small>
+                    </h6>
+                    <ul class="dc ayn">
+                        <li>
+                            <small style="color: lightslategray;">Location: {{ user.location }}</small>
                         </li>
-                        <br>
-                       {% endfor %}
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="fk">
+            <ul class="ca bqe bqf agk">
+                <li class="tu b ahx">
+                    <form class="form-horizontal" enctype="multipart/form-data" method="post"
+                          action="{% url 'post:post_home' %}" style="display: inline;">
+                        {% csrf_token %}
+                        {{ post_form|crispy }}
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-primary">Create New Post</button>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                {% if posts %}
+                    {% for post in posts %}
+                        <li class="tu b ahx">
+                            <img class="bqa wp yy agc img-circle" src="{{ post.user.get_photo_url }}" height="60"
+                                 width="60">
+                            <div class="tv" style="word-wrap: break-word; word-break: break-all">
+                                <div class="bqj">
+                                    <small class="aec axr">
+                                        {{ post.updated_at }}
+                                    </small>
+                                    <h6>
+                                        <a href="{{ post.user.get_absolute_url }}"> {{ post.user.username }}</a>
+                                    </h6>
+                                </div>
+                                <p>
+                                    {{ post.post }}
+                                </p>
+                                <div class="bqg" data-grid="images">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" style="width: 40%">
+                                    {% endif %}
+                                </div>
+                                <p>I am a {{ post.user.get_usertype }}</p>
+                                <!--
+                                   <p>
+                                     user:
+                                     {{ request.user }}
+                                   <p>
+                                   <p>
+                                     liked_users:
+                                     {{ post.liked_users.all }}
+                                   <p>
+                                   <p>
+                                     liked_users_number:
+                                     {{ post.num_liked_users }}
+                                   <p>
+                                -->
+
+                                {% if request.user in post.liked_users.all %}
+                                    <a class="btn btn-outline-danger"
+                                       href="{% url 'post:post_unlike' post.id %}">Unlike</a>
+                                {% else %}
+                                    <a class="btn btn-outline-success"
+                                       href="{% url 'post:post_like' post.id %}">Like</a>
+                                {% endif %}
+                                {{ post.num_liked_users }}
+                                users liked
+                                <br><br>
+                                <p>
+                                    <a class="btn btn-outline-success"
+                                       href="{% url 'comments:comment' post.id %}">Comment</a>
+                                </p>
+                                <p>
+                                    <a href="https://plus.google.com/share?url=http://localhost{{ request.get_full_path|urlencode }}">Share
+                                        to Google</a>
+                                    <a href="http://www.linkedin.com/shareArticle?url=http://localhost{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain">Share
+                                        to Linkedin</a>
+                                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://localhost{{ request.get_full_path|urlencode }}">Share
+                                        to Facebook</a>
+                                </p>
+                            </div>
+                        </li>
+                    {% endfor %}
                 {% else %}
                     <p>No Posts found</p>
                 {% endif %}
-            </div>
+            </ul>
         </div>
     </div>
 {% endblock %}

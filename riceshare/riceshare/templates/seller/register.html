@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <h1>{{ user.username }}</h1>
+                <form class="form-horizontal" enctype="multipart/form-data" method="post"
+                      action="{% url 'seller:register' %}" style="display: inline;">
+                    {% csrf_token %}
+                    {{ user_form|crispy }}
+                    <br>
+                    <hr>
+                    <br>
+                    {{ seller_form|crispy }}
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
