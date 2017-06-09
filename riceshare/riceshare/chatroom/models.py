@@ -6,4 +6,4 @@ from django.db import models
 class ChatMessage(models.Model):
 	room = models.TextField()
 	message = models.TextField()
-    timestamp = models.DateTimeField(auto_now=True)
+    #timestamp = models.DateTimeField(auto_now_add=True)

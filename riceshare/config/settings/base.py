@@ -63,6 +63,7 @@ LOCAL_APPS = [
     'riceshare.post',
     'riceshare.seller.apps.SellerConfig',
     'riceshare.comments',
+    'riceshare.chatroom',
     # Your stuff: custom apps go here
 ]
 
