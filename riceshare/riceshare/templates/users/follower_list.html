@@ -3,24 +3,24 @@
 {% block title %}Followers{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-10">
-            <div class="card">
-                <h3 class="card-header">My Followers</h3>
-                {% for follower in follower_list %}
-                    <div class="card-block">
-                        <h4><a class="card-title" href="{% url 'users:detail' follower.username %}">
-                            {{ follower.username }}
-                        </a>
-                        </h4>
-                        <br>
-                        <a class="btn btn-outline-danger" href="{% url 'users:unfollow' follower.username %}">Unfollow</a>
-                    </div>
-                    <hr>
-                {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="card">
+                    <h3 class="card-header">My Followers</h3>
+                    {% for follower in follower_list %}
+                        <div class="card-block">
+                            <h4><a class="card-title" href="{% url 'users:detail' follower.username %}">
+                                {{ follower.username }}
+                            </a>
+                            </h4>
+                            <br>
+                            <a class="btn btn-outline-danger" href="{% url 'users:unfollow' follower.username %}">Unfollow</a>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}
