@@ -6,7 +6,6 @@ from riceshare.post.models import Post
 from riceshare.seller.models import Seller
 from riceshare.users.models import User
 from riceshare.comments.models import Comment
-from haystack.generic_views import SearchView
 
 
 def post_home(request):

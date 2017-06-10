@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<h2> search result </h2>
+{% if found_user_entries %}
+    <p> Search result for users </p>
+    <ul class="list-group">
+        {% for user in found_user_entries %}
+            <ul class="list-group">
+                <a href="#">
+                    <li class='list-group-item'>
+                        <div>
+                            <span class="user"> {{user.username}}</span>
+                        </div>
+                    </li>
+                </a>
+            </ul>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p> No results of users found. </p>
+{% endif %}
+
+{% endblock content %}
