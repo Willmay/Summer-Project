@@ -325,3 +325,6 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 ALLOWED_HOSTS = ["*"]
+
+# Google Map API KEY
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyAVzi63xWiSmON9muMZyTY9Tft4vllyWoY'

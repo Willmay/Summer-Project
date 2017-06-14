@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if users_neareast %}
+  <br>
+<p> find neareast user</p>
+  {% for user in users_neareast %}
+<p>test usere </p>
+    {{user.geohash}}
+  <br>
+  {% endfor%}
+{% else %}
+<p> no nearst user </p>
+{% endif%}
+{% endblock %}
