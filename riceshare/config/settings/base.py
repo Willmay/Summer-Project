@@ -220,6 +220,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # HAYSTACK CONFIGURATION
 # ------------------------------------------------------------------------------
+"""
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
@@ -227,6 +228,7 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'haystack',
     },
 }
+"""
 
 # Rest framework
 REST_FRAMEWORK = {
