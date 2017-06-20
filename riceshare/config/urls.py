@@ -31,6 +31,10 @@ urlpatterns = [
     url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
     url(r'^comments/', include('riceshare.comments.urls', namespace='comments')),
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3025eaea46da5f9b8cb40783a170f3a6f5f030ec
     # Rest-api
     url(r'^api/v1/', include(apirouter)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -38,6 +42,7 @@ urlpatterns = [
     url(r'^haystack/basic/', include('haystack.urls')),
     url(r'^search/', include('riceshare.search.urls', namespace='search')),
     # url(r'^search/custom_search/', MySearchView.as_view(), name='search_view'),
+
 
     # Your stuff: custom urls includes go here
 
