@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+from cmath import acos, cos, sin
+from math import radians
+
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
@@ -10,11 +13,17 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
+<<<<<<< HEAD
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 from .models import User
 from .serializers import UserSerializer
+=======
+from .models import User
+from .geohash import StaticVariable
+from .geohash import GeoHash
+>>>>>>> 068e2552f46fc0ca2ab612ae351ef9e5139894ea
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
@@ -129,3 +138,32 @@ def unfollow(request, username):
             return redirect(request.GET.get('redirect_url'))
         else:
             return redirect(user.get_absolute_url())
+
+def updateLocation(request):
+    if request.method == 'GET':
+        user = request.user
+        latitude = request.GET['latitude']
+        longtitude = request.GET['longtitude']
+        print("latitude" + latitude)
+        print("longtitude" + longtitude)
+        print("user before latitude" + user.latitude)
+        if user.latitude != latitude or user.longtitude != longtitude:
+            user.longtitude = longtitude
+            user.latitude =latitude
+            user.geohash = GeoHash().encode(float(latitude), float(longtitude), 12)
+            user.save()
+            print("user new latitude" + user.latitude)
+        return redirect("post:post_home")
+
+def findNearest(request):
+    if request.method == 'GET':
+        user = request.user
+        geo_string = user.geohash[:5]
+        print("********************************************************")
+        print(geo_string)
+        users_neareast = User.objects.filter(geohash__startswith = geo_string)
+        return render(request, 'post/users_nearest.html', {'users_neareast': users_neareast})
+    else:
+        return HttpResponse("nearest location failed")
+
+

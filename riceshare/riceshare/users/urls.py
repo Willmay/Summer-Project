@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-
 from django.conf.urls import url
-
 from . import views
 
 urlpatterns = [
@@ -45,6 +43,17 @@ urlpatterns = [
         regex=r'^~followerlist/$',
         view=views.list_all_follower,
         name='followerlist'
+    ),
+    url(
+        regex=r'^~updatelocation/$',
+        view=views.updateLocation,
+        name='updateLocation'
+    ),
+
+    url(
+        regex=r'^~findNearest/$',
+        view=views.findNearest,
+        name='findNearest'
     ),
 
 ]

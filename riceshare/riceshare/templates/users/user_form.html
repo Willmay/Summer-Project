@@ -4,15 +4,15 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}</h1>
-  <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{% url 'users:update' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn">Update</button>
-        <a class="btn btn-primary" href="{% url 'contract' %}" role="button">Want to become a seller?</a>
-      </div>
-    </div>
-  </form>
+    <h1>{{ user.username }}</h1>
+    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{% url 'users:update' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Update</button>
+                <a class="btn btn-primary" href="{% url 'contract' %}" role="button">Want to become a seller?</a>
+            </div>
+        </div>
+    </form>
 {% endblock %}

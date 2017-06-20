@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load highlight %}
+
+{% block content %}
+    <h2>Search in riceshare</h2>
+
+    <form method="get" action="{% url 'search:post_results' %}">
+        {% csrf_token %}
+        {{ searchposts_form|crispy }}
+        <input type="submit" value="Search" class="btn btn-primary">
+
+        <hr>
+        {% if query %}
+            <h3>Found {{ result_num }} results for you.</h3>
+            <ul class='list-group'>
+                {% for result in page_obj.object_list %}
+                    <li class='list-group-item'>
+                        <a href="{{ result.author_url }}">
+                            user: {% highlight result.author with query %} {{ result.author_type }}
+                            <br>
+                            post content: {% highlight result.post_content with query %} <br>
+                            create time: {{ result.created_at }}
+                        </a>
+                        {% empty %}
+                        <p>No results found.</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if page_obj.has_previous or page_obj.has_next %}
+                <div>
+                    {% if page_obj.has_previous %}
+                        <a href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}">{% endif %}&laquo;
+                    Previous
+                    {% if page_obj.has_previous %}</a>{% endif %}
+                    |
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}">{% endif %}
+                    Next &raquo;{% if page_obj.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+    </form>
+{% endblock %}
