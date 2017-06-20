@@ -39,6 +39,15 @@ awesome-slugify==1.6.5
 # Time zones support
 pytz==2017.2
 
+# Rest framework
+djangorestframework===3.6.3
+
+# Markdown
+markdown===2.1.0
+
+# Django-filter
+django-filter===1.0.1
+
 # Redis support
 django-redis==4.7.0
 redis>=2.10.5

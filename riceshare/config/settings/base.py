@@ -40,6 +40,7 @@ DJANGO_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 
     # Useful template tags:
     # 'django.contrib.humanize',
@@ -63,6 +64,7 @@ LOCAL_APPS = [
     'riceshare.post',
     'riceshare.seller.apps.SellerConfig',
     'riceshare.comments',
+    'riceshare.chatroom',
     # Your stuff: custom apps go here
 ]
 
@@ -71,6 +73,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # CHANNEL LAYERS CONFIGURATION
 # ------------------------------------------------------------------------------
+
 REDIS_LOCATION = '{0}/{1}'.format(env('REDIS_URL', default='redis://127.0.0.1:6379'), 0)
 CHANNEL_LAYERS = {
     "default": {
@@ -81,6 +84,7 @@ CHANNEL_LAYERS = {
         "ROUTING": "config.routing.channel_routing",
     },
 }
+
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -207,6 +211,15 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
     },
+}
+
+# Rest framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 # STATIC FILE CONFIGURATION
