@@ -217,8 +217,6 @@ TEMPLATES = [
 # See: http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-<<<<<<< HEAD
-=======
 
 # HAYSTACK CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -232,7 +230,6 @@ HAYSTACK_CONNECTIONS = {
 }
 """
 
->>>>>>> 3025eaea46da5f9b8cb40783a170f3a6f5f030ec
 # Rest framework
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
