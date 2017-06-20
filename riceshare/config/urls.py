@@ -7,9 +7,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+
+apirouter = [
+    url(r'^users/', include('riceshare.users.apiurls')),
+]
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'^react/$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     url(r'^contract/$', TemplateView.as_view(template_name='seller_contract.html'), name='contract'),
@@ -23,6 +30,11 @@ urlpatterns = [
     url(r'^post/', include('riceshare.post.urls', namespace='post')),
     url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
     url(r'^comments/', include('riceshare.comments.urls', namespace='comments')),
+
+    # Rest-api
+    url(r'^api/v1/', include(apirouter)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
     url(r'^haystack/basic/', include('haystack.urls')),
     url(r'^search/', include('riceshare.search.urls', namespace='search')),
     # url(r'^search/custom_search/', MySearchView.as_view(), name='search_view'),

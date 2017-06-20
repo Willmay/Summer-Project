@@ -44,5 +44,16 @@ urlpatterns = [
         view=views.list_all_follower,
         name='followerlist'
     ),
+    url(
+        regex=r'^~updatelocation/$',
+        view=views.updateLocation,
+        name='updateLocation'
+    ),
+
+    url(
+        regex=r'^~findNearest/$',
+        view=views.findNearest,
+        name='findNearest'
+    ),
 
 ]

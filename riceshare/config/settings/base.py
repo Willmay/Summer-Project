@@ -41,6 +41,7 @@ DJANGO_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 
     # Useful template tags:
     # 'django.contrib.humanize',
@@ -54,6 +55,8 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'channels', #websociet
+    #'haystack',
 ]
 
 # Apps specific for this project go here.
@@ -63,11 +66,27 @@ LOCAL_APPS = [
     'riceshare.post',
     'riceshare.seller.apps.SellerConfig',
     'riceshare.comments',
+    'riceshare.chatroom',
     # Your stuff: custom apps go here
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+# CHANNEL LAYERS CONFIGURATION
+# ------------------------------------------------------------------------------
+
+REDIS_LOCATION = '{0}/{1}'.format(env('REDIS_URL', default='redis://127.0.0.1:6379'), 0)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(REDIS_LOCATION, 6379)],
+        },
+        "ROUTING": "config.routing.channel_routing",
+    },
+}
+
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -108,6 +127,7 @@ EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.s
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
     ("""lipingsun""", 'lipingsun.jlu@gmail.com'),
+    ("""yiwwei""", 'a@a.com'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -196,6 +216,15 @@ TEMPLATES = [
 
 # See: http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Rest framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -297,3 +326,6 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 ALLOWED_HOSTS = ["*"]
+
+# Google Map API KEY
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyAVzi63xWiSmON9muMZyTY9Tft4vllyWoY'
