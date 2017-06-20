@@ -13,17 +13,15 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
-<<<<<<< HEAD
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 from .models import User
 from .serializers import UserSerializer
-=======
-from .models import User
+
 from .geohash import StaticVariable
 from .geohash import GeoHash
->>>>>>> 068e2552f46fc0ca2ab612ae351ef9e5139894ea
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
