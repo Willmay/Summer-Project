@@ -40,7 +40,7 @@ class ChatRoom extends React.Component{
     
     /*
     setInterval( _ =>{
-        this.connection.send( "hello, websocket\n" )
+        this.state.connection.send( "hello, websocket\n" )
     }, 2000 );*/
 	
 	}

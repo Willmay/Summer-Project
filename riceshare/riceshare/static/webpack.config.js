@@ -1,11 +1,12 @@
+
 var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	entry: './js/chatRoom.js',
+	entry: './js/App.js',
 	output: { 
 		path: __dirname, 
-		filename: 'bundle.js' 
+		filename: './js/bundle.js' 
 	},
 
 	module: {

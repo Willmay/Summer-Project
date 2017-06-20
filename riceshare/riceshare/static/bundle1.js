@@ -9597,7 +9597,7 @@ var ChatRoom = function (_React$Component) {
 
       /*
       setInterval( _ =>{
-          this.connection.send( "hello, websocket\n" )
+          this.state.connection.send( "hello, websocket\n" )
       }, 2000 );*/
     }
   }, {

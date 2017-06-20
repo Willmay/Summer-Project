@@ -5,6 +5,7 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 from .models import ChatMessage
 
 #dispatch massages
+
 def msg_consumer(message):
 	#Save to model
 	room = message.content['room']
@@ -16,6 +17,7 @@ def msg_consumer(message):
 	Group("chat-%s" % room).send({
 			"text": message.content['message'],
 		})
+
 
 
 #Connected
@@ -33,10 +35,16 @@ def ws_connect(message):
 @channel_session
 def ws_message(message):
 	#Stick the message onto the processing queue
+	
 	Channel("chat-messages").send({
 		"room": message.channel_session['room'],
 		"message": message['text'],
 		})
+	"""
+	Group("chat-%s" % message.channel_session['room']).send({
+			"text": message['text'],
+		})
+	"""
 
 #Disconnect
 @channel_session
