@@ -1,0 +1,85 @@
+
+712412: URL_REQUEST
+http://localhost:8000/
+Start Time: 2017-06-26 17:52:57.175
+
+t=20363 [st=    0] +REQUEST_ALIVE  [dt=23601]
+                    --> priority = "HIGHEST"
+                    --> url = "http://localhost:8000/"
+t=20364 [st=    1]    DELEGATE_INFO  [dt=30]
+                      --> delegate_blocked_by = "NavigationResourceThrottle"
+t=20395 [st=   32]   +URL_REQUEST_DELEGATE  [dt=14]
+t=20395 [st=   32]      DELEGATE_INFO  [dt=2]
+                        --> delegate_blocked_by = "extension Stylish - Custom themes for any website"
+t=20397 [st=   34]      DELEGATE_INFO  [dt=12]
+                        --> delegate_blocked_by = "extension AdBlock"
+t=20409 [st=   46]   -URL_REQUEST_DELEGATE
+t=20409 [st=   46]    URL_REQUEST_START_JOB  [dt=1]
+                      --> load_flags = 37121 (MAIN_FRAME_DEPRECATED | MAYBE_USER_GESTURE | VALIDATE_CACHE | VERIFY_EV_CERT)
+                      --> method = "GET"
+                      --> url = "http://localhost:8000/"
+t=20410 [st=   47]   +URL_REQUEST_START_JOB  [dt=23552]
+                      --> load_flags = 37121 (MAIN_FRAME_DEPRECATED | MAYBE_USER_GESTURE | VALIDATE_CACHE | VERIFY_EV_CERT)
+                      --> method = "GET"
+                      --> url = "http://localhost:8000/"
+t=20410 [st=   47]     +URL_REQUEST_DELEGATE  [dt=1]
+t=20410 [st=   47]        DELEGATE_INFO  [dt=1]
+                          --> delegate_blocked_by = "extension Stylish - Custom themes for any website"
+t=20411 [st=   48]     -URL_REQUEST_DELEGATE
+t=20411 [st=   48]      HTTP_CACHE_GET_BACKEND  [dt=0]
+t=20411 [st=   48]      HTTP_CACHE_OPEN_ENTRY  [dt=0]
+t=20411 [st=   48]      HTTP_CACHE_ADD_TO_ENTRY  [dt=0]
+t=20411 [st=   48]      HTTP_CACHE_READ_INFO  [dt=1]
+t=20412 [st=   49]     +HTTP_STREAM_REQUEST  [dt=1]
+t=20412 [st=   49]        HTTP_STREAM_JOB_CONTROLLER_BOUND
+                          --> source_dependency = 712420 (HTTP_STREAM_JOB_CONTROLLER)
+t=20413 [st=   50]        HTTP_STREAM_REQUEST_BOUND_TO_JOB
+                          --> source_dependency = 712421 (HTTP_STREAM_JOB)
+t=20413 [st=   50]     -HTTP_STREAM_REQUEST
+t=20413 [st=   50]     +HTTP_TRANSACTION_SEND_REQUEST  [dt=0]
+t=20413 [st=   50]        HTTP_TRANSACTION_SEND_REQUEST_HEADERS
+                          --> GET / HTTP/1.1
+                              Host: localhost:8000
+                              Connection: keep-alive
+                              Cache-Control: max-age=0
+                              Upgrade-Insecure-Requests: 1
+                              User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+                              Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+                              Accept-Encoding: gzip, deflate, sdch, br
+                              Accept-Language: zh-CN,zh;q=0.8,en;q=0.6
+                              Cookie: [85 bytes were stripped]
+t=20413 [st=   50]     -HTTP_TRANSACTION_SEND_REQUEST
+t=20413 [st=   50]     +HTTP_TRANSACTION_READ_HEADERS  [dt=23545]
+t=20413 [st=   50]        HTTP_STREAM_PARSER_READ_HEADERS  [dt=23545]
+t=43958 [st=23595]        HTTP_TRANSACTION_READ_RESPONSE_HEADERS
+                          --> HTTP/1.0 200 OK
+                              Date: Mon, 26 Jun 2017 21:53:20 GMT
+                              Server: WSGIServer/0.2 CPython/3.5.3
+                              Content-Type: text/html; charset=utf-8
+                              X-Frame-Options: SAMEORIGIN
+                              Vary: Cookie
+                              Set-Cookie: [139 bytes were stripped]
+t=43958 [st=23595]     -HTTP_TRANSACTION_READ_HEADERS
+t=43958 [st=23595]      HTTP_CACHE_WRITE_INFO  [dt=0]
+t=43958 [st=23595]      HTTP_CACHE_WRITE_DATA  [dt=1]
+t=43959 [st=23596]      HTTP_CACHE_WRITE_INFO  [dt=0]
+t=43959 [st=23596]     +URL_REQUEST_DELEGATE  [dt=3]
+t=43959 [st=23596]        DELEGATE_INFO  [dt=3]
+                          --> delegate_blocked_by = "extension AdBlock"
+t=43962 [st=23599]     -URL_REQUEST_DELEGATE
+t=43962 [st=23599]   -URL_REQUEST_START_JOB
+t=43962 [st=23599]   +URL_REQUEST_DELEGATE  [dt=1]
+t=43963 [st=23600]      DELEGATE_INFO  [dt=0]
+                        --> delegate_blocked_by = "NavigationResourceThrottle"
+t=43963 [st=23600]   -URL_REQUEST_DELEGATE
+t=43963 [st=23600]    HTTP_TRANSACTION_READ_BODY  [dt=0]
+t=43963 [st=23600]    HTTP_CACHE_WRITE_DATA  [dt=0]
+t=43963 [st=23600]    URL_REQUEST_JOB_FILTERED_BYTES_READ
+                      --> byte_count = 3765
+t=43964 [st=23601]    HTTP_TRANSACTION_READ_BODY  [dt=0]
+t=43964 [st=23601]    HTTP_CACHE_WRITE_DATA  [dt=0]
+t=43964 [st=23601]    URL_REQUEST_JOB_FILTERED_BYTES_READ
+                      --> byte_count = 12572
+t=43964 [st=23601]    HTTP_TRANSACTION_READ_BODY  [dt=0]
+t=43964 [st=23601]    HTTP_CACHE_WRITE_DATA  [dt=0]
+t=43964 [st=23601] -REQUEST_ALIVE
