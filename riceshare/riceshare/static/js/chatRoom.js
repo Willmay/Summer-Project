@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-
 class ChatRoom extends React.Component{
   constructor() {
   	super();
@@ -28,38 +27,38 @@ class ChatRoom extends React.Component{
     // this is an "echo" websocket service for testing pusposes
     this.state.connection = new WebSocket('ws://localhost:8000/chat/');
     // listen to onmessage event
-    this.state.connection.onmessage = evt => { 
+    this.state.connection.onmessage = evt => {
       // add the new message to state
         this.setState({
         	messages : this.state.messages.concat([ evt.data ])
       	});
     };
 
-    // for testing: sending a message to the echo service every 2 seconds, 
+    // for testing: sending a message to the echo service every 2 seconds,
     // the service sends it right back
-    
+
     /*
     setInterval( _ =>{
         this.state.connection.send( "hello, websocket\n" )
     }, 2000 );*/
-	
+
 	}
 
     render() {
     // render the messages from state:
-    //const messages = this.state.messages;
+    // const messages = this.state.messages;
     return (
     	<div>
     	  <ChatBox messages={this.state.messages}/>
-    	  <InBox 
-    	    handleClick={this.handleClick} 
+    	  <InBox
+    	    handleClick={this.handleClick}
     	    inputText={this.state.inputText}
     	    handleChange={this.handleChange}/>
     	</div>
     	);
     }
 
-  
+
 };
 
 class ChatBox extends React.Component{
@@ -83,7 +82,5 @@ class InBox extends React.Component{
 	}
 }
 
-ReactDOM.render(
-		<ChatRoom />,
-		document.getElementById('tester1')
-	);
+// export this class so that it could be called in entry.js.
+export default ChatRoom;

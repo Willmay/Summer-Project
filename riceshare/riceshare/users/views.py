@@ -39,7 +39,6 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     fields = ['name', 'photo', 'background', 'location', 'home', 'short_description', ]
 
     # we already imported User in the view code above, remember?
@@ -61,9 +60,10 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
+
 def user_list(request):
     """
-    List all users, or create a new unser.
+    List all users, or create a new user.
     """
     if request.method == 'GET':
         users = User.objects.all()
@@ -78,9 +78,11 @@ def user_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+
 def list_all_user(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'user_list': users})
+
 
 def user_detail(request, pk):
     """
@@ -137,6 +139,7 @@ def unfollow(request, username):
         else:
             return redirect(user.get_absolute_url())
 
+
 def updateLocation(request):
     if request.method == 'GET':
         user = request.user
@@ -147,11 +150,12 @@ def updateLocation(request):
         print("user before latitude" + user.latitude)
         if user.latitude != latitude or user.longtitude != longtitude:
             user.longtitude = longtitude
-            user.latitude =latitude
+            user.latitude = latitude
             user.geohash = GeoHash().encode(float(latitude), float(longtitude), 12)
             user.save()
             print("user new latitude" + user.latitude)
         return redirect("post:post_home")
+
 
 def findNearest(request):
     if request.method == 'GET':
@@ -159,9 +163,7 @@ def findNearest(request):
         geo_string = user.geohash[:5]
         print("********************************************************")
         print(geo_string)
-        users_neareast = User.objects.filter(geohash__startswith = geo_string)
+        users_neareast = User.objects.filter(geohash__startswith=geo_string)
         return render(request, 'post/users_nearest.html', {'users_neareast': users_neareast})
     else:
         return HttpResponse("nearest location failed")
-
-

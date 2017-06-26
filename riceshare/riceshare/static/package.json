@@ -19,6 +19,7 @@
     "webpack": "^2.6.1"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "material-ui": "^0.18.3",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",

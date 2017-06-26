@@ -84,11 +84,11 @@ class NavBar extends React.Component{
 		        </NavDropdown>
 		      </Nav>
 
-  		</Navbar> 		
+  		</Navbar>
 	  );
     }
 
-  
+
 };
 
 class App extends React.Component{
@@ -102,7 +102,7 @@ class App extends React.Component{
     	  <NavBar />
 
     	  <hr />
-        
+
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/topics" component={Topics} />
@@ -112,11 +112,8 @@ class App extends React.Component{
     );
   }
 
-  
+
 };
 
-
-ReactDOM.render(
-		<App />,
-		document.getElementById('react-root')
-	);
+// export this class so that it could be called in entry.js.
+export default App;

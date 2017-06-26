@@ -3,10 +3,10 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	entry: './js/App.js',
-	output: { 
-		path: __dirname, 
-		filename: './js/bundle.js' 
+	entry: './js/entry.js',
+	output: {
+		path: __dirname,
+		filename: './js/bundle.js'
 	},
 
 	module: {
