@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.js';
 import ChatRoom from './chatRoom.js';
-import Search from './search.js';
+import PostArea from './postArea.js';
 
 
 ReactDOM.render(
@@ -15,7 +15,7 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-    <Search />,
+    <PostArea />,
     document.getElementById('tester2')
 );
 

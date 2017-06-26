@@ -95,6 +95,7 @@ def user_detail(request, pk):
 
     if request.method == 'GET':
         serializer = UserSerializer(user)
+        print(serializer)
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':

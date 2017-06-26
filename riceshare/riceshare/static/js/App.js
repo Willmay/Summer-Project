@@ -52,11 +52,9 @@ class Topics extends React.Component{
 
 
 class NavBar extends React.Component{
-
-
     render() {
 	  return (
-    	<Navbar>
+    	<Navbar inverse>
 		    <Navbar.Header>
 		      <LinkContainer to="/">
 		      	<Navbar.Brand>
@@ -65,7 +63,7 @@ class NavBar extends React.Component{
 		      </LinkContainer>
 		    </Navbar.Header>
 
-		      <Navbar.Form bsSize="sm">
+		      <Navbar.Form pullLeft>
 		        <FormGroup>
 		          <FormControl type="text" placeholder="Search" />
 		        </FormGroup>
@@ -87,8 +85,6 @@ class NavBar extends React.Component{
   		</Navbar>
 	  );
     }
-
-
 };
 
 class App extends React.Component{

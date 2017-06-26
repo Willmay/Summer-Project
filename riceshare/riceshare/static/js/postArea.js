@@ -4,16 +4,19 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-class Search extends React.Component {
+
+class PostArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         post: '',
         results: [],
         contents: [],
+        message: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,51 +28,73 @@ class Search extends React.Component {
   }
 
   handleSubmit(event) {
-      axios.post('http://localhost:8000/api/v1/posts/',
-          {user: 5, post: this.state.post}).then(function(response){
-          console.log('saved successfully')
+      var self = this;
+      axios.post('/api/v1/posts/',
+          {user: 8, post: this.state.post}).then(function(response) {
+          console.log('saved successfully');
+          self.setState({
+              results: self.state.results.concat(response.data), // add the new data to old json data set
+              message: 'I just made a new post!',
+          });
       }).catch(function(error) {
           console.log(error);
       });
-      alert('A post was submitted: ' + this.state.post);
+
+      //alert('A post was submitted: ' + this.state.message);
       event.preventDefault();
   }
 
   componentDidMount() {
       var self = this;
-      axios.get('http://localhost:8000/api/v1/posts/').then(function(response) {
+      axios.get('/api/v1/posts/').then(function(response) {
           console.log(response.data);
           self.setState({
               results: response.data,
+              message: 'load all post data!',
           });
       }).catch(function(error) {
           console.log(error);
       });
+
+      // axios({
+      //     method:'get',
+      //     url:'/api/v1/posts/'
+      // }).then(function(response) {
+      //     console.log(response.data);
+      //     self.setState({
+      //         results: response.data,
+      //         message: 'load all post data!',
+      //     });
+      // }).catch(function(error) {
+      //     console.log(error);
+      // });
   }
 
   render() {
       return (
           <div>
-            <InBox
+            <PostBox
                 handleSubmit={this.handleSubmit}
                 post={this.state.post}
                 handleChange={this.handleChange} />
-            <PostsArea results={this.state.results}/>
+            <PostsList results={this.state.results} message={this.state.message} />
           </div>
       );
   }
 };
 
 
-class PostsArea extends React.Component{
+class PostsList extends React.Component{
 	render() {
 	    // map the array of objects
         const listItems = this.props.results.map((post, index) => {
-            return <li key={index}>{post.user} - {post.post}</li>
+            return <li key={index}> {post.user} - {post.post} </li>
         });
+        const load_state = this.props.message;
 
         return (
             <ul>
+                {load_state}
                 {listItems}
             </ul>
         );
@@ -77,7 +102,7 @@ class PostsArea extends React.Component{
 }
 
 
-class InBox extends React.Component{
+class PostBox extends React.Component{
 	render() {
 		return (
 			<form>
@@ -90,4 +115,4 @@ class InBox extends React.Component{
 	}
 }
 
-export default Search;
+export default PostArea;

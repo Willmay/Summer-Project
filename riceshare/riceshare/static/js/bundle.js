@@ -19451,7 +19451,7 @@ var NavBar = function (_React$Component4) {
     value: function render() {
       return _react2.default.createElement(
         _reactBootstrap.Navbar,
-        null,
+        { inverse: true },
         _react2.default.createElement(
           _reactBootstrap.Navbar.Header,
           null,
@@ -19467,7 +19467,7 @@ var NavBar = function (_React$Component4) {
         ),
         _react2.default.createElement(
           _reactBootstrap.Navbar.Form,
-          { bsSize: 'sm' },
+          { pullLeft: true },
           _react2.default.createElement(
             _reactBootstrap.FormGroup,
             null,
@@ -19775,18 +19775,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 _axios2.default.defaults.xsrfHeaderName = "X-CSRFToken";
 
-var Search = function (_React$Component) {
-    _inherits(Search, _React$Component);
+var PostArea = function (_React$Component) {
+    _inherits(PostArea, _React$Component);
 
-    function Search(props) {
-        _classCallCheck(this, Search);
+    function PostArea(props) {
+        _classCallCheck(this, PostArea);
 
-        var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (PostArea.__proto__ || Object.getPrototypeOf(PostArea)).call(this, props));
 
         _this.state = {
             post: '',
             results: [],
-            contents: []
+            contents: [],
+            message: ''
         };
 
         _this.handleChange = _this.handleChange.bind(_this);
@@ -19794,7 +19795,7 @@ var Search = function (_React$Component) {
         return _this;
     }
 
-    _createClass(Search, [{
+    _createClass(PostArea, [{
         key: 'handleChange',
         value: function handleChange(event) {
             this.setState({ post: event.target.value });
@@ -19802,26 +19803,46 @@ var Search = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
-            _axios2.default.post('http://localhost:8000/api/v1/posts/', { user: 5, post: this.state.post }).then(function (response) {
+            var self = this;
+            _axios2.default.post('/api/v1/posts/', { user: 8, post: this.state.post }).then(function (response) {
                 console.log('saved successfully');
+                self.setState({
+                    results: self.state.results.concat(response.data), // add the new data to old json data set
+                    message: 'I just made a new post!'
+                });
             }).catch(function (error) {
                 console.log(error);
             });
-            alert('A post was submitted: ' + this.state.post);
+
+            //alert('A post was submitted: ' + this.state.message);
             event.preventDefault();
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var self = this;
-            _axios2.default.get('http://localhost:8000/api/v1/posts/').then(function (response) {
+            _axios2.default.get('/api/v1/posts/').then(function (response) {
                 console.log(response.data);
                 self.setState({
-                    results: response.data
+                    results: response.data,
+                    message: 'load all post data!'
                 });
             }).catch(function (error) {
                 console.log(error);
             });
+
+            // axios({
+            //     method:'get',
+            //     url:'/api/v1/posts/'
+            // }).then(function(response) {
+            //     console.log(response.data);
+            //     self.setState({
+            //         results: response.data,
+            //         message: 'load all post data!',
+            //     });
+            // }).catch(function(error) {
+            //     console.log(error);
+            // });
         }
     }, {
         key: 'render',
@@ -19829,30 +19850,30 @@ var Search = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(InBox, {
+                _react2.default.createElement(PostBox, {
                     handleSubmit: this.handleSubmit,
                     post: this.state.post,
                     handleChange: this.handleChange }),
-                _react2.default.createElement(PostsArea, { results: this.state.results })
+                _react2.default.createElement(PostsList, { results: this.state.results, message: this.state.message })
             );
         }
     }]);
 
-    return Search;
+    return PostArea;
 }(_react2.default.Component);
 
 ;
 
-var PostsArea = function (_React$Component2) {
-    _inherits(PostsArea, _React$Component2);
+var PostsList = function (_React$Component2) {
+    _inherits(PostsList, _React$Component2);
 
-    function PostsArea() {
-        _classCallCheck(this, PostsArea);
+    function PostsList() {
+        _classCallCheck(this, PostsList);
 
-        return _possibleConstructorReturn(this, (PostsArea.__proto__ || Object.getPrototypeOf(PostsArea)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (PostsList.__proto__ || Object.getPrototypeOf(PostsList)).apply(this, arguments));
     }
 
-    _createClass(PostsArea, [{
+    _createClass(PostsList, [{
         key: 'render',
         value: function render() {
             // map the array of objects
@@ -19860,33 +19881,37 @@ var PostsArea = function (_React$Component2) {
                 return _react2.default.createElement(
                     'li',
                     { key: index },
+                    ' ',
                     post.user,
                     ' - ',
-                    post.post
+                    post.post,
+                    ' '
                 );
             });
+            var load_state = this.props.message;
 
             return _react2.default.createElement(
                 'ul',
                 null,
+                load_state,
                 listItems
             );
         }
     }]);
 
-    return PostsArea;
+    return PostsList;
 }(_react2.default.Component);
 
-var InBox = function (_React$Component3) {
-    _inherits(InBox, _React$Component3);
+var PostBox = function (_React$Component3) {
+    _inherits(PostBox, _React$Component3);
 
-    function InBox() {
-        _classCallCheck(this, InBox);
+    function PostBox() {
+        _classCallCheck(this, PostBox);
 
-        return _possibleConstructorReturn(this, (InBox.__proto__ || Object.getPrototypeOf(InBox)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (PostBox.__proto__ || Object.getPrototypeOf(PostBox)).apply(this, arguments));
     }
 
-    _createClass(InBox, [{
+    _createClass(PostBox, [{
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -19906,10 +19931,10 @@ var InBox = function (_React$Component3) {
         }
     }]);
 
-    return InBox;
+    return PostBox;
 }(_react2.default.Component);
 
-exports.default = Search;
+exports.default = PostArea;
 
 /***/ }),
 /* 223 */
@@ -20781,9 +20806,9 @@ var _chatRoom = __webpack_require__(221);
 
 var _chatRoom2 = _interopRequireDefault(_chatRoom);
 
-var _search = __webpack_require__(222);
+var _postArea = __webpack_require__(222);
 
-var _search2 = _interopRequireDefault(_search);
+var _postArea2 = _interopRequireDefault(_postArea);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20791,7 +20816,7 @@ _reactDom2.default.render(_react2.default.createElement(_App2.default, null), do
                                                                                                                        * Created by Han on 6/21/2017.
                                                                                                                        */
 
-_reactDom2.default.render(_react2.default.createElement(_search2.default, null), document.getElementById('tester2'));
+_reactDom2.default.render(_react2.default.createElement(_postArea2.default, null), document.getElementById('tester2'));
 
 _reactDom2.default.render(_react2.default.createElement(_chatRoom2.default, null), document.getElementById('tester1'));
 
