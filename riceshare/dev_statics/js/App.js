@@ -24,7 +24,7 @@ class Home extends React.Component{
   render() {
   	return (
   	  <div>
-  	    Home!!!
+  	    Another1 Home!!!
   	  </div>
   	);
   }

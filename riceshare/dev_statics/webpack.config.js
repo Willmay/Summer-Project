@@ -6,7 +6,7 @@ module.exports = {
 	entry: './js/App.js',
 	output: { 
 		path: __dirname, 
-		filename: './js/bundle.js' 
+		filename: '../riceshare/static/js/bundle.js' 
 	},
 
 	module: {
