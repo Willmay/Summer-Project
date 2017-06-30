@@ -13,6 +13,12 @@ urlpatterns = [
     ),
 
     url(
+    	regex=r'^login$',
+    	view=views.login,
+    	name='user_login'
+    ),
+
+    url(
     	regex=r'^(?P<pk>[0-9]+)/$', 
     	view=views.user_detail,
     	name='user_detail'

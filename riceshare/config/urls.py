@@ -16,7 +16,7 @@ apirouter = [
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    url(r'^react/$', TemplateView.as_view(template_name='index.html'), name='index'),
+    url(r'^react/', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     url(r'^contract/$', TemplateView.as_view(template_name='seller_contract.html'), name='contract'),
