@@ -28,15 +28,15 @@ class PostArea extends React.Component {
     }
 
     handleSubmit(event) {
-        var self = this;
+        let self = this;
         axios.post('/api/v1/posts/',
-            {user: 8, post: this.state.post}).then(function (response) {
+            {user: 4, post: this.state.post}).then(response => {
             console.log('saved successfully');
             self.setState({
                 results: self.state.results.concat(response.data), // add the new data to old json data set
                 message: 'I just made a new post!',
             });
-        }).catch(function (error) {
+        }).catch(error => {
             console.log(error);
         });
 
@@ -45,14 +45,14 @@ class PostArea extends React.Component {
     }
 
     componentDidMount() {
-        var self = this;
-        axios.get('/api/v1/posts/').then(function (response) {
+        let self = this;
+        axios.get('/api/v1/posts/').then(response => {
             console.log(response.data);
             self.setState({
                 results: response.data,
                 message: 'load all post data!',
             });
-        }).catch(function (error) {
+        }).catch(error => {
             console.log(error);
         });
 
@@ -108,7 +108,7 @@ class PostBox extends React.Component {
             <form>
                 <input type="text" value={this.props.post} onChange={this.props.handleChange}/>
                 <p>
-                    <button onClick={this.props.handleSubmit}> Submit</button>
+                    <button onClick={this.props.handleSubmit}>Submit</button>
                 </p>
             </form>
         );

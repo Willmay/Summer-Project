@@ -21,6 +21,7 @@ import {
 // import {ChatRoom} from './chatRoom.js'
 
 import {PostArea} from './postArea.js';
+import {UserCenter} from './userCenter.js';
 
 
 class Home extends React.Component {
@@ -66,6 +67,16 @@ class PostHome extends React.Component {
     }
 }
 
+class User extends React.Component {
+    render() {
+        return (
+            <div>
+                <UserCenter />
+            </div>
+        )
+    }
+}
+
 
 class NavBar extends React.Component {
     render() {
@@ -89,9 +100,9 @@ class NavBar extends React.Component {
                 <Nav pullRight>
                     <LinkContainer to="/about"><NavItem eventKey={1}>About</NavItem></LinkContainer>
                     <LinkContainer to="/topics"><NavItem eventKey={2}>Topics</NavItem></LinkContainer>
-                    <LinkContainer to="/postArea"><NavItem eventKey={4}>Posts</NavItem></LinkContainer>
+                    <LinkContainer to="/postArea"><NavItem eventKey={4}>Test</NavItem></LinkContainer>
                     <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                        <MenuItem eventKey={3.1}>Action</MenuItem>
+                        <LinkContainer to="/userCenter"><MenuItem eventKey={3.1}>My Account</MenuItem></LinkContainer>
                         <MenuItem eventKey={3.2}>Another action</MenuItem>
                         <MenuItem eventKey={3.3}>Something else here</MenuItem>
                         <MenuItem divider/>
@@ -118,6 +129,7 @@ class App extends React.Component {
                     <Route path="/about" component={About}/>
                     <Route path="/topics" component={Topics}/>
                     <Route path="/postArea" component={PostHome}/>
+                    <Route path="/userCenter" component={User}/>
 
                 </div>
             </Router>

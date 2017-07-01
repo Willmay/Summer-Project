@@ -95,11 +95,12 @@ def user_detail(request, pk):
 
     if request.method == 'GET':
         serializer = UserSerializer(user)
-        print(serializer)
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
+        print('zzz')
         data = JSONParser().parse(request)
+        print(data)
         serializer = UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()

@@ -28,7 +28,7 @@ def register(request):
                 user.photo = user_form.cleaned_data['photo']
             user.save()
 
-            messages.success(request, 'Register successfully! You have already become seller.')
+            messages.success(request, 'Register successfully! You have already become a seller.')
             return redirect('post:post_home')
         else:
             messages.success(request, 'Register seller failed!')
