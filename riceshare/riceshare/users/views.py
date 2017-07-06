@@ -72,13 +72,12 @@ class UserListView(LoginRequiredMixin, ListView):
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def login(request):
-    u = User.objects.get(username = request.data.get('username'))
-    serializer = UserSerializer(u)
-    print(serializer.data, request.data.get('password'), request.data.get('password')==u.password)
-    if request.data.get('password')==u.password:
-        return Response(serializer.data)
-    else:
+    u = authenticate(username = request.data.get('username'), password = request.data.get('password'))
+    if u is None:
         return HttpResponse(status=403)
+    serializer = UserSerializer(u)
+    return Response(serializer.data)
+        
 
 
 
@@ -95,16 +94,11 @@ def user_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        password = make_password(request.data.get('password'))
+        request.data.__setitem__('password', password)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            """
-            password = make_password(request.data.get('password'))
-            u = User.objects.get(username = request.data.get('username'))
-            if is_password_usable(password):    
-                u.set_password(password)
-                u.save()
-            """
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
