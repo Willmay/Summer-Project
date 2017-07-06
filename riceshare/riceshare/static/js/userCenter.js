@@ -5,8 +5,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropTypes from 'prop-types';
+import {withStyles, createStyleSheet} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+
+const styleSheet = createStyleSheet('UserCenter', theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    input: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 300,
+    },
+    button: {
+        margin: theme.spacing.unit,
+        padding: '0 30px',
+    },
+}));
+
 
 class UserCenter extends React.Component {
     constructor(props) {
@@ -56,7 +79,8 @@ class UserCenter extends React.Component {
             home: this.state.home,
             short_description: this.state.introduction
         };
-        axios.put('/api/v1/users/4/', updateInfo).then(response => {
+
+        axios.put('/api/v1/users/5/', updateInfo).then(response => {
             console.log('updated successfully');
         }).catch(error => {
             console.log(error);
@@ -67,7 +91,7 @@ class UserCenter extends React.Component {
 
     componentDidMount() {
         let self = this;
-        axios.get('/api/v1/users/4/').then(response => {
+        axios.get('/api/v1/users/5/').then(response => {
             console.log(response.data);
             self.setState({
                 name: response.data['name'],
@@ -81,62 +105,67 @@ class UserCenter extends React.Component {
     }
 
     render() {
+        const classes = this.props.classes;
+
         return (
-            <div className="col-xs-5">
+            <div className={classes.container}>
                 <form encType="multipart/form-data">
-                    <label>
-                        User's name:
-                        <br/>
-                        <input
-                            className="form-control"
-                            name="name"
-                            type="text"
-                            value={this.state.name}
-                            onChange={this.handleInputChange}/>
-                    </label>
+                    <TextField
+                        name="name"
+                        label="Edit your name"
+                        className={classes.input}
+                        type="text"
+                        value={this.state.name}
+                        onChange={this.handleInputChange}
+                        marginForm
+                    />
                     <br/>
-                    <label>
-                        Where do you currently live?
-                        <br/>
-                        <input
-                            className="form-control"
-                            name="location"
-                            type="text"
-                            value={this.state.location}
-                            onChange={this.handleInputChange}/>
-                    </label>
+                    <TextField
+                        name="location"
+                        label="Edit your location"
+                        className={classes.input}
+                        type="text"
+                        value={this.state.location}
+                        onChange={this.handleInputChange}
+                        marginForm
+                    />
                     <br/>
-                    <label>
-                        Where are you from?
-                        <br/>
-                        <input
-                            className="form-control"
-                            name="home"
-                            type="text"
-                            value={this.state.home}
-                            onChange={this.handleInputChange}/>
-                    </label>
+                    <TextField
+                        name="home"
+                        label="Edit your home address"
+                        className={classes.input}
+                        type="text"
+                        value={this.state.home}
+                        onChange={this.handleInputChange}
+                        marginForm
+                    />
                     <br/>
-                    <label>
-                        Introduction:
-                        <br/>
-                        <textarea
-                            className="form-control"
-                            name="introduction"
-                            value={this.state.introduction}
-                            onChange={this.handleInputChange}/>
-                    </label>
+                    <TextField
+                        name="introduction"
+                        label="Edit your introduction"
+                        className={classes.input}
+                        multiline
+                        rows="3"
+                        value={this.state.introduction}
+                        onChange={this.handleInputChange}
+                        marginForm
+                    />
                     <br/>
-                    <button
-                        className="btn btn-primary"
-                        onClick={this.handleSubmit}>Update
-                    </button>
+                    <Button
+                        raised
+                        color="primary"
+                        className={classes.button}
+                        onClick={this.handleSubmit}>
+                        Update
+                    </Button>
                 </form>
             </div>
         );
     }
 }
 
-module.exports = {
-    UserCenter: UserCenter,
+UserCenter.propTypes = {
+    classes: PropTypes.object.isRequired,
 };
+
+export default withStyles(styleSheet)(UserCenter);

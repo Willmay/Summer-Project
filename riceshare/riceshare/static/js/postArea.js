@@ -5,8 +5,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Card, {CardActions, CardContent, CardMedia} from 'material-ui/Card';
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+import {MuiThemeProvider} from 'material-ui/styles';
+
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+
+const styles = {
+    card: {
+        maxWidth: 345,
+        margin: 20,
+    },
+};
 
 
 class PostArea extends React.Component {
@@ -16,7 +29,7 @@ class PostArea extends React.Component {
             post: '',
             results: [],
             contents: [],
-            message: ''
+            message: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,7 +43,7 @@ class PostArea extends React.Component {
     handleSubmit(event) {
         let self = this;
         axios.post('/api/v1/posts/',
-            {user: 4, post: this.state.post}).then(response => {
+            {user: 5, post: this.state.post}).then(response => {
             console.log('saved successfully');
             self.setState({
                 results: self.state.results.concat(response.data), // add the new data to old json data set
@@ -87,16 +100,41 @@ class PostArea extends React.Component {
 class PostsList extends React.Component {
     render() {
         // map the array of objects
+        const classes = this.props.classes;
         const listItems = this.props.results.map((post, index) => {
-            return <li key={index}> {post.user} - {post.post} </li>
+            return (
+                <div key={index}>
+                    <Card style={styles.card}>
+                        <CardMedia>
+
+                        </CardMedia>
+                        <CardContent>
+                            <Typography type="headline" component="h2">
+                                {post.user}
+                            </Typography>
+                            <Typography component="p">
+                                {post.post}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button dense color="primary">
+                                Share
+                            </Button>
+                            <Button dense color="primary">
+                                Learn More
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </div>
+            );
         });
         const load_state = this.props.message;
 
         return (
-            <ul>
+            <div>
                 {load_state}
                 {listItems}
-            </ul>
+            </div>
         );
     }
 }
@@ -117,8 +155,7 @@ class PostBox extends React.Component {
 
 
 // export this class so that it could be imported by App.js.
-module.exports = {
-    PostArea: PostArea,
-}
-
-// export default PostArea;
+export default PostArea;
+// module.exports = {
+//     PostArea: PostArea,
+// }
