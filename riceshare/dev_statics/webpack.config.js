@@ -1,11 +1,13 @@
+require('babel-polyfill');
+
 var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './js/App.js',
+    entry: ['babel-polyfill', './js/App.js'],
     output: {
         path: __dirname,
-        filename: './js/bundle.js'
+        filename: '../riceshare/static/js/bundle.js'
     },
 
     module: {

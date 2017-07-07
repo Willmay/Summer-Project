@@ -43,7 +43,7 @@ class PostArea extends React.Component {
     handleSubmit(event) {
         let self = this;
         axios.post('/api/v1/posts/',
-            {user: 5, post: this.state.post}).then(response => {
+            {user: 3, post: this.state.post}).then(response => {
             console.log('saved successfully');
             self.setState({
                 results: self.state.results.concat(response.data), // add the new data to old json data set

@@ -6,21 +6,28 @@ from math import radians
 
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from django.contrib.auth.hashers import make_password, is_password_usable, check_password
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth import authenticate
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status, permissions
+from rest_framework.response import Response
 
 from .models import User
 from .serializers import UserSerializer
 
 from .geohash import StaticVariable
 from .geohash import GeoHash
+
+from django.views.decorators.csrf import csrf_exempt
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -61,22 +68,37 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = 'username'
 
 
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def login(request):
+    u = authenticate(username=request.data.get('username'), password=request.data.get('password'))
+    if u is None:
+        return HttpResponse(status=403)
+    serializer = UserSerializer(u)
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def user_list(request):
     """
-    List all users, or create a new user.
+    List all users, or create a new unser.
     """
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = UserSerializer(data=data)
+        password = make_password(request.data.get('password'))
+        request.data.__setitem__('password', password)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def list_all_user(request):
@@ -84,6 +106,7 @@ def list_all_user(request):
     return render(request, 'users/user_list.html', {'user_list': users})
 
 
+@csrf_exempt
 def user_detail(request, pk):
     """
     Retrieve, update or delete a user.
@@ -98,9 +121,7 @@ def user_detail(request, pk):
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
-        print('zzz')
         data = JSONParser().parse(request)
-        print(data)
         serializer = UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()

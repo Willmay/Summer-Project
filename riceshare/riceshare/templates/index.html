@@ -1,13 +1,13 @@
-{% load staticfiles i18n compress %}<!DOCTYPE html>
+{% load staticfiles i18n compress%}<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}Riceshare{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
     <!-- Optional theme -->
@@ -18,18 +18,17 @@
     <![endif]-->
 
     <!-- This file stores project-specific CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 
-</head>
+  </head>
 
-<body>
-<span id="react-root"></span>
+  <body>
+    <span id="react-root"><span/>
 
-<script src="{% static 'js/bundle.js' %}"></script>
-<!--
-<script src="https://unpkg.com/react@15/dist/react.js"></script>
-<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
--->
-</body>
+    <script src="{% static 'js/bundle.js' %}"></script>
+    <!--
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    -->
+  </body>
 </html>
 

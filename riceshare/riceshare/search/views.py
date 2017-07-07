@@ -1,13 +1,9 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from .forms import PostSearchForm, UserSearchForm
 from haystack.generic_views import SearchView
 from riceshare.post.models import Post
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-
-from riceshare.users.serializers import UserSerializer
 
 
 def index(request):
@@ -15,16 +11,14 @@ def index(request):
 
 
 # another method for searching in view.py
-# def searchUsers(request):
+# def search(request):
 #     """
 #     View function for searching all site content.
 #     The form class takes care of querying, filtering, and ordering.
 #     """
 #     form = PostSearchForm(request.GET)
 #     sq = form.search()
-#     serializer = UserSerializer(sq, many=True)
-#
-#     return JsonResponse(serializer.data, safe=False)
+#     return render(request, "search/result_list.html", context={"form": form, "results": sq,})
 
 
 class PostSearchView(SearchView):
@@ -60,7 +54,7 @@ class UserSearchView(SearchView):
     def get_queryset(self):
         queryset = super(UserSearchView, self).get_queryset()
 
-        return queryset.order_by('-created_at')
+        return queryset.order_by('author')
 
     def get_context_data(self, *args, **kwargs):
         context = super(UserSearchView, self).get_context_data(*args, **kwargs)

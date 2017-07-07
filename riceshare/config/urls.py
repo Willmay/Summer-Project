@@ -13,7 +13,6 @@ from rest_framework import routers, serializers, viewsets
 apirouter = [
     url(r'^users/', include('riceshare.users.apiurls')),
     url(r'^posts/', include('riceshare.post.apiurls')),
-    # url(r'^search/', include('riceshare.search.apiurls')),
 ]
 
 urlpatterns = [
@@ -32,6 +31,7 @@ urlpatterns = [
     url(r'^post/', include('riceshare.post.urls', namespace='post')),
     url(r'^seller/', include('riceshare.seller.urls', namespace='seller')),
     url(r'^comments/', include('riceshare.comments.urls', namespace='comments')),
+
 
     # Rest-api
     url(r'^api/v1/', include(apirouter)),

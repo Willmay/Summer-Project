@@ -10,7 +10,6 @@
             {% for user in user_list %}
                 <a href="{% url 'users:detail' user.username %}" class="list-group-item">
                     <h4 class="list-group-item-heading">{{ user.username }}</h4>
-                    {{ user.id }}
                 </a>
 
                 {% if user.username != request.user.username %}

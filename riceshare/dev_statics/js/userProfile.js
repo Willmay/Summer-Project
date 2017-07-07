@@ -12,12 +12,15 @@ import Grid from 'material-ui/Grid';
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import {
+    LinkContainer
+} from 'react-router-bootstrap';
 
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 
-const styleSheet = createStyleSheet('UserProfile', theme => ({
+const styleSheet = createStyleSheet('InfoArea', theme => ({
     root: {
         flexGrow: 1,
         marginTop: 30,
@@ -37,15 +40,17 @@ const styleSheet = createStyleSheet('UserProfile', theme => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
-    button: {
+    link: {
         verticalAlign: 'middle', // vertically center
-        padding: '0 30px',
         marginLeft: theme.spacing.unit,
+    },
+    button: {
+        padding: '0 30px',
     },
 }));
 
 
-class UserProfile extends React.Component {
+class InfoArea extends React.Component {
     render() {
         const classes = this.props.classes;
         const bull = <span className={classes.bullet}>•</span>;
@@ -96,8 +101,8 @@ class UserProfile extends React.Component {
     }
 }
 
-UserProfile.propTypes = {
+InfoArea.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styleSheet)(UserProfile);
+export default withStyles(styleSheet)(InfoArea);
