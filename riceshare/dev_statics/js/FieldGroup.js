@@ -4,20 +4,23 @@ import {
   FormGroup,
   FormControl,
   ControlLabel,
-  HelpBlock
+  HelpBlock,
+  Col
 } from 'react-bootstrap';
 
 class FieldGroup extends React.Component {
   render() {
     return (
       <FormGroup controlId={this.props.id}>
-        <ControlLabel>{this.props.label}</ControlLabel>
-        <FormControl 
-        	type={this.props.type}
-        	value={this.props.value}
-        	placeholder={this.props.placeholder}
-        	onChange={this.props.onChange}
-        />
+      	<Col smOffset={4} sm={4}>
+	        <FormControl 
+	        	type={this.props.type}
+	        	value={this.props.value}
+	        	placeholder={this.props.placeholder}
+	        	onChange={this.props.onChange}
+	        	aria-label={this.props.label}
+	        />
+	    </Col>
         {this.props.help && <HelpBlock>{this.props.help}</HelpBlock>}
       </FormGroup>
     );

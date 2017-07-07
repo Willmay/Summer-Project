@@ -18,7 +18,10 @@ import {
 import {
 	LinkContainer
 } from 'react-router-bootstrap';
-import { LoginForm } from './UserManagement.js'
+import { 
+  LoginForm, 
+  SignupForm
+} from './UserManagement.js'
 
 class Home extends React.Component{
   render() {
@@ -123,6 +126,7 @@ class App extends React.Component{
           <Route path="/react/about" component={About} />
           <Route path="/react/topics" component={Topics} />
           <Route path="/react/login" component={LoginForm} />
+          <Route path="/react/signup" component={SignupForm} />
 
     	</div>
       </Router>

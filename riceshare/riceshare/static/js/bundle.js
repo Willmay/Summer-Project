@@ -19675,6 +19675,7 @@ var LoginForm = function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
+      event.preventDefault();
     }
   }, {
     key: 'handleUsernameChange',
@@ -19690,10 +19691,123 @@ var LoginForm = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
+        'fieldset',
         null,
+        _react2.default.createElement(
+          _reactBootstrap.Form,
+          { horizontal: true, onSubmit: this.handleClick },
+          _react2.default.createElement(_FieldGroup.FieldGroup, {
+            id: 'formControlsLoginUsername',
+            type: 'text',
+            label: 'Username',
+            placeholder: 'Please enter your username',
+            value: this.state.username,
+            onChange: this.handleUsernameChange
+          }),
+          _react2.default.createElement(_FieldGroup.FieldGroup, {
+            id: 'formControlsLoginPassword',
+            label: 'Password',
+            type: 'password',
+            placeholder: 'Please enter your password',
+            value: this.state.password,
+            onChange: this.handlePasswordChange
+          }),
+          _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { smOffset: 4, sm: 8 },
+              _react2.default.createElement(
+                _reactBootstrap.Checkbox,
+                null,
+                'Remember me'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { smOffset: 4, sm: 8 },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { type: 'submit' },
+                'Sign in'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return LoginForm;
+}(_react2.default.Component);
+
+;
+
+var SignupForm = function (_React$Component2) {
+  _inherits(SignupForm, _React$Component2);
+
+  function SignupForm() {
+    _classCallCheck(this, SignupForm);
+
+    var _this2 = _possibleConstructorReturn(this, (SignupForm.__proto__ || Object.getPrototypeOf(SignupForm)).call(this));
+
+    _this2.state = {
+      username: '',
+      password: '',
+      email: ''
+    };
+
+    _this2.handleClick = _this2.handleClick.bind(_this2);
+    _this2.handleUsernameChange = _this2.handleUsernameChange.bind(_this2);
+    _this2.handlePasswordChange = _this2.handlePasswordChange.bind(_this2);
+
+    return _this2;
+  }
+
+  _createClass(SignupForm, [{
+    key: 'handleClick',
+    value: function handleClick(event) {
+      _axios2.default.post('http://localhost:8000/api/v1/users/', {
+        username: this.state.username,
+        password: this.state.password
+      }).then(function (response) {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      event.preventDefault();
+    }
+  }, {
+    key: 'handleUsernameChange',
+    value: function handleUsernameChange(event) {
+      this.setState({ username: event.target.value });
+    }
+  }, {
+    key: 'handlePasswordChange',
+    value: function handlePasswordChange(event) {
+      this.setState({ password: event.target.value });
+    }
+  }, {
+    key: 'handleEmailChange',
+    value: function handleEmailChange(event) {
+      this.setState({ email: event.target.value });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Form,
+        { horizontal: true, onSubmit: this.handleClick },
         _react2.default.createElement(_FieldGroup.FieldGroup, {
-          id: 'formControlsUsername',
+          id: 'formControlsSignupUsername',
           type: 'text',
           label: 'Username',
           placeholder: 'Please enter your username',
@@ -19701,23 +19815,39 @@ var LoginForm = function (_React$Component) {
           onChange: this.handleUsernameChange
         }),
         _react2.default.createElement(_FieldGroup.FieldGroup, {
-          id: 'formControlsPassword',
+          id: 'formControlsSignupEmail',
+          type: 'email',
+          label: 'Email',
+          placeholder: 'Please enter your email',
+          value: this.state.email,
+          onChange: this.handleEmailChange
+        }),
+        _react2.default.createElement(_FieldGroup.FieldGroup, {
+          id: 'formControlsSignupPassword',
           label: 'Password',
-          type: 'Password',
+          type: 'password',
           placeholder: 'Please enter your password',
           value: this.state.password,
           onChange: this.handlePasswordChange
         }),
         _react2.default.createElement(
-          _reactBootstrap.Button,
-          { type: 'button', onClick: this.handleClick },
-          'Submit'
+          _reactBootstrap.FormGroup,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.Col,
+            { smOffset: 4, sm: 8 },
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { type: 'submit' },
+              'Sign up'
+            )
+          )
         )
       );
     }
   }]);
 
-  return LoginForm;
+  return SignupForm;
 }(_react2.default.Component);
 
 ;
@@ -19730,7 +19860,8 @@ ReactDOM.render(
 */
 
 module.exports = {
-  LoginForm: LoginForm
+  LoginForm: LoginForm,
+  SignupForm: SignupForm
 };
 
 /***/ }),
@@ -20869,7 +21000,8 @@ var App = function (_React$Component5) {
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/react', component: Home }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/react/about', component: About }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/react/topics', component: Topics }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/react/login', component: _UserManagement.LoginForm })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/react/login', component: _UserManagement.LoginForm }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/react/signup', component: _UserManagement.SignupForm })
         )
       );
     }
@@ -20923,16 +21055,16 @@ var FieldGroup = function (_React$Component) {
         _reactBootstrap.FormGroup,
         { controlId: this.props.id },
         _react2.default.createElement(
-          _reactBootstrap.ControlLabel,
-          null,
-          this.props.label
+          _reactBootstrap.Col,
+          { smOffset: 4, sm: 4 },
+          _react2.default.createElement(_reactBootstrap.FormControl, {
+            type: this.props.type,
+            value: this.props.value,
+            placeholder: this.props.placeholder,
+            onChange: this.props.onChange,
+            'aria-label': this.props.label
+          })
         ),
-        _react2.default.createElement(_reactBootstrap.FormControl, {
-          type: this.props.type,
-          value: this.props.value,
-          placeholder: this.props.placeholder,
-          onChange: this.props.onChange
-        }),
         this.props.help && _react2.default.createElement(
           _reactBootstrap.HelpBlock,
           null,
