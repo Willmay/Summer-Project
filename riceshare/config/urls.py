@@ -10,6 +10,7 @@ from django.views import defaults as default_views
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
+
 apirouter = [
     url(r'^users/', include('riceshare.users.apiurls')),
 ]

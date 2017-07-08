@@ -19691,51 +19691,49 @@ var LoginForm = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'fieldset',
-        null,
+        _reactBootstrap.Form,
+        { horizontal: true, onSubmit: this.handleClick },
+        _react2.default.createElement(_FieldGroup.FieldGroup, {
+          id: 'formControlsLoginUsername',
+          type: 'text',
+          label: 'Username',
+          placeholder: 'Please enter your username',
+          value: this.state.username,
+          onChange: this.handleUsernameChange,
+          required: 'true'
+        }),
+        _react2.default.createElement(_FieldGroup.FieldGroup, {
+          id: 'formControlsLoginPassword',
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Please enter your password',
+          value: this.state.password,
+          onChange: this.handlePasswordChange,
+          required: 'true'
+        }),
         _react2.default.createElement(
-          _reactBootstrap.Form,
-          { horizontal: true, onSubmit: this.handleClick },
-          _react2.default.createElement(_FieldGroup.FieldGroup, {
-            id: 'formControlsLoginUsername',
-            type: 'text',
-            label: 'Username',
-            placeholder: 'Please enter your username',
-            value: this.state.username,
-            onChange: this.handleUsernameChange
-          }),
-          _react2.default.createElement(_FieldGroup.FieldGroup, {
-            id: 'formControlsLoginPassword',
-            label: 'Password',
-            type: 'password',
-            placeholder: 'Please enter your password',
-            value: this.state.password,
-            onChange: this.handlePasswordChange
-          }),
+          _reactBootstrap.FormGroup,
+          null,
           _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            null,
+            _reactBootstrap.Col,
+            { smOffset: 4, sm: 8 },
             _react2.default.createElement(
-              _reactBootstrap.Col,
-              { smOffset: 4, sm: 8 },
-              _react2.default.createElement(
-                _reactBootstrap.Checkbox,
-                null,
-                'Remember me'
-              )
+              _reactBootstrap.Checkbox,
+              null,
+              'Remember me'
             )
-          ),
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.FormGroup,
+          null,
           _react2.default.createElement(
-            _reactBootstrap.FormGroup,
-            null,
+            _reactBootstrap.Col,
+            { smOffset: 4, sm: 8 },
             _react2.default.createElement(
-              _reactBootstrap.Col,
-              { smOffset: 4, sm: 8 },
-              _react2.default.createElement(
-                _reactBootstrap.Button,
-                { type: 'submit' },
-                'Sign in'
-              )
+              _reactBootstrap.Button,
+              { type: 'submit' },
+              'Sign in'
             )
           )
         )
@@ -19812,7 +19810,8 @@ var SignupForm = function (_React$Component2) {
           label: 'Username',
           placeholder: 'Please enter your username',
           value: this.state.username,
-          onChange: this.handleUsernameChange
+          onChange: this.handleUsernameChange,
+          required: 'true'
         }),
         _react2.default.createElement(_FieldGroup.FieldGroup, {
           id: 'formControlsSignupEmail',
@@ -19820,7 +19819,8 @@ var SignupForm = function (_React$Component2) {
           label: 'Email',
           placeholder: 'Please enter your email',
           value: this.state.email,
-          onChange: this.handleEmailChange
+          onChange: this.handleEmailChange,
+          required: 'true'
         }),
         _react2.default.createElement(_FieldGroup.FieldGroup, {
           id: 'formControlsSignupPassword',
@@ -19828,7 +19828,8 @@ var SignupForm = function (_React$Component2) {
           type: 'password',
           placeholder: 'Please enter your password',
           value: this.state.password,
-          onChange: this.handlePasswordChange
+          onChange: this.handlePasswordChange,
+          required: 'true'
         }),
         _react2.default.createElement(
           _reactBootstrap.FormGroup,
@@ -21062,7 +21063,8 @@ var FieldGroup = function (_React$Component) {
             value: this.props.value,
             placeholder: this.props.placeholder,
             onChange: this.props.onChange,
-            'aria-label': this.props.label
+            'aria-label': this.props.label,
+            required: this.props.required
           })
         ),
         this.props.help && _react2.default.createElement(
