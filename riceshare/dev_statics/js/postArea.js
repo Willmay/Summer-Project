@@ -3,23 +3,24 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 
+import PropTypes from 'prop-types';
+import {withStyles, createStyleSheet} from 'material-ui/styles';
 import Card, {CardActions, CardContent, CardMedia} from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import {MuiThemeProvider} from 'material-ui/styles';
 
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 
-const styles = {
+const styleSheet = createStyleSheet('PostsList', theme => ({
     card: {
         maxWidth: 345,
-        margin: 20,
+        margin: theme.spacing.unit * 2,
     },
-};
+}));
 
 
 class PostArea extends React.Component {
@@ -84,13 +85,14 @@ class PostArea extends React.Component {
     }
 
     render() {
+        // classes must define in the parent component, and send to child components.
         return (
             <div>
                 <PostBox
                     handleSubmit={this.handleSubmit}
                     post={this.state.post}
                     handleChange={this.handleChange}/>
-                <PostsList results={this.state.results} message={this.state.message}/>
+                <PostsList myClassStyle={this.props.classes} results={this.state.results} message={this.state.message}/>
             </div>
         );
     }
@@ -99,12 +101,14 @@ class PostArea extends React.Component {
 
 class PostsList extends React.Component {
     render() {
+        const classes = this.props.myClassStyle;
+        console.log(classes);
+
         // map the array of objects
-        const classes = this.props.classes;
         const listItems = this.props.results.map((post, index) => {
             return (
                 <div key={index}>
-                    <Card style={styles.card}>
+                    <Card className={classes.card}>
                         <CardMedia>
 
                         </CardMedia>
@@ -154,8 +158,12 @@ class PostBox extends React.Component {
 }
 
 
+PostArea.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
 // export this class so that it could be imported by App.js.
-export default PostArea;
-// module.exports = {
-//     PostArea: PostArea,
-// }
+// export default PostArea;
+module.exports = {
+    PostArea: withStyles(styleSheet)(PostArea),
+}

@@ -24,8 +24,8 @@ import {
   LoginForm,
   SignupForm
 } from './UserManagement.js';
-import PostArea from './postArea.js';
-import InfoArea from './userProfile.js';
+import {PostArea} from './postArea.js';
+import {ControlPanel} from './userProfile.js';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -74,7 +74,7 @@ class UserHome extends React.Component {
     render() {
         return (
             <MuiThemeProvider>
-                <InfoArea />
+                <ControlPanel />
             </MuiThemeProvider>
         );
     }

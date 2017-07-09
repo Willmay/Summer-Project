@@ -22,7 +22,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 
 from .geohash import StaticVariable
 from .geohash import GeoHash
@@ -117,12 +117,17 @@ def user_detail(request, pk):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = UserSerializer(user)
+        # serializer = UserSerializer(user)
+        serializer = ProfileSerializer(user)
         return JsonResponse(serializer.data)
 
+    # some attributes cannot be null, must give the value to them in front page.
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = UserSerializer(user, data=data)
+        # serializer = UserSerializer(user, data=data)
+        serializer = ProfileSerializer(user, data=data)
+        print(serializer)
+
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)

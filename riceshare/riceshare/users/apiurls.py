@@ -19,7 +19,7 @@ urlpatterns = [
     ),
 
     url(
-    	regex=r'^(?P<pk>[0-9]+)/$', 
+    	regex=r'^(?P<pk>[0-9]+)/$',
     	view=views.user_detail,
     	name='user_detail'
     ),
