@@ -28576,6 +28576,7 @@ var ControlPanel = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var self = this;
+            // could change to user in database
             _axios2.default.get('/api/v1/users/3/').then(function (response) {
                 console.log(response.data);
                 console.log(response.data['saved_users']);

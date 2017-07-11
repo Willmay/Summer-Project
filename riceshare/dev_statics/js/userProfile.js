@@ -122,6 +122,7 @@ class ControlPanel extends React.Component {
 
     componentDidMount() {
         let self = this;
+        // could change to user in database
         axios.get('/api/v1/users/3/').then(response => {
             console.log(response.data);
             console.log(response.data['saved_users']);
