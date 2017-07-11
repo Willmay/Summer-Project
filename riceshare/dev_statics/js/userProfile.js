@@ -33,9 +33,13 @@ const styleSheet = createStyleSheet('ControlPanel', theme => ({
     infoDiv: {
         margin: theme.spacing.unit * 2,
     },
+    singleLineText: {
+        display: 'inline-block',
+    },
     bullet: {
         display: 'inline-block',
-        margin: '0 2px',
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
         transform: 'scale(0.8)',
     },
     button: {
@@ -65,13 +69,14 @@ class ControlPanel extends React.Component {
             location: '',
             home: '',
             introduction: '',
+            following: 0,
             isEdit: false,
         };
 
-        // this.handleEditClick = this.handleEditClick.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
         this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleCheckFollowingClick = this.handleCheckFollowingClick.bind(this);
     }
 
     handleInputChange(event) {
@@ -111,16 +116,23 @@ class ControlPanel extends React.Component {
         this.setState({isEdit: true});
     }
 
+    handleCheckFollowingClick() {
+        console.log('click!');
+    }
+
     componentDidMount() {
         let self = this;
         axios.get('/api/v1/users/3/').then(response => {
             console.log(response.data);
+            console.log(response.data['saved_users']);
+            console.log(response.data['saved_users'].length);
             self.setState({
                 username: response.data['username'],
                 name: response.data['name'],
                 location: response.data['location'],
                 home: response.data['home'],
                 introduction: response.data['short_description'],
+                following: response.data['saved_users'].length,
             });
         }).catch(error => {
             console.log(error);
@@ -152,7 +164,9 @@ class ControlPanel extends React.Component {
                     location={this.state.location}
                     home={this.state.home}
                     introduction={this.state.introduction}
+                    following={this.state.following}
                     handleEditClick={this.handleEditClick}
+                    handleCheckFollowingClick={this.handleCheckFollowingClick}
                 />;
         }
 
@@ -200,7 +214,13 @@ class UserProfile extends React.Component {
                     </div>
                     <div className={classes.infoDiv}>
                         <Typography type="body1" component="p">
-                            1 post {bull} 1 follower {bull} 2 followed
+                            <Typography className={classes.singleLineText} type="body1" component="p">
+                                1 post</Typography>{bull}
+                            <Typography className={classes.singleLineText} type="body1" component="p"
+                                        onClick={this.props.handleCheckFollowingClick}>
+                                {this.props.following} following</Typography>{bull}
+                            <Typography className={classes.singleLineText} type="body1" component="p">
+                                2 followed</Typography>
                         </Typography>
                     </div>
                     <div className={classes.infoDiv}>
@@ -305,4 +325,4 @@ ControlPanel.propTypes = {
 // export default withStyles(styleSheet)(ControlPanel);
 module.exports = {
     ControlPanel: withStyles(styleSheet)(ControlPanel),
-}
+};

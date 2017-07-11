@@ -138,10 +138,20 @@ def user_detail(request, pk):
         return HttpResponse(status=204)
 
 
-def list_all_follower(request):
+def list_all_follow(request):
     user = request.user
-    followers = user.saved_users.all()
-    return render(request, 'users/follower_list.html', {'follower_list': followers})
+
+    followings = user.saved_users.all()
+    otherusers = User.objects.filter().exclude(username=user.username)
+    followeds = otherusers
+
+    for result in followeds:
+        if user not in result.saved_users.all():
+            followeds = followeds.exclude(username=result.username)
+
+    print('following', followings)
+    print('followed by', followeds)
+    return render(request, 'users/follow_list.html', {'following_list': followings, 'followed_list': followeds})
 
 
 def follow(request, username):

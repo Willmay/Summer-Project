@@ -54,3 +54,13 @@ class User(AbstractUser):
 
     def get_name(self):
         return self.get_full_name()
+
+        # def get_followed(self, cur):
+        #     otherusers = User.objects.filter().exclude(username=cur.username)
+        #
+        #     followeds = otherusers
+        #     for result in followeds:
+        #         if self not in result.saved_users.all():
+        #             followeds = followeds.exclude(username=result.username)
+        #
+        #     return followeds

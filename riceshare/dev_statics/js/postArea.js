@@ -166,4 +166,4 @@ PostArea.propTypes = {
 // export default PostArea;
 module.exports = {
     PostArea: withStyles(styleSheet)(PostArea),
-}
+};

@@ -29,13 +29,13 @@ def post_home(request):
         post_form = PostForm()
         user = request.user
         saved_users = user.saved_users.all()
-        follower_count = user.saved_users.count()
+        following_count = saved_users.count()
         sellers = Seller.objects.all()
         posts = Post.objects.filter(Q(user__in=saved_users) | Q(user=user))
         posts = posts.distinct().order_by('-created_at')
 
         return render(request, "post/post_home.html", context={"post_form": post_form, "posts": posts,
-                                                               "follower_count": follower_count, 'sellers': sellers})
+                                                               "following_count": following_count, 'sellers': sellers})
 
 
 def post_like(request, post_id):
@@ -65,6 +65,7 @@ def post_list(request):
     List all posts, or create a new post.
     """
     if request.method == 'GET':
+        # print(request.user)
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return JsonResponse(serializer.data, safe=False)

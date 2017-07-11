@@ -26765,7 +26765,7 @@ var NavBar = function (_React$Component6) {
             { to: '/react/userProfile' },
             _react2.default.createElement(
               _reactBootstrap.NavItem,
-              { eventKey: 5.4 },
+              { eventKey: 5.5 },
               'Profile'
             )
           ),
@@ -28461,7 +28461,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 _axios2.default.defaults.xsrfHeaderName = "X-CSRFToken";
 
-var styleSheet = (0, _styles.createStyleSheet)('InfoArea', function (theme) {
+var styleSheet = (0, _styles.createStyleSheet)('ControlPanel', function (theme) {
     return {
         root: {
             flexGrow: 1,
@@ -28477,9 +28477,13 @@ var styleSheet = (0, _styles.createStyleSheet)('InfoArea', function (theme) {
         infoDiv: {
             margin: theme.spacing.unit * 2
         },
+        singleLineText: {
+            display: 'inline-block'
+        },
         bullet: {
             display: 'inline-block',
-            margin: '0 2px',
+            marginLeft: theme.spacing.unit,
+            marginRight: theme.spacing.unit,
             transform: 'scale(0.8)'
         },
         button: {
@@ -28514,13 +28518,14 @@ var ControlPanel = function (_React$Component) {
             location: '',
             home: '',
             introduction: '',
+            following: 0,
             isEdit: false
         };
 
-        // this.handleEditClick = this.handleEditClick.bind(this);
         _this.handleInputChange = _this.handleInputChange.bind(_this);
         _this.handleUpdateSubmit = _this.handleUpdateSubmit.bind(_this);
         _this.handleEditClick = _this.handleEditClick.bind(_this);
+        _this.handleCheckFollowingClick = _this.handleCheckFollowingClick.bind(_this);
         return _this;
     }
 
@@ -28563,17 +28568,25 @@ var ControlPanel = function (_React$Component) {
             this.setState({ isEdit: true });
         }
     }, {
+        key: 'handleCheckFollowingClick',
+        value: function handleCheckFollowingClick() {
+            console.log('click!');
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var self = this;
             _axios2.default.get('/api/v1/users/3/').then(function (response) {
                 console.log(response.data);
+                console.log(response.data['saved_users']);
+                console.log(response.data['saved_users'].length);
                 self.setState({
                     username: response.data['username'],
                     name: response.data['name'],
                     location: response.data['location'],
                     home: response.data['home'],
-                    introduction: response.data['short_description']
+                    introduction: response.data['short_description'],
+                    following: response.data['saved_users'].length
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -28604,7 +28617,9 @@ var ControlPanel = function (_React$Component) {
                     location: this.state.location,
                     home: this.state.home,
                     introduction: this.state.introduction,
-                    handleEditClick: this.handleEditClick
+                    following: this.state.following,
+                    handleEditClick: this.handleEditClick,
+                    handleCheckFollowingClick: this.handleCheckFollowingClick
                 });
             }
 
@@ -28683,11 +28698,25 @@ var UserProfile = function (_React$Component2) {
                         _react2.default.createElement(
                             _Typography2.default,
                             { type: 'body1', component: 'p' },
-                            '1 post ',
+                            _react2.default.createElement(
+                                _Typography2.default,
+                                { className: classes.singleLineText, type: 'body1', component: 'p' },
+                                '1 post'
+                            ),
                             bull,
-                            ' 1 follower ',
+                            _react2.default.createElement(
+                                _Typography2.default,
+                                { className: classes.singleLineText, type: 'body1', component: 'p',
+                                    onClick: this.props.handleCheckFollowingClick },
+                                this.props.following,
+                                ' following'
+                            ),
                             bull,
-                            ' 2 followed'
+                            _react2.default.createElement(
+                                _Typography2.default,
+                                { className: classes.singleLineText, type: 'body1', component: 'p' },
+                                '2 followed'
+                            )
                         )
                     ),
                     _react2.default.createElement(

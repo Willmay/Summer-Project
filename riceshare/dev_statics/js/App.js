@@ -95,7 +95,7 @@ class NavBar extends React.Component{
     if (this.state.isLogedIn == 'True') {
       divs = <Nav>
           <LinkContainer to="/react/postArea"><NavItem eventKey={5.4}>Test</NavItem></LinkContainer>
-          <LinkContainer to="/react/userProfile"><NavItem eventKey={5.4}>Profile</NavItem></LinkContainer>
+          <LinkContainer to="/react/userProfile"><NavItem eventKey={5.5}>Profile</NavItem></LinkContainer>
 		  <LinkContainer to="/react/logout"><NavItem eventKey={5.3}>Logout</NavItem></LinkContainer>
 	  </Nav>
     }
