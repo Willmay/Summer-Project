@@ -18,10 +18,17 @@ import {
 import {
 	LinkContainer
 } from 'react-router-bootstrap';
-import { 
-  LoginForm, 
+import {MuiThemeProvider} from 'material-ui/styles';
+
+import {
+  LoginForm,
   SignupForm
-} from './UserManagement.js'
+} from './UserManagement.js';
+import {PostArea} from './postArea.js';
+import {ControlPanel} from './userProfile.js';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 class Home extends React.Component{
   render() {
@@ -53,6 +60,26 @@ class Topics extends React.Component{
   }
 }
 
+class PostHome extends React.Component {
+    render() {
+        return (
+            <MuiThemeProvider>
+                <PostArea />
+            </MuiThemeProvider>
+        );
+    }
+}
+
+class UserHome extends React.Component {
+    render() {
+        return (
+            <MuiThemeProvider>
+                <ControlPanel />
+            </MuiThemeProvider>
+        );
+    }
+}
+
 class NavBar extends React.Component{
 
   constructor() {
@@ -66,7 +93,11 @@ class NavBar extends React.Component{
   render() {
     let divs;
     if (this.state.isLogedIn == 'True') {
-      divs = <LinkContainer to="/react/logout"><NavItem eventKey={5.3}>Logout</NavItem></LinkContainer>
+      divs = <Nav>
+          <LinkContainer to="/react/postArea"><NavItem eventKey={5.4}>Test</NavItem></LinkContainer>
+          <LinkContainer to="/react/userProfile"><NavItem eventKey={5.5}>Profile</NavItem></LinkContainer>
+		  <LinkContainer to="/react/logout"><NavItem eventKey={5.3}>Logout</NavItem></LinkContainer>
+	  </Nav>
     }
     else {
       divs = <Nav>
@@ -84,7 +115,7 @@ class NavBar extends React.Component{
 		      </LinkContainer>
 		    </Navbar.Header>
 
-		      <Navbar.Form bsSize="sm">
+		      <Navbar.Form pullLeft>
 		        <FormGroup>
 		          <FormControl type="text" placeholder="Search" />
 		        </FormGroup>
@@ -104,11 +135,11 @@ class NavBar extends React.Component{
 		        </NavDropdown>
 		      </Nav>
 
-  		</Navbar> 		
+  		</Navbar>
 	  );
     }
 
-  
+
 };
 
 class App extends React.Component{
@@ -121,10 +152,12 @@ class App extends React.Component{
     	  <NavBar />
 
     	  <hr />
-        
+
           <Route exact path="/react" component={Home} />
           <Route path="/react/about" component={About} />
           <Route path="/react/topics" component={Topics} />
+		  <Route path="/react/postArea" component={PostHome}/>
+          <Route path="/react/userProfile" component={UserHome}/>
           <Route path="/react/login" component={LoginForm} />
           <Route path="/react/signup" component={SignupForm} />
 
@@ -133,7 +166,7 @@ class App extends React.Component{
     );
   }
 
-  
+
 };
 
 

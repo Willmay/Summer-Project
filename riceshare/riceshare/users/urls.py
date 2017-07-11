@@ -40,9 +40,9 @@ urlpatterns = [
         name='unfollow'
     ),
     url(
-        regex=r'^~followerlist/$',
-        view=views.list_all_follower,
-        name='followerlist'
+        regex=r'^~followlist/$',
+        view=views.list_all_follow,
+        name='followlist'
     ),
     url(
         regex=r'^~updatelocation/$',
