@@ -28515,11 +28515,13 @@ var ControlPanel = function (_React$Component) {
         _this.state = {
             username: '',
             name: '',
+            photo: null,
             location: '',
             home: '',
             introduction: '',
             following: 0,
-            isEdit: false
+            isEdit: false,
+            isEditPhoto: false
         };
 
         _this.handleInputChange = _this.handleInputChange.bind(_this);
@@ -28533,7 +28535,15 @@ var ControlPanel = function (_React$Component) {
         key: 'handleInputChange',
         value: function handleInputChange(event) {
             var target = event.target;
-            var value = target.value;
+            var value = null;
+
+            if (target.type == 'file') {
+                this.setState({ isEditPhoto: true });
+                value = target.files[0];
+            } else {
+                value = target.value;
+            }
+            // const value = target.value;
             var name = target.name;
 
             this.setState(_defineProperty({}, name, value));
@@ -28541,26 +28551,36 @@ var ControlPanel = function (_React$Component) {
     }, {
         key: 'handleUpdateSubmit',
         value: function handleUpdateSubmit(event) {
-            var self = this;
-            console.log(this.state.username);
-            var updateInfo = {
-                username: this.state.username,
-                name: this.state.name,
-                location: this.state.location,
-                home: this.state.home,
-                short_description: this.state.introduction
-            };
+            event.preventDefault();
 
-            _axios2.default.put('/api/v1/users/3/', updateInfo).then(function (response) {
+            var self = this;
+            console.log(this.state.photo);
+
+            var updateInfo = new FormData();
+            updateInfo.append('username', this.state.username);
+            updateInfo.append('name', this.state.name);
+            if (this.state.isEditPhoto) {
+                updateInfo.append('photo', this.state.photo);
+            }
+            updateInfo.append('location', this.state.location);
+            updateInfo.append('home', this.state.home);
+            updateInfo.append('short_description', this.state.introduction);
+
+            _axios2.default.put('/api/v1/users/3/', updateInfo, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function (response) {
                 console.log('updated successfully');
+                console.log(response);
                 self.setState({
-                    isEdit: false
+                    isEdit: false,
+                    photo: response.data['photo'],
+                    isEditPhoto: false
                 });
             }).catch(function (error) {
                 console.log(error);
             });
-
-            event.preventDefault();
         }
     }, {
         key: 'handleEditClick',
@@ -28575,15 +28595,15 @@ var ControlPanel = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            console.log('load!');
             var self = this;
             // could change to user in database
             _axios2.default.get('/api/v1/users/3/').then(function (response) {
                 console.log(response.data);
-                console.log(response.data['saved_users']);
-                console.log(response.data['saved_users'].length);
                 self.setState({
                     username: response.data['username'],
                     name: response.data['name'],
+                    photo: response.data['photo'],
                     location: response.data['location'],
                     home: response.data['home'],
                     introduction: response.data['short_description'],
@@ -28604,10 +28624,12 @@ var ControlPanel = function (_React$Component) {
                 div = _react2.default.createElement(UpdateProfileForm, {
                     myClassStyle: classes,
                     name: this.state.name,
+                    photo: this.state.photo,
                     location: this.state.location,
                     home: this.state.home,
                     introduction: this.state.introduction,
                     handleInputChange: this.handleInputChange,
+                    handleImageChange: this.handleImageChange,
                     handleUpdateSubmit: this.handleUpdateSubmit
                 });
             } else {
@@ -28615,6 +28637,7 @@ var ControlPanel = function (_React$Component) {
                     myClassStyle: classes,
                     username: this.state.username,
                     name: this.state.name,
+                    photo: this.state.photo,
                     location: this.state.location,
                     home: this.state.home,
                     introduction: this.state.introduction,
@@ -28672,7 +28695,7 @@ var UserProfile = function (_React$Component2) {
                     { item: true, sm: 12, md: 4 },
                     _react2.default.createElement(_Avatar2.default, {
                         alt: '',
-                        src: '../../media/user_pic/Lin1.jpg',
+                        src: this.props.photo,
                         className: (0, _classnames2.default)(classes.avatar, classes.bigAvatar)
                     })
                 ),
@@ -28748,23 +28771,6 @@ var UpdateProfileForm = function (_React$Component3) {
 
     _createClass(UpdateProfileForm, [{
         key: 'render',
-
-        // handleImageChange(event) {
-        //     const path='/media/user_pic/';
-        //     let reader = new FileReader();
-        //     let file = event.target.files[0];
-        //     console.log(file);
-        //
-        //     reader.onloadend = () => {
-        //         this.setState({
-        //             file: path.concat(file.name),
-        //             //imagePreviewUrl: reader.result
-        //         });
-        //     };
-        //
-        //     reader.readAsDataURL(file);
-        // }
-
         value: function render() {
             var classes = this.props.myClassStyle;
 
@@ -28783,6 +28789,12 @@ var UpdateProfileForm = function (_React$Component3) {
                         onChange: this.props.handleInputChange,
                         InputProps: { placeholder: 'Name' },
                         marginForm: true
+                    }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', {
+                        name: 'photo',
+                        type: 'file',
+                        onChange: this.props.handleInputChange
                     }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(_TextField2.default, {

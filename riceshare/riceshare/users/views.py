@@ -16,13 +16,13 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework import status, permissions
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProfileReadSerializer, ProfileUpdateSerializer
 
 from .geohash import StaticVariable
 from .geohash import GeoHash
@@ -107,6 +107,9 @@ def list_all_user(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST', 'PUT'])
+@parser_classes((JSONParser, FormParser, MultiPartParser,))
+@permission_classes((permissions.AllowAny,))
 def user_detail(request, pk):
     """
     Retrieve, update or delete a user.
@@ -118,24 +121,25 @@ def user_detail(request, pk):
 
     if request.method == 'GET':
         # serializer = UserSerializer(user)
-        serializer = ProfileSerializer(user)
-        return JsonResponse(serializer.data)
+        serializer = ProfileReadSerializer(user)
+        return Response(serializer.data)
 
     # some attributes cannot be null, must give the value to them in front page.
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
+        photo = request.data.get('photo')
+        print(photo)
         # serializer = UserSerializer(user, data=data)
-        serializer = ProfileSerializer(user, data=data)
+        serializer = ProfileUpdateSerializer(user, data=request.data)
         print(serializer)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         user.delete()
-        return HttpResponse(status=204)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 def list_all_follow(request):

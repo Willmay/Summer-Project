@@ -66,11 +66,13 @@ class ControlPanel extends React.Component {
         this.state = {
             username: '',
             name: '',
+            photo: null,
             location: '',
             home: '',
             introduction: '',
             following: 0,
             isEdit: false,
+            isEditPhoto: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -81,7 +83,15 @@ class ControlPanel extends React.Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const value = target.value;
+        let value = null;
+
+        if (target.type == 'file') {
+            this.setState({isEditPhoto: true});
+            value = target.files[0];
+        } else {
+            value = target.value;
+        }
+        // const value = target.value;
         const name = target.name;
 
         this.setState({
@@ -90,26 +100,36 @@ class ControlPanel extends React.Component {
     }
 
     handleUpdateSubmit(event) {
-        let self = this;
-        console.log(this.state.username);
-        const updateInfo = {
-            username: this.state.username,
-            name: this.state.name,
-            location: this.state.location,
-            home: this.state.home,
-            short_description: this.state.introduction,
-        };
+        event.preventDefault();
 
-        axios.put('/api/v1/users/3/', updateInfo).then(response => {
+        let self = this;
+        console.log(this.state.photo);
+
+        let updateInfo = new FormData();
+        updateInfo.append('username', this.state.username);
+        updateInfo.append('name', this.state.name);
+        if (this.state.isEditPhoto) {
+            updateInfo.append('photo', this.state.photo);
+        }
+        updateInfo.append('location', this.state.location);
+        updateInfo.append('home', this.state.home);
+        updateInfo.append('short_description', this.state.introduction);
+
+        axios.put('/api/v1/users/3/', updateInfo, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }).then(response => {
             console.log('updated successfully');
+            console.log(response);
             self.setState({
                 isEdit: false,
+                photo: response.data['photo'],
+                isEditPhoto: false,
             });
         }).catch(error => {
             console.log(error);
         });
-
-        event.preventDefault();
     }
 
     handleEditClick() {
@@ -121,15 +141,15 @@ class ControlPanel extends React.Component {
     }
 
     componentDidMount() {
+        console.log('load!');
         let self = this;
         // could change to user in database
         axios.get('/api/v1/users/3/').then(response => {
             console.log(response.data);
-            console.log(response.data['saved_users']);
-            console.log(response.data['saved_users'].length);
             self.setState({
                 username: response.data['username'],
                 name: response.data['name'],
+                photo: response.data['photo'],
                 location: response.data['location'],
                 home: response.data['home'],
                 introduction: response.data['short_description'],
@@ -150,10 +170,12 @@ class ControlPanel extends React.Component {
                 <UpdateProfileForm
                     myClassStyle={classes}
                     name={this.state.name}
+                    photo={this.state.photo}
                     location={this.state.location}
                     home={this.state.home}
                     introduction={this.state.introduction}
                     handleInputChange={this.handleInputChange}
+                    handleImageChange={this.handleImageChange}
                     handleUpdateSubmit={this.handleUpdateSubmit}
                 />;
         } else {
@@ -162,6 +184,7 @@ class ControlPanel extends React.Component {
                     myClassStyle={classes}
                     username={this.state.username}
                     name={this.state.name}
+                    photo={this.state.photo}
                     location={this.state.location}
                     home={this.state.home}
                     introduction={this.state.introduction}
@@ -200,7 +223,7 @@ class UserProfile extends React.Component {
                 <Grid item sm={12} md={4}>
                     <Avatar
                         alt=""
-                        src="../../media/user_pic/Lin1.jpg"
+                        src={this.props.photo}
                         className={classNames(classes.avatar, classes.bigAvatar)}
                     />
                 </Grid>
@@ -237,22 +260,6 @@ class UserProfile extends React.Component {
 
 
 class UpdateProfileForm extends React.Component {
-    // handleImageChange(event) {
-    //     const path='/media/user_pic/';
-    //     let reader = new FileReader();
-    //     let file = event.target.files[0];
-    //     console.log(file);
-    //
-    //     reader.onloadend = () => {
-    //         this.setState({
-    //             file: path.concat(file.name),
-    //             //imagePreviewUrl: reader.result
-    //         });
-    //     };
-    //
-    //     reader.readAsDataURL(file);
-    // }
-
     render() {
         const classes = this.props.myClassStyle;
 
@@ -268,6 +275,12 @@ class UpdateProfileForm extends React.Component {
                         onChange={this.props.handleInputChange}
                         InputProps={{placeholder: 'Name'}}
                         marginForm
+                    />
+                    <br/>
+                    <input
+                        name="photo"
+                        type="file"
+                        onChange={this.props.handleInputChange}
                     />
                     <br/>
                     <TextField

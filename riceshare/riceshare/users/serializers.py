@@ -27,9 +27,16 @@ class UserSerializer(serializers.ModelSerializer):
 	"""
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
             'username', 'name', 'photo', 'location', 'background', 'home', 'short_description', 'saved_users', 'id',
             'pk')
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username', 'name', 'photo', 'location', 'background', 'home', 'short_description', 'id', 'pk')
