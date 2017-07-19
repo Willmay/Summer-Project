@@ -5,24 +5,44 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 
+import {
+    Nav,
+    NavItem,
+    Tab,
+    Col,
+    Row,
+} from 'react-bootstrap';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {withStyles, createStyleSheet} from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
+import {FormControl, FormGroup} from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import List, {ListItem, ListItemAvatar, ListItemText} from 'material-ui/List';
+import Dialog, {DialogTitle} from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
+import Slide from 'material-ui/transitions/Slide';
 
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 
 const styleSheet = createStyleSheet('ControlPanel', theme => ({
+    // for main component
     root: {
         flexGrow: 1,
         marginTop: 30,
     },
+
+    // for profile component
     avatar: {
         margin: 10,
     },
@@ -48,14 +68,31 @@ const styleSheet = createStyleSheet('ControlPanel', theme => ({
         padding: '0 30px',
     },
 
+    // for update form component
     container: {
         display: 'flex',
         flexWrap: 'wrap',
     },
-    input: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: 500,
+    profileForm: {
+        paddingLeft: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit * 2,
+        width: '100%',
+    },
+    formButton: {
+        verticalAlign: 'middle',
+        // marginRight: theme.spacing.unit,
+        padding: '0 30px',
+    },
+    nameInput: {
+        marginBottom: theme.spacing.unit,
+    },
+
+    // for dialog component
+    appBar: {
+        position: 'relative',
+    },
+    flex: {
+        flex: 1,
     },
 }));
 
@@ -63,6 +100,7 @@ const styleSheet = createStyleSheet('ControlPanel', theme => ({
 class ControlPanel extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             username: '',
             name: '',
@@ -70,7 +108,8 @@ class ControlPanel extends React.Component {
             location: '',
             home: '',
             introduction: '',
-            following: 0,
+            followings: [],
+            followingCount: 0,
             isEdit: false,
             isEditPhoto: false,
         };
@@ -78,7 +117,6 @@ class ControlPanel extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
         this.handleEditClick = this.handleEditClick.bind(this);
-        this.handleCheckFollowingClick = this.handleCheckFollowingClick.bind(this);
     }
 
     handleInputChange(event) {
@@ -136,16 +174,13 @@ class ControlPanel extends React.Component {
         this.setState({isEdit: true});
     }
 
-    handleCheckFollowingClick() {
-        console.log('click!');
-    }
-
     componentDidMount() {
         console.log('load!');
         let self = this;
         // could change to user in database
         axios.get('/api/v1/users/3/').then(response => {
             console.log(response.data);
+            console.log(response.data['saved_users']);
             self.setState({
                 username: response.data['username'],
                 name: response.data['name'],
@@ -153,7 +188,8 @@ class ControlPanel extends React.Component {
                 location: response.data['location'],
                 home: response.data['home'],
                 introduction: response.data['short_description'],
-                following: response.data['saved_users'].length,
+                followings: response.data['saved_users'],
+                followingCount: response.data['saved_users'].length,
             });
         }).catch(error => {
             console.log(error);
@@ -167,31 +203,34 @@ class ControlPanel extends React.Component {
         let div = null;
         if (isEdit) {
             div =
-                <UpdateProfileForm
-                    myClassStyle={classes}
-                    name={this.state.name}
-                    photo={this.state.photo}
-                    location={this.state.location}
-                    home={this.state.home}
-                    introduction={this.state.introduction}
-                    handleInputChange={this.handleInputChange}
-                    handleImageChange={this.handleImageChange}
-                    handleUpdateSubmit={this.handleUpdateSubmit}
-                />;
+                <Grid item md={8}>
+                    <UpdateProfileTab
+                        myClassStyle={classes}
+                        name={this.state.name}
+                        photo={this.state.photo}
+                        location={this.state.location}
+                        home={this.state.home}
+                        introduction={this.state.introduction}
+                        handleInputChange={this.handleInputChange}
+                        handleUpdateSubmit={this.handleUpdateSubmit}
+                    />
+                </Grid>;
         } else {
             div =
-                <UserProfile
-                    myClassStyle={classes}
-                    username={this.state.username}
-                    name={this.state.name}
-                    photo={this.state.photo}
-                    location={this.state.location}
-                    home={this.state.home}
-                    introduction={this.state.introduction}
-                    following={this.state.following}
-                    handleEditClick={this.handleEditClick}
-                    handleCheckFollowingClick={this.handleCheckFollowingClick}
-                />;
+                <Grid item md={6}>
+                    <UserProfile
+                        myClassStyle={classes}
+                        username={this.state.username}
+                        name={this.state.name}
+                        photo={this.state.photo}
+                        location={this.state.location}
+                        home={this.state.home}
+                        introduction={this.state.introduction}
+                        followings={this.state.followings}
+                        followingCount={this.state.followingCount}
+                        handleEditClick={this.handleEditClick}
+                    />
+                </Grid>;
         }
 
         return (
@@ -200,9 +239,7 @@ class ControlPanel extends React.Component {
                     <Grid item xs>
                     </Grid>
 
-                    <Grid item md={6}>
-                        {div}
-                    </Grid>
+                    {div}
 
                     <Grid item xs>
                     </Grid>
@@ -214,6 +251,25 @@ class ControlPanel extends React.Component {
 
 
 class UserProfile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            open: false,
+        };
+
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
+    }
+
+    handleRequestClose() {
+        this.setState({open: false});
+    }
+
+    handleOpen() {
+        this.setState({open: true});
+    }
+
     render() {
         const classes = this.props.myClassStyle;
         const bull = <span className={classes.bullet}>•</span>;
@@ -241,8 +297,8 @@ class UserProfile extends React.Component {
                             <Typography className={classes.singleLineText} type="body1" component="p">
                                 1 post</Typography>{bull}
                             <Typography className={classes.singleLineText} type="body1" component="p"
-                                        onClick={this.props.handleCheckFollowingClick}>
-                                {this.props.following} following</Typography>{bull}
+                                        onClick={this.handleOpen}>
+                                {this.props.followingCount} following</Typography>{bull}
                             <Typography className={classes.singleLineText} type="body1" component="p">
                                 2 followed</Typography>
                         </Typography>
@@ -252,6 +308,12 @@ class UserProfile extends React.Component {
                             {this.props.name}
                         </Typography>
                     </div>
+                    <FollowingDialog
+                        myClassStyle={classes}
+                        followings={this.props.followings}
+                        open={this.state.open}
+                        handleRequestClose={this.handleRequestClose}
+                    />
                 </Grid>
             </Grid>
         );
@@ -259,78 +321,185 @@ class UserProfile extends React.Component {
 }
 
 
-class UpdateProfileForm extends React.Component {
+class UpdateProfileTab extends React.Component {
     render() {
         const classes = this.props.myClassStyle;
 
         return (
-            <div className={classes.container}>
-                <form encType="multipart/form-data">
-                    <TextField
-                        name="name"
-                        label="Edit your name"
-                        className={classes.input}
-                        type="text"
-                        value={this.props.name}
-                        onChange={this.props.handleInputChange}
-                        InputProps={{placeholder: 'Name'}}
-                        marginForm
-                    />
-                    <br/>
-                    <input
-                        name="photo"
-                        type="file"
-                        onChange={this.props.handleInputChange}
-                    />
-                    <br/>
-                    <TextField
-                        name="location"
-                        label="Edit your location"
-                        className={classes.input}
-                        type="text"
-                        value={this.props.location}
-                        onChange={this.props.handleInputChange}
-                        InputProps={{placeholder: 'Location'}}
-                        marginForm
-                    />
-                    <br/>
-                    <TextField
-                        name="home"
-                        label="Edit your home address"
-                        className={classes.input}
-                        type="text"
-                        value={this.props.home}
-                        onChange={this.props.handleInputChange}
-                        InputProps={{placeholder: 'Home'}}
-                        marginForm
-                    />
-                    <br/>
-                    <TextField
-                        name="introduction"
-                        label="Edit your introduction"
-                        className={classes.input}
-                        multiline
-                        rows="3"
-                        type="text"
-                        value={this.props.introduction}
-                        onChange={this.props.handleInputChange}
-                        InputProps={{placeholder: 'Introduction'}}
-                        marginForm
-                    />
-                    <br/>
-                    <Button
-                        raised
-                        color="primary"
-                        className={classes.button}
-                        onClick={this.props.handleUpdateSubmit}>
-                        Update
-                    </Button>
-                </form>
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row className="clearfix">
+                    <Col sm={3}>
+                        <Nav bsStyle="pills" stacked>
+                            <NavItem eventKey="first">
+                                Edit Profile
+                            </NavItem>
+                            <NavItem eventKey="second">
+                                Change Password
+                            </NavItem>
+                        </Nav>
+                    </Col>
+
+                    <Col sm={9}>
+                        <Tab.Content animation>
+                            <Tab.Pane eventKey="first">
+                                <form className={classes.profileForm} encType="multipart/form-data">
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="name"
+                                            className={classes.nameInput}
+                                            label="Edit your name"
+                                            type="text"
+                                            value={this.props.name}
+                                            onChange={this.props.handleInputChange}
+                                            InputProps={{placeholder: 'Name'}}
+                                        />
+                                    </FormControl>
+                                    <FormControl marginForm>
+                                        <input
+                                            name="photo"
+                                            type="file"
+                                            onChange={this.props.handleInputChange}
+                                        />
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="location"
+                                            label="Edit your location"
+                                            type="text"
+                                            value={this.props.location}
+                                            onChange={this.props.handleInputChange}
+                                            InputProps={{placeholder: 'Location'}}
+                                            marginForm
+                                        />
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="home"
+                                            label="Edit your home address"
+                                            type="text"
+                                            value={this.props.home}
+                                            onChange={this.props.handleInputChange}
+                                            InputProps={{placeholder: 'Home'}}
+                                            marginForm
+                                        />
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="introduction"
+                                            label="Edit your introduction"
+                                            multiline
+                                            rows="3"
+                                            type="text"
+                                            value={this.props.introduction}
+                                            onChange={this.props.handleInputChange}
+                                            InputProps={{placeholder: 'Introduction'}}
+                                            marginForm
+                                        />
+                                    </FormControl>
+                                    <FormGroup row>
+                                        <Button
+                                            raised
+                                            color="primary"
+                                            className={classes.formButton}
+                                            onClick={this.props.handleUpdateSubmit}>
+                                            Update
+                                        </Button>
+                                    </FormGroup>
+                                </form>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                                <form className={classes.profileForm}>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="oldPwd"
+                                            className={classes.nameInput}
+                                            label="Input your old password"
+                                            type="password"
+                                            InputProps={{placeholder: 'Old Password'}}
+                                        />
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="newPwd"
+                                            label="Input your new password"
+                                            type="password"
+                                            InputProps={{placeholder: 'New Password'}}
+                                            marginForm
+                                        />
+                                    </FormControl>
+                                    <FormControl fullWidth>
+                                        <TextField
+                                            name="confirmPwd"
+                                            label="Input again"
+                                            type="password"
+                                            InputProps={{placeholder: 'Confirm Password'}}
+                                            marginForm
+                                        />
+                                    </FormControl>
+                                    <FormGroup row>
+                                        <Button
+                                            raised
+                                            color="primary"
+                                            className={classes.formButton}>
+                                            Confirm
+                                        </Button>
+                                    </FormGroup>
+                                </form>
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
+        );
+    }
+}
+
+
+class FollowingDialog extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const classes = this.props.myClassStyle;
+
+        return (
+            <div>
+                <Dialog
+                    fullScreen
+                    open={this.props.open}
+                    onRequestClose={this.props.handleRequestClose}
+                    transition={<Slide direction="up"/>}
+                >
+                    <AppBar className={classes.appBar}>
+                        <Toolbar>
+                            <IconButton color="contrast" onClick={this.props.handleRequestClose} aria-label="Close">
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography type="title" color="inherit" className={classes.flex}>
+                                My Followings
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <List>
+                        <ListItem>
+                            <ListItemText primary="username 1" secondary="name 1"/>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <ListItemText primary="username 2" secondary="name 2"/>
+                        </ListItem>
+                    </List>
+                </Dialog>
             </div>
         );
     }
 }
 
+
+FollowingDialog.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 ControlPanel.propTypes = {
     classes: PropTypes.object.isRequired,

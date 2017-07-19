@@ -26,6 +26,7 @@ const styleSheet = createStyleSheet('PostsList', theme => ({
 class PostArea extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             post: '',
             results: [],
