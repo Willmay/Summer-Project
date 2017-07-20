@@ -55,7 +55,7 @@ class LoginForm extends React.Component{
 
   render() {
     return (
-      <fieldset>
+      
       <Form horizontal onSubmit={this.handleClick}>
 
         <FieldGroup
@@ -65,6 +65,7 @@ class LoginForm extends React.Component{
           placeholder="Please enter your username"
           value={this.state.username}
           onChange={this.handleUsernameChange}
+          required="true"
         />
 
         <FieldGroup
@@ -74,6 +75,7 @@ class LoginForm extends React.Component{
           placeholder="Please enter your password"
           value={this.state.password}
           onChange={this.handlePasswordChange}
+          required="true"
         />
 
         <FormGroup>
@@ -93,7 +95,7 @@ class LoginForm extends React.Component{
         </FormGroup>
 
       </Form>
-      </fieldset>
+      
     );
   }
 
@@ -113,14 +115,15 @@ class SignupForm extends React.Component{
     this.handleClick = this.handleClick.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
 
   handleClick(event) {
     axios.post('http://localhost:8000/api/v1/users/', {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      email: email
     })
     .then(function (response) {
       console.log(response.data);
@@ -157,6 +160,7 @@ class SignupForm extends React.Component{
           placeholder="Please enter your username"
           value={this.state.username}
           onChange={this.handleUsernameChange}
+          required="true"
         />
 
         <FieldGroup
@@ -166,6 +170,7 @@ class SignupForm extends React.Component{
           placeholder="Please enter your email"
           value={this.state.email}
           onChange={this.handleEmailChange}
+          required="true"
         />
 
         <FieldGroup
@@ -175,6 +180,17 @@ class SignupForm extends React.Component{
           placeholder="Please enter your password"
           value={this.state.password}
           onChange={this.handlePasswordChange}
+          required="true"
+        />
+
+        <FieldGroup 
+          id="formControlsSignupPasswordAgain"
+          label="Password"
+          type="password"
+          placeholder="Please enter your password"
+          value={this.state.password}
+          onChange={this.handlePasswordChange}
+          required="true"
         />
 
         <FormGroup>

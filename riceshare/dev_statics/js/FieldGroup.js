@@ -19,6 +19,7 @@ class FieldGroup extends React.Component {
 	        	placeholder={this.props.placeholder}
 	        	onChange={this.props.onChange}
 	        	aria-label={this.props.label}
+	        	required={this.props.required}
 	        />
 	    </Col>
         {this.props.help && <HelpBlock>{this.props.help}</HelpBlock>}
