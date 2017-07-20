@@ -41,7 +41,6 @@ pytz==2017.2
 
 # Rest framework
 djangorestframework===3.6.3
-djangorestframework-jwt===1.11.0
 
 # Markdown
 markdown===2.1.0

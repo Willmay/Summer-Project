@@ -10,7 +10,7 @@ from django.contrib.auth.hashers import make_password, is_password_usable, check
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -75,9 +75,16 @@ def login(request):
     u = authenticate(username = request.data.get('username'), password = request.data.get('password'))
     if u is None:
         return HttpResponse(status=403)
+    login(request, u)
     serializer = UserSerializer(u)
     return Response(serializer.data)
         
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def logout(request):
+    logout(request)
+    return Response(serializer.data)
 
 
 
@@ -99,6 +106,8 @@ def user_list(request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            u = authenticate(username = request.data.get('username'), password = request.data.get('password'))
+            login(request, u)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
