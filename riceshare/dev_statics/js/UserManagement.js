@@ -12,21 +12,21 @@ import { FieldGroup } from './FieldGroup.js'
 
 
 class LoginForm extends React.Component{
-  
+
   constructor() {
     super();
     this.state = {
       username: '',
       password: ''
     };
-    
+
     this.handleClick = this.handleClick.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    
+
   }
-  
-  
+
+
   handleClick(event) {
     axios.post('http://localhost:8000/api/v1/users/login', {
       username: this.state.username,
@@ -51,14 +51,14 @@ class LoginForm extends React.Component{
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
-  
+
 
   render() {
     return (
       
       <Form horizontal onSubmit={this.handleClick}>
 
-        <FieldGroup 
+        <FieldGroup
           id="formControlsLoginUsername"
           type="text"
           label="Username"
@@ -68,7 +68,7 @@ class LoginForm extends React.Component{
           required="true"
         />
 
-        <FieldGroup 
+        <FieldGroup
           id="formControlsLoginPassword"
           label="Password"
           type="password"
@@ -99,11 +99,11 @@ class LoginForm extends React.Component{
     );
   }
 
-  
+
 };
 
 class SignupForm extends React.Component{
-  
+
   constructor() {
     super();
     this.state = {
@@ -111,14 +111,14 @@ class SignupForm extends React.Component{
       password: '',
       email: ''
     };
-    
+
     this.handleClick = this.handleClick.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
   }
-  
-  
+
+
   handleClick(event) {
     axios.post('http://localhost:8000/api/v1/users/', {
       username: this.state.username,
@@ -144,7 +144,7 @@ class SignupForm extends React.Component{
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
-  
+
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
@@ -153,7 +153,7 @@ class SignupForm extends React.Component{
     return (
       <Form horizontal onSubmit={this.handleClick}>
 
-        <FieldGroup 
+        <FieldGroup
           id="formControlsSignupUsername"
           type="text"
           label="Username"
@@ -163,7 +163,7 @@ class SignupForm extends React.Component{
           required="true"
         />
 
-        <FieldGroup 
+        <FieldGroup
           id="formControlsSignupEmail"
           type="email"
           label="Email"
@@ -173,7 +173,7 @@ class SignupForm extends React.Component{
           required="true"
         />
 
-        <FieldGroup 
+        <FieldGroup
           id="formControlsSignupPassword"
           label="Password"
           type="password"
@@ -205,7 +205,7 @@ class SignupForm extends React.Component{
     );
   }
 
-  
+
 };
 
 /*

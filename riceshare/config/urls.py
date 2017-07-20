@@ -13,6 +13,7 @@ from rest_framework import routers, serializers, viewsets
 
 apirouter = [
     url(r'^users/', include('riceshare.users.apiurls')),
+    url(r'^posts/', include('riceshare.post.apiurls')),
 ]
 
 urlpatterns = [

@@ -22,7 +22,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 
 from .geohash import StaticVariable
 from .geohash import GeoHash
@@ -46,7 +46,6 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     fields = ['name', 'photo', 'background', 'location', 'home', 'short_description', ]
 
     # we already imported User in the view code above, remember?
@@ -68,25 +67,17 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
+
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def login(request):
-    u = authenticate(username = request.data.get('username'), password = request.data.get('password'))
+    u = authenticate(username=request.data.get('username'), password=request.data.get('password'))
     if u is None:
         return HttpResponse(status=403)
     login(request, u)
     serializer = UserSerializer(u)
     return Response(serializer.data)
-        
-@csrf_exempt
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
-def logout(request):
-    logout(request)
-    return Response(serializer.data)
-
-
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -111,9 +102,11 @@ def user_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 def list_all_user(request):
     users = User.objects.all()
     return render(request, 'users/user_list.html', {'user_list': users})
+
 
 @csrf_exempt
 def user_detail(request, pk):
@@ -126,12 +119,17 @@ def user_detail(request, pk):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = UserSerializer(user)
+        # serializer = UserSerializer(user)
+        serializer = ProfileSerializer(user)
         return JsonResponse(serializer.data)
 
+    # some attributes cannot be null, must give the value to them in front page.
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = UserSerializer(user, data=data)
+        # serializer = UserSerializer(user, data=data)
+        serializer = ProfileSerializer(user, data=data)
+        print(serializer)
+
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
@@ -142,10 +140,20 @@ def user_detail(request, pk):
         return HttpResponse(status=204)
 
 
-def list_all_follower(request):
+def list_all_follow(request):
     user = request.user
-    followers = user.saved_users.all()
-    return render(request, 'users/follower_list.html', {'follower_list': followers})
+
+    followings = user.saved_users.all()
+    otherusers = User.objects.filter().exclude(username=user.username)
+    followeds = otherusers
+
+    for result in followeds:
+        if user not in result.saved_users.all():
+            followeds = followeds.exclude(username=result.username)
+
+    print('following', followings)
+    print('followed by', followeds)
+    return render(request, 'users/follow_list.html', {'following_list': followings, 'followed_list': followeds})
 
 
 def follow(request, username):
@@ -171,6 +179,7 @@ def unfollow(request, username):
         else:
             return redirect(user.get_absolute_url())
 
+
 def updateLocation(request):
     if request.method == 'GET':
         user = request.user
@@ -181,11 +190,12 @@ def updateLocation(request):
         print("user before latitude" + user.latitude)
         if user.latitude != latitude or user.longtitude != longtitude:
             user.longtitude = longtitude
-            user.latitude =latitude
+            user.latitude = latitude
             user.geohash = GeoHash().encode(float(latitude), float(longtitude), 12)
             user.save()
             print("user new latitude" + user.latitude)
         return redirect("post:post_home")
+
 
 def findNearest(request):
     if request.method == 'GET':
@@ -193,9 +203,7 @@ def findNearest(request):
         geo_string = user.geohash[:5]
         print("********************************************************")
         print(geo_string)
-        users_neareast = User.objects.filter(geohash__startswith = geo_string)
+        users_neareast = User.objects.filter(geohash__startswith=geo_string)
         return render(request, 'post/users_nearest.html', {'users_neareast': users_neareast})
     else:
         return HttpResponse("nearest location failed")
-
-
