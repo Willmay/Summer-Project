@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from './configureStore';
 import {
   BrowserRouter as Router,
   Route,
@@ -28,6 +30,9 @@ import {PostArea} from './postArea.js';
 import {ControlPanel} from './userProfile.js';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+const store = configureStore();
+
 injectTapEventPlugin();
 
 class Home extends React.Component{
@@ -147,22 +152,24 @@ class App extends React.Component{
   render() {
 
     return (
-      <Router>
-    	<div>
-    	  <NavBar />
+      <Provider store={store}>
+        <Router>
+        	<div>
+        	  <NavBar />
 
-    	  <hr />
+        	  <hr />
 
-          <Route exact path="/react" component={Home} />
-          <Route path="/react/about" component={About} />
-          <Route path="/react/topics" component={Topics} />
-		  <Route path="/react/postArea" component={PostHome}/>
-          <Route path="/react/userProfile" component={UserHome}/>
-          <Route path="/react/login" component={LoginForm} />
-          <Route path="/react/signup" component={SignupForm} />
+              <Route exact path="/react" component={Home} />
+              <Route path="/react/about" component={About} />
+              <Route path="/react/topics" component={Topics} />
+    		  <Route path="/react/postArea" component={PostHome}/>
+              <Route path="/react/userProfile" component={UserHome}/>
+              <Route path="/react/login" component={LoginForm} />
+              <Route path="/react/signup" component={SignupForm} />
 
-    	</div>
-      </Router>
+        	</div>
+        </Router>
+      </Provider>
     );
   }
 
