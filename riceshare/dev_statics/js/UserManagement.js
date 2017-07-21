@@ -1,6 +1,7 @@
 import React from 'react';
 //import ReactDOM from 'react-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { login } from './actions';
 import {
   Button,
   Form,
@@ -28,20 +29,8 @@ class LoginForm extends React.Component{
 
 
   handleClick(event) {
-    axios.post('http://localhost:8000/api/v1/users/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
-    .then(function (response) {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
     event.preventDefault();
+    this.props.dispatch(login(this.state.username, this.state.password));
   }
 
   handleUsernameChange(event) {
@@ -54,9 +43,15 @@ class LoginForm extends React.Component{
 
 
   render() {
+    const {id, isFetching} = this.props;
     return (
-      
+    <div>
+      <div>
+        <p>id = {id}, isFetching = {isFetching} </p>
+      </div>
+
       <Form horizontal onSubmit={this.handleClick}>
+
 
         <FieldGroup
           id="formControlsLoginUsername"
@@ -95,12 +90,29 @@ class LoginForm extends React.Component{
         </FormGroup>
 
       </Form>
-      
+    </div>
     );
   }
-
-
 };
+
+function mapLoginStateToProps(state) {
+  const { mainUser } = state;
+  const {
+    isFetching,
+    lastUpdated,
+    id
+  } = mainUser || {
+    isFetching: true,
+    id: null
+  };
+
+  return {
+    id,
+    isFetching
+  };
+};
+
+const connectLoginForm = connect(mapLoginStateToProps)(LoginForm);
 
 class SignupForm extends React.Component{
 
@@ -217,6 +229,6 @@ ReactDOM.render(
 
 
 module.exports = {
-  LoginForm: LoginForm,
-  SignupForm: SignupForm,
+  LoginForm: connectLoginForm,
+  SignupForm: SignupForm
 }
