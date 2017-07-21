@@ -80,6 +80,7 @@ const styleSheet = createStyleSheet('ControlPanel', theme => ({
     },
     formButton: {
         verticalAlign: 'middle',
+        marginTop: theme.spacing.unit,
         // marginRight: theme.spacing.unit,
         padding: '0 30px',
     },
@@ -109,7 +110,6 @@ class ControlPanel extends React.Component {
             home: '',
             introduction: '',
             followings: [],
-            followingCount: 0,
             isEdit: false,
             isEditPhoto: false,
         };
@@ -180,7 +180,7 @@ class ControlPanel extends React.Component {
         // could change to user in database
         axios.get('/api/v1/users/3/').then(response => {
             console.log(response.data);
-            console.log(response.data['saved_users']);
+            // console.log(response.data['saved_users']);
             self.setState({
                 username: response.data['username'],
                 name: response.data['name'],
@@ -189,7 +189,6 @@ class ControlPanel extends React.Component {
                 home: response.data['home'],
                 introduction: response.data['short_description'],
                 followings: response.data['saved_users'],
-                followingCount: response.data['saved_users'].length,
             });
         }).catch(error => {
             console.log(error);
@@ -227,7 +226,6 @@ class ControlPanel extends React.Component {
                         home={this.state.home}
                         introduction={this.state.introduction}
                         followings={this.state.followings}
-                        followingCount={this.state.followingCount}
                         handleEditClick={this.handleEditClick}
                     />
                 </Grid>;
@@ -298,7 +296,7 @@ class UserProfile extends React.Component {
                                 1 post</Typography>{bull}
                             <Typography className={classes.singleLineText} type="body1" component="p"
                                         onClick={this.handleOpen}>
-                                {this.props.followingCount} following</Typography>{bull}
+                                {this.props.followings.length} following</Typography>{bull}
                             <Typography className={classes.singleLineText} type="body1" component="p">
                                 2 followed</Typography>
                         </Typography>
@@ -308,6 +306,7 @@ class UserProfile extends React.Component {
                             {this.props.name}
                         </Typography>
                     </div>
+
                     <FollowingDialog
                         myClassStyle={classes}
                         followings={this.props.followings}
@@ -462,6 +461,32 @@ class FollowingDialog extends React.Component {
 
     render() {
         const classes = this.props.myClassStyle;
+        let divider;
+
+        // map the array of objects
+        const listItems = this.props.followings.map((following, index) => {
+            if (index < (this.props.followings.length - 1)) {
+                divider = <Divider/>;
+            } else {
+                divider = null;
+            }
+
+            return (
+                <div>
+                    <ListItem key={index}>
+                        <ListItemAvatar>
+                            <Avatar
+                                alt=""
+                                src={following.photo}
+                                className={classes.avatar}
+                            />
+                        </ListItemAvatar>
+                        <ListItemText primary={following.username} secondary={following.name}/>
+                    </ListItem>
+                    {divider}
+                </div>
+            );
+        });
 
         return (
             <div>
@@ -471,9 +496,9 @@ class FollowingDialog extends React.Component {
                     onRequestClose={this.props.handleRequestClose}
                     transition={<Slide direction="up"/>}
                 >
-                    <AppBar className={classes.appBar}>
+                    <AppBar className={classes.appBar} color="default">
                         <Toolbar>
-                            <IconButton color="contrast" onClick={this.props.handleRequestClose} aria-label="Close">
+                            <IconButton onClick={this.props.handleRequestClose} aria-label="Close">
                                 <CloseIcon />
                             </IconButton>
                             <Typography type="title" color="inherit" className={classes.flex}>
@@ -482,13 +507,7 @@ class FollowingDialog extends React.Component {
                         </Toolbar>
                     </AppBar>
                     <List>
-                        <ListItem>
-                            <ListItemText primary="username 1" secondary="name 1"/>
-                        </ListItem>
-                        <Divider />
-                        <ListItem>
-                            <ListItemText primary="username 2" secondary="name 2"/>
-                        </ListItem>
+                        {listItems}
                     </List>
                 </Dialog>
             </div>

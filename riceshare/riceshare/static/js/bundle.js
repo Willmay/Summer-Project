@@ -29947,7 +29947,7 @@ var PostArea = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            // classes must define in the parent component, and send to child components.
+            // classes should define in the parent component, and send to child components.
             return _react2.default.createElement(
                 'div',
                 null,
@@ -30219,6 +30219,7 @@ var styleSheet = (0, _styles.createStyleSheet)('ControlPanel', function (theme) 
         },
         formButton: {
             verticalAlign: 'middle',
+            marginTop: theme.spacing.unit,
             // marginRight: theme.spacing.unit,
             padding: '0 30px'
         },
@@ -30252,7 +30253,6 @@ var ControlPanel = function (_React$Component) {
             home: '',
             introduction: '',
             followings: [],
-            followingCount: 0,
             isEdit: false,
             isEditPhoto: false
         };
@@ -30327,7 +30327,7 @@ var ControlPanel = function (_React$Component) {
             // could change to user in database
             _axios2.default.get('/api/v1/users/3/').then(function (response) {
                 console.log(response.data);
-                console.log(response.data['saved_users']);
+                // console.log(response.data['saved_users']);
                 self.setState({
                     username: response.data['username'],
                     name: response.data['name'],
@@ -30335,8 +30335,7 @@ var ControlPanel = function (_React$Component) {
                     location: response.data['location'],
                     home: response.data['home'],
                     introduction: response.data['short_description'],
-                    followings: response.data['saved_users'],
-                    followingCount: response.data['saved_users'].length
+                    followings: response.data['saved_users']
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -30377,7 +30376,6 @@ var ControlPanel = function (_React$Component) {
                         home: this.state.home,
                         introduction: this.state.introduction,
                         followings: this.state.followings,
-                        followingCount: this.state.followingCount,
                         handleEditClick: this.handleEditClick
                     })
                 );
@@ -30482,7 +30480,7 @@ var UserProfile = function (_React$Component2) {
                                 _Typography2.default,
                                 { className: classes.singleLineText, type: 'body1', component: 'p',
                                     onClick: this.handleOpen },
-                                this.props.followingCount,
+                                this.props.followings.length,
                                 ' following'
                             ),
                             bull,
@@ -30719,7 +30717,39 @@ var FollowingDialog = function (_React$Component4) {
     _createClass(FollowingDialog, [{
         key: 'render',
         value: function render() {
+            var _this5 = this;
+
             var classes = this.props.myClassStyle;
+            var divider = void 0;
+
+            // map the array of objects
+            var listItems = this.props.followings.map(function (following, index) {
+                if (index < _this5.props.followings.length - 1) {
+                    divider = _react2.default.createElement(_Divider2.default, null);
+                } else {
+                    divider = null;
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        _List.ListItem,
+                        { key: index },
+                        _react2.default.createElement(
+                            _List.ListItemAvatar,
+                            null,
+                            _react2.default.createElement(_Avatar2.default, {
+                                alt: '',
+                                src: following.photo,
+                                className: classes.avatar
+                            })
+                        ),
+                        _react2.default.createElement(_List.ListItemText, { primary: following.username, secondary: following.name })
+                    ),
+                    divider
+                );
+            });
 
             return _react2.default.createElement(
                 'div',
@@ -30734,13 +30764,13 @@ var FollowingDialog = function (_React$Component4) {
                     },
                     _react2.default.createElement(
                         _AppBar2.default,
-                        { className: classes.appBar },
+                        { className: classes.appBar, color: 'default' },
                         _react2.default.createElement(
                             _Toolbar2.default,
                             null,
                             _react2.default.createElement(
                                 _IconButton2.default,
-                                { color: 'contrast', onClick: this.props.handleRequestClose, 'aria-label': 'Close' },
+                                { onClick: this.props.handleRequestClose, 'aria-label': 'Close' },
                                 _react2.default.createElement(_Close2.default, null)
                             ),
                             _react2.default.createElement(
@@ -30753,17 +30783,7 @@ var FollowingDialog = function (_React$Component4) {
                     _react2.default.createElement(
                         _List2.default,
                         null,
-                        _react2.default.createElement(
-                            _List.ListItem,
-                            null,
-                            _react2.default.createElement(_List.ListItemText, { primary: 'username 1', secondary: 'name 1' })
-                        ),
-                        _react2.default.createElement(_Divider2.default, null),
-                        _react2.default.createElement(
-                            _List.ListItem,
-                            null,
-                            _react2.default.createElement(_List.ListItemText, { primary: 'username 2', secondary: 'name 2' })
-                        )
+                        listItems
                     )
                 )
             );

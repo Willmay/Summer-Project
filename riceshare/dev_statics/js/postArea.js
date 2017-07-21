@@ -86,7 +86,7 @@ class PostArea extends React.Component {
     }
 
     render() {
-        // classes must define in the parent component, and send to child components.
+        // classes should define in the parent component, and send to child components.
         return (
             <div>
                 <PostBox

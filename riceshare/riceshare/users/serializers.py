@@ -27,7 +27,15 @@ class UserSerializer(serializers.ModelSerializer):
 	"""
 
 
+class FollowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'name', 'photo', 'id', 'pk')
+
+
 class ProfileReadSerializer(serializers.ModelSerializer):
+    saved_users = FollowingSerializer(many=True, read_only=True)
+
     class Meta:
         model = User
         fields = (

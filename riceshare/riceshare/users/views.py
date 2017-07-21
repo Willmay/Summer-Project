@@ -107,7 +107,7 @@ def list_all_user(request):
 
 
 @csrf_exempt
-@api_view(['GET', 'POST', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 @parser_classes((JSONParser, FormParser, MultiPartParser,))
 @permission_classes((permissions.AllowAny,))
 def user_detail(request, pk):
@@ -117,7 +117,7 @@ def user_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         # serializer = UserSerializer(user)
@@ -126,15 +126,15 @@ def user_detail(request, pk):
 
     # some attributes cannot be null, must give the value to them in front page.
     elif request.method == 'PUT':
-        photo = request.data.get('photo')
-        print(photo)
+        # photo = request.data.get('photo')
+        # print(photo)
         # serializer = UserSerializer(user, data=data)
         serializer = ProfileUpdateSerializer(user, data=request.data)
         print(serializer)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
