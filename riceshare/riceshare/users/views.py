@@ -72,9 +72,11 @@ class UserListView(LoginRequiredMixin, ListView):
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def login(request):
+    print(request.data.get('username'), request.data.get('password'))
     u = authenticate(username=request.data.get('username'), password=request.data.get('password'))
     if u is None:
         return HttpResponse(status=403)
+    # login(request, u)
     serializer = UserSerializer(u)
     return Response(serializer.data)
 
@@ -97,6 +99,8 @@ def user_list(request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            u = authenticate(username=request.data.get('username'), password=request.data.get('password'))
+            login(request, u)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

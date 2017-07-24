@@ -86,6 +86,7 @@ const styleSheet = createStyleSheet('ControlPanel', theme => ({
     },
     nameInput: {
         marginBottom: theme.spacing.unit,
+        // padding: '10px 0',
     },
 
     // for dialog component
@@ -353,7 +354,7 @@ class UpdateProfileTab extends React.Component {
                                             InputProps={{placeholder: 'Name'}}
                                         />
                                     </FormControl>
-                                    <FormControl marginForm>
+                                    <FormControl margin="normal">
                                         <input
                                             name="photo"
                                             type="file"
@@ -368,7 +369,7 @@ class UpdateProfileTab extends React.Component {
                                             value={this.props.location}
                                             onChange={this.props.handleInputChange}
                                             InputProps={{placeholder: 'Location'}}
-                                            marginForm
+                                            margin="normal"
                                         />
                                     </FormControl>
                                     <FormControl fullWidth>
@@ -379,7 +380,7 @@ class UpdateProfileTab extends React.Component {
                                             value={this.props.home}
                                             onChange={this.props.handleInputChange}
                                             InputProps={{placeholder: 'Home'}}
-                                            marginForm
+                                            margin="normal"
                                         />
                                     </FormControl>
                                     <FormControl fullWidth>
@@ -392,7 +393,7 @@ class UpdateProfileTab extends React.Component {
                                             value={this.props.introduction}
                                             onChange={this.props.handleInputChange}
                                             InputProps={{placeholder: 'Introduction'}}
-                                            marginForm
+                                            margin="normal"
                                         />
                                     </FormControl>
                                     <FormGroup row>
@@ -423,7 +424,7 @@ class UpdateProfileTab extends React.Component {
                                             label="Input your new password"
                                             type="password"
                                             InputProps={{placeholder: 'New Password'}}
-                                            marginForm
+                                            margin="normal"
                                         />
                                     </FormControl>
                                     <FormControl fullWidth>
@@ -432,7 +433,7 @@ class UpdateProfileTab extends React.Component {
                                             label="Input again"
                                             type="password"
                                             InputProps={{placeholder: 'Confirm Password'}}
-                                            marginForm
+                                            margin="normal"
                                         />
                                     </FormControl>
                                     <FormGroup row>

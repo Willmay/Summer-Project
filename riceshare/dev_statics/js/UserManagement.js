@@ -1,6 +1,7 @@
 import React from 'react';
 //import ReactDOM from 'react-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { login } from './actions';
 import {
   Button,
   Form,
@@ -28,20 +29,8 @@ class LoginForm extends React.Component{
 
 
   handleClick(event) {
-    axios.post('http://localhost:8000/api/v1/users/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
-    .then(function (response) {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
     event.preventDefault();
+    this.props.dispatch(login(this.state.username, this.state.password));
   }
 
   handleUsernameChange(event) {
@@ -54,9 +43,15 @@ class LoginForm extends React.Component{
 
 
   render() {
+    const {id, isFetching} = this.props;
     return (
-      <fieldset>
+    <div>
+      <div>
+        <p>id = {id}, isFetching = {isFetching} </p>
+      </div>
+
       <Form horizontal onSubmit={this.handleClick}>
+
 
         <FieldGroup
           id="formControlsLoginUsername"
@@ -65,6 +60,7 @@ class LoginForm extends React.Component{
           placeholder="Please enter your username"
           value={this.state.username}
           onChange={this.handleUsernameChange}
+          required="true"
         />
 
         <FieldGroup
@@ -74,6 +70,7 @@ class LoginForm extends React.Component{
           placeholder="Please enter your password"
           value={this.state.password}
           onChange={this.handlePasswordChange}
+          required="true"
         />
 
         <FormGroup>
@@ -93,12 +90,29 @@ class LoginForm extends React.Component{
         </FormGroup>
 
       </Form>
-      </fieldset>
+    </div>
     );
   }
-
-
 };
+
+function mapLoginStateToProps(state) {
+  const { mainUser } = state;
+  const {
+    isFetching,
+    lastUpdated,
+    id
+  } = mainUser || {
+    isFetching: true,
+    id: null
+  };
+
+  return {
+    id,
+    isFetching
+  };
+};
+
+const connectLoginForm = connect(mapLoginStateToProps)(LoginForm);
 
 class SignupForm extends React.Component{
 
@@ -113,14 +127,15 @@ class SignupForm extends React.Component{
     this.handleClick = this.handleClick.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
 
   handleClick(event) {
     axios.post('http://localhost:8000/api/v1/users/', {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      email: email
     })
     .then(function (response) {
       console.log(response.data);
@@ -157,6 +172,7 @@ class SignupForm extends React.Component{
           placeholder="Please enter your username"
           value={this.state.username}
           onChange={this.handleUsernameChange}
+          required="true"
         />
 
         <FieldGroup
@@ -166,6 +182,7 @@ class SignupForm extends React.Component{
           placeholder="Please enter your email"
           value={this.state.email}
           onChange={this.handleEmailChange}
+          required="true"
         />
 
         <FieldGroup
@@ -175,6 +192,17 @@ class SignupForm extends React.Component{
           placeholder="Please enter your password"
           value={this.state.password}
           onChange={this.handlePasswordChange}
+          required="true"
+        />
+
+        <FieldGroup 
+          id="formControlsSignupPasswordAgain"
+          label="Password"
+          type="password"
+          placeholder="Please enter your password"
+          value={this.state.password}
+          onChange={this.handlePasswordChange}
+          required="true"
         />
 
         <FormGroup>
@@ -201,6 +229,6 @@ ReactDOM.render(
 
 
 module.exports = {
-  LoginForm: LoginForm,
-  SignupForm: SignupForm,
+  LoginForm: connectLoginForm,
+  SignupForm: SignupForm
 }

@@ -26,7 +26,6 @@ const styleSheet = createStyleSheet('PostsList', theme => ({
 class PostArea extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             post: '',
             results: [],
@@ -86,7 +85,7 @@ class PostArea extends React.Component {
     }
 
     render() {
-        // classes should define in the parent component, and send to child components.
+        // classes must define in the parent component, and send to child components.
         return (
             <div>
                 <PostBox
