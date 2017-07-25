@@ -8,17 +8,9 @@ import {
 } from './actions';
 
 function updateUserProfile(state = {}, action) {
-	return Object.assign({}, state, {
-		username: action.username,
-		name: action.name,
-		photo: action.photo,
-		location: action.location,
-		background: action.background,
-		home: action.home,
-		short_description: action.short_description,
-		saved_users: action.saved_users,
-		id: action.id
-	});
+	return Object.assign({}, state, 
+		action.data
+	);
 };
 
 /*

@@ -21,18 +21,10 @@ function requestLogin() {
 	}
 }
 
-function userProfile(json) {
+function userProfile(data) {
 	return {
 		type: UPDATE_USER_PROFILE,
-		username: json.username,
-		name: json.name,
-		photo: json.photo,
-		location: json.location,
-		background: json.background,
-		home: json.home,
-		short_description: json.short_description,
-		saved_users: json.saved_users,
-		id: json.id
+		data: data
 	}
 }
 
@@ -65,7 +57,6 @@ export function login(username, password) {
 	    .catch(function (error) {
 	      dispatch(loginError(error));
 	    });
-	    event.preventDefault();
 	}
 }
 

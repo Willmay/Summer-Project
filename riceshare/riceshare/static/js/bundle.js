@@ -15565,18 +15565,10 @@ function requestLogin() {
 	};
 }
 
-function userProfile(json) {
+function userProfile(data) {
 	return {
 		type: UPDATE_USER_PROFILE,
-		username: json.username,
-		name: json.name,
-		photo: json.photo,
-		location: json.location,
-		background: json.background,
-		home: json.home,
-		short_description: json.short_description,
-		saved_users: json.saved_users,
-		id: json.id
+		data: data
 	};
 }
 
@@ -15607,7 +15599,6 @@ function login(username, password) {
 		}).catch(function (error) {
 			dispatch(loginError(error));
 		});
-		event.preventDefault();
 	};
 }
 
@@ -29020,6 +29011,7 @@ var LoginForm = function (_React$Component) {
     value: function handleClick(event) {
       event.preventDefault();
       this.props.dispatch((0, _actions.login)(this.state.username, this.state.password));
+      this.setState({ password: '' });
     }
   }, {
     key: 'handleUsernameChange',
@@ -29571,17 +29563,7 @@ function updateUserProfile() {
 	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	var action = arguments[1];
 
-	return Object.assign({}, state, {
-		username: action.username,
-		name: action.name,
-		photo: action.photo,
-		location: action.location,
-		background: action.background,
-		home: action.home,
-		short_description: action.short_description,
-		saved_users: action.saved_users,
-		id: action.id
-	});
+	return Object.assign({}, state, action.data);
 };
 
 /*
