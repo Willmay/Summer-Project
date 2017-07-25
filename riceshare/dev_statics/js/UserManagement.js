@@ -31,6 +31,7 @@ class LoginForm extends React.Component{
   handleClick(event) {
     event.preventDefault();
     this.props.dispatch(login(this.state.username, this.state.password));
+    this.setState({ password: '' });
   }
 
   handleUsernameChange(event) {
