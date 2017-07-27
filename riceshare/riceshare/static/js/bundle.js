@@ -28914,9 +28914,12 @@ var FieldGroup = function (_React$Component) {
       return _react2.default.createElement(
         _reactBootstrap.FormGroup,
         { controlId: this.props.id },
+        'sm=',
+        4,
+        '>',
         _react2.default.createElement(
           _reactBootstrap.Col,
-          { smOffset: 4, sm: 4 },
+          { smOffset: 4 },
           _react2.default.createElement(_reactBootstrap.FormControl, {
             type: this.props.type,
             value: this.props.value,
