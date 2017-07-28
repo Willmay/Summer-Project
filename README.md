@@ -42,10 +42,15 @@ chat
 ### 07/28~08/04
 
 Liping Sun
+
 -React Native Post Feature(IOS mobile)
+
 -investiage payment implementation
 
+
 Shuwen
+
 -React Native Post Feature(Android)
+
 -Web Post Feature
-investiage payment implementation
+
