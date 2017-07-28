@@ -54,3 +54,9 @@ Shuwen
 
 -Web Post Feature
 
+
+Wenxuan
+
+-Use Redux in user profile.
+
+-Learn React Native and use it to implement user profile for Android mobile.
