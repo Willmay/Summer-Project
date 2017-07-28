@@ -65,3 +65,7 @@ Yiwei
 
 -try to implement ml pipeline
 -investigate payment implementation
+
+Junjie
+
+-learning more about react and redux
