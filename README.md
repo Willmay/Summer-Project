@@ -60,3 +60,8 @@ Wenxuan
 -Use Redux in user profile.
 
 -Learn React Native and use it to implement user profile for Android mobile.
+
+Yiwei
+
+-try to implement ml pipeline
+-investigate payment implementation
