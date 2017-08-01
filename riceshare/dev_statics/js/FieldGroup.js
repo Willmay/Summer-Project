@@ -11,8 +11,8 @@ import {
 class FieldGroup extends React.Component {
   render() {
     return (
-      <FormGroup controlId={this.props.id}>sm={4}>
-      	<Col smOffset={4}>
+      <FormGroup controlId={this.props.id}>
+      	<Col smOffset={4} sm={4}>
 	        <FormControl 
 	        	type={this.props.type}
 	        	value={this.props.value}
