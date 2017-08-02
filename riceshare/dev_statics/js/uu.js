@@ -1,5 +1,5 @@
 /**
- * Created by Han on 7/5/2017.
+ * Created by Han on 8/2/2017.
  */
 
 import React from 'react';
@@ -103,6 +103,7 @@ class ControlPanel extends React.Component {
         super(props);
 
         this.state = {
+            hasData: false,
             id: 0,
             username: '',
             name: '',
@@ -113,6 +114,7 @@ class ControlPanel extends React.Component {
             followings: [],
             isEdit: false,
             isEditPhoto: false,
+            aUser: null,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -152,30 +154,48 @@ class ControlPanel extends React.Component {
         ));
 
         this.setState({isEdit: false});
+
+        // let self = this;
+        // console.log(this.state.photo);
+        //
+        // let updateInfo = new FormData();
+        // updateInfo.append('username', this.state.username);
+        // updateInfo.append('name', this.state.name);
+        // if (this.state.isEditPhoto) {
+        //     updateInfo.append('photo', this.state.photo);
+        // }
+        // updateInfo.append('location', this.state.location);
+        // updateInfo.append('home', this.state.home);
+        // updateInfo.append('short_description', this.state.introduction);
+        //
+        // axios.put('/api/v1/users/3/', updateInfo, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //     }
+        // }).then(response => {
+        //     console.log('updated successfully');
+        //     console.log(response);
+        //     self.setState({
+        //         isEdit: false,
+        //         photo: response.data['photo'],
+        //         isEditPhoto: false,
+        //     });
+        // }).catch(error => {
+        //     console.log(error);
+        // });
     }
 
     handleEditClick() {
         this.setState({isEdit: true});
     }
 
-    // parent component refresh
-    componentWillReceiveProps(nextProps) {
-        // alert('componentWillReceiveProps!');
-
-        this.refreshData(nextProps);
-    }
-
     componentDidMount() {
         console.log('load!');
-        // alert('parent componentDidMount!');
-
-        this.refreshData(this.props);
-    }
-
-    refreshData(p) {
-        const {user} = p;
+        alert('load!');
+        const {user} = this.props;
 
         this.setState({
+            hasData: true,
             id: user.id,
             username: user.username,
             name: user.name,
@@ -184,12 +204,37 @@ class ControlPanel extends React.Component {
             home: user.home,
             introduction: user.short_description,
             followings: user.saved_users,
-            isEditPhoto: false,
+            aUser: user,
         });
+
+
+        // let self = this;
+        // // could change to user in database
+        // axios.get('/api/v1/users/3/').then(response => {
+        //     console.log(response.data);
+        //     // console.log(response.data['saved_users']);
+        //     self.setState({
+        //         username: response.data['username'],
+        //         name: response.data['name'],
+        //         photo: response.data['photo'],
+        //         location: response.data['location'],
+        //         home: response.data['home'],
+        //         introduction: response.data['short_description'],
+        //         followings: response.data['saved_users'],
+        //     });
+        // }).catch(error => {
+        //     console.log(error);
+        // });
+    }
+
+    convertImageObject() {
+        const {user}= this.props;
+        const imagePath = user.photo;
+        return imagePath;
     }
 
     render() {
-        // alert('parent render!');
+        alert('render');
         const isEdit = this.state.isEdit;
         const classes = this.props.classes;
 
@@ -213,13 +258,15 @@ class ControlPanel extends React.Component {
                 <Grid item md={6}>
                     <UserProfile
                         myClassStyle={classes}
+                        hasData={this.state.hasData}
                         username={this.state.username}
                         name={this.state.name}
-                        photo={this.state.photo}
+                        photo={this.convertImageObject()}
                         location={this.state.location}
                         home={this.state.home}
                         introduction={this.state.introduction}
                         followings={this.state.followings}
+                        aUser={this.state.aUser}
                         handleEditClick={this.handleEditClick}
                     />
                 </Grid>;
@@ -271,6 +318,7 @@ class UserProfile extends React.Component {
             open: false,
         };
 
+
         this.handleOpen = this.handleOpen.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
     }
@@ -284,12 +332,11 @@ class UserProfile extends React.Component {
     }
 
     componentDidMount() {
-        // alert('child UserProfile componentDidMount!');
+        alert('cccccc');
+
     }
 
     render() {
-        // alert('child UserProfile render!');
-
         const classes = this.props.myClassStyle;
         const bull = <span className={classes.bullet}>•</span>;
 
@@ -343,7 +390,6 @@ class UserProfile extends React.Component {
 
 class UpdateProfileTab extends React.Component {
     render() {
-        // alert('child UpdateProfileTab render!');
         const classes = this.props.myClassStyle;
 
         return (

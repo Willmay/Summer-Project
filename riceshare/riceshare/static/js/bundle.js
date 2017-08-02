@@ -33447,23 +33447,23 @@ var ControlPanel = function (_React$Component) {
         value: function handleEditClick() {
             this.setState({ isEdit: true });
         }
+
+        // parent component refresh
+
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            // alert('componentWillReceiveProps!');
+
+            this.refreshData(nextProps);
+        }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             console.log('load!');
-            var user = this.props.user;
+            // alert('parent componentDidMount!');
 
-
-            this.setState({
-                id: user.id,
-                username: user.username,
-                name: user.name,
-                photo: user.photo,
-                location: user.location,
-                home: user.home,
-                introduction: user.short_description,
-                followings: user.saved_users
-            });
+            this.refreshData(this.props);
 
             // let self = this;
             // // could change to user in database
@@ -33484,16 +33484,27 @@ var ControlPanel = function (_React$Component) {
             // });
         }
     }, {
-        key: 'convertImageObject',
-        value: function convertImageObject() {
-            var user = this.props.user;
+        key: 'refreshData',
+        value: function refreshData(p) {
+            var user = p.user;
 
-            var imagePath = user.photo;
-            return imagePath;
+
+            this.setState({
+                id: user.id,
+                username: user.username,
+                name: user.name,
+                photo: user.photo,
+                location: user.location,
+                home: user.home,
+                introduction: user.short_description,
+                followings: user.saved_users,
+                isEditPhoto: false
+            });
         }
     }, {
         key: 'render',
         value: function render() {
+            // alert('parent render!');
             var isEdit = this.state.isEdit;
             var classes = this.props.classes;
 
@@ -33521,7 +33532,7 @@ var ControlPanel = function (_React$Component) {
                         myClassStyle: classes,
                         username: this.state.username,
                         name: this.state.name,
-                        photo: this.convertImageObject(),
+                        photo: this.state.photo,
                         location: this.state.location,
                         home: this.state.home,
                         introduction: this.state.introduction,
@@ -33597,14 +33608,16 @@ var UserProfile = function (_React$Component2) {
         value: function handleOpen() {
             this.setState({ open: true });
         }
-
-        // componentDidMount() {
-        //     alert('cccccc');
-        // }
-
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            // alert('child UserProfile componentDidMount!');
+        }
     }, {
         key: 'render',
         value: function render() {
+            // alert('child UserProfile render!');
+
             var classes = this.props.myClassStyle;
             var bull = _react2.default.createElement(
                 'span',
@@ -33703,6 +33716,7 @@ var UpdateProfileTab = function (_React$Component3) {
     _createClass(UpdateProfileTab, [{
         key: 'render',
         value: function render() {
+            // alert('child UpdateProfileTab render!');
             var classes = this.props.myClassStyle;
 
             return _react2.default.createElement(
