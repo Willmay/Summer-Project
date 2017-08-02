@@ -1,234 +1,240 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import { login } from './actions';
 import {
-  Button,
-  Form,
-  Col,
-  FormGroup,
-  Checkbox
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    withRouter
+} from 'react-router-dom'
+
+import {connect} from 'react-redux';
+import {login} from './actions';
+import {
+    Button,
+    Form,
+    Col,
+    FormGroup,
+    Checkbox
 } from 'react-bootstrap';
-import { FieldGroup } from './FieldGroup.js'
+import {FieldGroup} from './FieldGroup.js';
+
+import {MuiThemeProvider} from 'material-ui/styles';
 
 
-class LoginForm extends React.Component{
+class LoginForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: ''
+        };
 
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: ''
-    };
+        this.handleClick = this.handleClick.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    }
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    handleClick(event) {
+        event.preventDefault();
+        this.props.dispatch(login(this.state.username, this.state.password));
+    }
 
-  }
+    handleUsernameChange(event) {
+        this.setState({username: event.target.value});
+    }
 
+    handlePasswordChange(event) {
+        this.setState({password: event.target.value});
+    }
 
-  handleClick(event) {
-    event.preventDefault();
-    this.props.dispatch(login(this.state.username, this.state.password));
-  }
+    render() {
+        const {id, isFetching} = this.props;
+        const {from} = this.props.location.state || {from: {pathname: '/react/userProfile'}};
 
-  handleUsernameChange(event) {
-    this.setState({ username: event.target.value });
-  }
+        if (id) {
+            return (
+                <Redirect to={from}/>
+            );
+        }
 
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }
+        return (
+            <div>
+                <div>
+                    <p>id = {id}, isFetching = {isFetching} </p>
+                </div>
 
+                <Form horizontal onSubmit={this.handleClick}>
+                    <FieldGroup
+                        id="formControlsLoginUsername"
+                        type="text"
+                        label="Username"
+                        placeholder="Please enter your username"
+                        value={this.state.username}
+                        onChange={this.handleUsernameChange}
+                        required="true"
+                    />
 
-  render() {
-    const {id, isFetching} = this.props;
-    return (
-    <div>
-      <div>
-        <p>id = {id}, isFetching = {isFetching} </p>
-      </div>
+                    <FieldGroup
+                        id="formControlsLoginPassword"
+                        label="Password"
+                        type="password"
+                        placeholder="Please enter your password"
+                        value={this.state.password}
+                        onChange={this.handlePasswordChange}
+                        required="true"
+                    />
 
-      <Form horizontal onSubmit={this.handleClick}>
+                    <FormGroup>
+                        <Col smOffset={4} sm={8}>
+                            <Checkbox>
+                                Remember me
+                            </Checkbox>
+                        </Col>
+                    </FormGroup>
 
-
-        <FieldGroup
-          id="formControlsLoginUsername"
-          type="text"
-          label="Username"
-          placeholder="Please enter your username"
-          value={this.state.username}
-          onChange={this.handleUsernameChange}
-          required="true"
-        />
-
-        <FieldGroup
-          id="formControlsLoginPassword"
-          label="Password"
-          type="password"
-          placeholder="Please enter your password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-          required="true"
-        />
-
-        <FormGroup>
-          <Col smOffset={4} sm={8}>
-            <Checkbox>
-              Remember me
-            </Checkbox>
-          </Col>
-        </FormGroup>
-
-        <FormGroup>
-          <Col smOffset={4} sm={8}>
-            <Button type="submit">
-              Sign in
-            </Button>
-          </Col>
-        </FormGroup>
-
-      </Form>
-    </div>
-    );
-  }
-};
+                    <FormGroup>
+                        <Col smOffset={4} sm={8}>
+                            <Button type="submit">
+                                Sign in
+                            </Button>
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </div>
+        );
+    }
+}
 
 function mapLoginStateToProps(state) {
-  const { mainUser } = state;
-  const {
-    isFetching,
-    lastUpdated,
-    id
-  } = mainUser || {
-    isFetching: true,
-    id: null
-  };
+    const {mainUser} = state;
+    const {
+        isFetching,
+        lastUpdated,
+        id
+    } = mainUser || {
+        isFetching: true,
+        id: null
+    };
 
-  return {
-    id,
-    isFetching
-  };
-};
+    return {
+        id,
+        isFetching
+    };
+}
 
 const connectLoginForm = connect(mapLoginStateToProps)(LoginForm);
 
-class SignupForm extends React.Component{
 
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: '',
-      email: ''
-    };
+class SignupForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: '',
+            email: ''
+        };
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-  }
+        this.handleClick = this.handleClick.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+    }
 
+    handleClick(event) {
+        axios.post('http://localhost:8000/api/v1/users/', {
+            username: this.state.username,
+            password: this.state.password,
+            email: email
+        })
+            .then(function (response) {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        event.preventDefault();
+    }
 
-  handleClick(event) {
-    axios.post('http://localhost:8000/api/v1/users/', {
-      username: this.state.username,
-      password: this.state.password,
-      email: email
-    })
-    .then(function (response) {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    event.preventDefault();
-  }
+    handleUsernameChange(event) {
+        this.setState({username: event.target.value});
+    }
 
-  handleUsernameChange(event) {
-    this.setState({ username: event.target.value });
-  }
+    handlePasswordChange(event) {
+        this.setState({password: event.target.value});
+    }
 
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }
+    handleEmailChange(event) {
+        this.setState({email: event.target.value});
+    }
 
-  handleEmailChange(event) {
-    this.setState({ email: event.target.value });
-  }
+    render() {
+        return (
+            <Form horizontal onSubmit={this.handleClick}>
 
-  render() {
-    return (
-      <Form horizontal onSubmit={this.handleClick}>
+                <FieldGroup
+                    id="formControlsSignupUsername"
+                    type="text"
+                    label="Username"
+                    placeholder="Please enter your username"
+                    value={this.state.username}
+                    onChange={this.handleUsernameChange}
+                    required="true"
+                />
 
-        <FieldGroup
-          id="formControlsSignupUsername"
-          type="text"
-          label="Username"
-          placeholder="Please enter your username"
-          value={this.state.username}
-          onChange={this.handleUsernameChange}
-          required="true"
-        />
+                <FieldGroup
+                    id="formControlsSignupEmail"
+                    type="email"
+                    label="Email"
+                    placeholder="Please enter your email"
+                    value={this.state.email}
+                    onChange={this.handleEmailChange}
+                    required="true"
+                />
 
-        <FieldGroup
-          id="formControlsSignupEmail"
-          type="email"
-          label="Email"
-          placeholder="Please enter your email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-          required="true"
-        />
+                <FieldGroup
+                    id="formControlsSignupPassword"
+                    label="Password"
+                    type="password"
+                    placeholder="Please enter your password"
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                    required="true"
+                />
 
-        <FieldGroup
-          id="formControlsSignupPassword"
-          label="Password"
-          type="password"
-          placeholder="Please enter your password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-          required="true"
-        />
+                <FieldGroup
+                    id="formControlsSignupPasswordAgain"
+                    label="Password"
+                    type="password"
+                    placeholder="Please enter your password"
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                    required="true"
+                />
 
-        <FieldGroup 
-          id="formControlsSignupPasswordAgain"
-          label="Password"
-          type="password"
-          placeholder="Please enter your password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-          required="true"
-        />
+                <FormGroup>
+                    <Col smOffset={4} sm={8}>
+                        <Button type="submit">
+                            Sign up
+                        </Button>
+                    </Col>
+                </FormGroup>
 
-        <FormGroup>
-          <Col smOffset={4} sm={8}>
-            <Button type="submit">
-              Sign up
-            </Button>
-          </Col>
-        </FormGroup>
-
-      </Form>
-    );
-  }
-
-
-};
+            </Form>
+        );
+    }
+}
 
 /*
-ReactDOM.render(
-    <LoginForm />,
-    document.getElementById('react-root')
-  );
-*/
-
+ ReactDOM.render(
+ <LoginForm />,
+ document.getElementById('react-root')
+ );
+ */
 
 module.exports = {
-  LoginForm: connectLoginForm,
-  SignupForm: SignupForm
-}
+    LoginForm: connectLoginForm,
+    SignupForm: SignupForm
+};

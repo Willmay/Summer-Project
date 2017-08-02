@@ -4,6 +4,8 @@
 
 import React from 'react';
 // import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
+import {updateUserProfile} from './actions';
 
 import {
     Nav,
@@ -30,9 +32,6 @@ import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
 import Slide from 'material-ui/transitions/Slide';
-
-import axios from 'axios';
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 
 const styleSheet = createStyleSheet('ControlPanel', theme => ({
@@ -104,6 +103,7 @@ class ControlPanel extends React.Component {
         super(props);
 
         this.state = {
+            id: 0,
             username: '',
             name: '',
             photo: null,
@@ -140,35 +140,47 @@ class ControlPanel extends React.Component {
 
     handleUpdateSubmit(event) {
         event.preventDefault();
+        this.props.dispatch(updateUserProfile(
+            this.state.id,
+            this.state.username,
+            this.state.name,
+            this.state.photo,
+            this.state.location,
+            this.state.home,
+            this.state.introduction,
+            this.state.isEditPhoto
+        ));
 
-        let self = this;
-        console.log(this.state.photo);
+        this.setState({isEdit: false});
 
-        let updateInfo = new FormData();
-        updateInfo.append('username', this.state.username);
-        updateInfo.append('name', this.state.name);
-        if (this.state.isEditPhoto) {
-            updateInfo.append('photo', this.state.photo);
-        }
-        updateInfo.append('location', this.state.location);
-        updateInfo.append('home', this.state.home);
-        updateInfo.append('short_description', this.state.introduction);
-
-        axios.put('/api/v1/users/3/', updateInfo, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        }).then(response => {
-            console.log('updated successfully');
-            console.log(response);
-            self.setState({
-                isEdit: false,
-                photo: response.data['photo'],
-                isEditPhoto: false,
-            });
-        }).catch(error => {
-            console.log(error);
-        });
+        // let self = this;
+        // console.log(this.state.photo);
+        //
+        // let updateInfo = new FormData();
+        // updateInfo.append('username', this.state.username);
+        // updateInfo.append('name', this.state.name);
+        // if (this.state.isEditPhoto) {
+        //     updateInfo.append('photo', this.state.photo);
+        // }
+        // updateInfo.append('location', this.state.location);
+        // updateInfo.append('home', this.state.home);
+        // updateInfo.append('short_description', this.state.introduction);
+        //
+        // axios.put('/api/v1/users/3/', updateInfo, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //     }
+        // }).then(response => {
+        //     console.log('updated successfully');
+        //     console.log(response);
+        //     self.setState({
+        //         isEdit: false,
+        //         photo: response.data['photo'],
+        //         isEditPhoto: false,
+        //     });
+        // }).catch(error => {
+        //     console.log(error);
+        // });
     }
 
     handleEditClick() {
@@ -177,23 +189,42 @@ class ControlPanel extends React.Component {
 
     componentDidMount() {
         console.log('load!');
-        let self = this;
-        // could change to user in database
-        axios.get('/api/v1/users/3/').then(response => {
-            console.log(response.data);
-            // console.log(response.data['saved_users']);
-            self.setState({
-                username: response.data['username'],
-                name: response.data['name'],
-                photo: response.data['photo'],
-                location: response.data['location'],
-                home: response.data['home'],
-                introduction: response.data['short_description'],
-                followings: response.data['saved_users'],
-            });
-        }).catch(error => {
-            console.log(error);
+        const {user} = this.props;
+
+        this.setState({
+            id: user.id,
+            username: user.username,
+            name: user.name,
+            photo: user.photo,
+            location: user.location,
+            home: user.home,
+            introduction: user.short_description,
+            followings: user.saved_users,
         });
+
+        // let self = this;
+        // // could change to user in database
+        // axios.get('/api/v1/users/3/').then(response => {
+        //     console.log(response.data);
+        //     // console.log(response.data['saved_users']);
+        //     self.setState({
+        //         username: response.data['username'],
+        //         name: response.data['name'],
+        //         photo: response.data['photo'],
+        //         location: response.data['location'],
+        //         home: response.data['home'],
+        //         introduction: response.data['short_description'],
+        //         followings: response.data['saved_users'],
+        //     });
+        // }).catch(error => {
+        //     console.log(error);
+        // });
+    }
+
+    convertImageObject() {
+        const {user}= this.props;
+        const imagePath = user.photo;
+        return imagePath;
     }
 
     render() {
@@ -222,7 +253,7 @@ class ControlPanel extends React.Component {
                         myClassStyle={classes}
                         username={this.state.username}
                         name={this.state.name}
-                        photo={this.state.photo}
+                        photo={this.convertImageObject()}
                         location={this.state.location}
                         home={this.state.home}
                         introduction={this.state.introduction}
@@ -248,6 +279,27 @@ class ControlPanel extends React.Component {
     }
 }
 
+function mapUserProfileStateToProps(state) {
+    const {entities, mainUser} = state;
+    const {
+        users,
+    } = entities || {
+        users: null,
+    };
+    const {
+        id,
+    } = mainUser || {
+        id: null,
+    };
+
+    const user = users[id];
+    return {
+        user,
+    };
+}
+
+const connectControlPanel = connect(mapUserProfileStateToProps)(ControlPanel);
+
 
 class UserProfile extends React.Component {
     constructor(props) {
@@ -268,6 +320,10 @@ class UserProfile extends React.Component {
     handleOpen() {
         this.setState({open: true});
     }
+
+    // componentDidMount() {
+    //     alert('cccccc');
+    // }
 
     render() {
         const classes = this.props.myClassStyle;
@@ -527,5 +583,5 @@ ControlPanel.propTypes = {
 
 // export default withStyles(styleSheet)(ControlPanel);
 module.exports = {
-    ControlPanel: withStyles(styleSheet)(ControlPanel),
+    ControlPanel: withStyles(styleSheet)(connectControlPanel),
 };

@@ -28,7 +28,8 @@
   },
   mainUser: {
     isFetching: true,
-    id: 2
+    id: 2,
+    username: '',
   },
   savedUsers: {
     isFetching: false,
