@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import configureStore from './configureStore';
 import {
   BrowserRouter as Router,
   Route,
@@ -26,9 +25,10 @@ import {
   LoginForm,
   SignupForm
 } from './UserManagement.js';
+
+import configureStore from './configureStore';
 import {PostArea} from './postArea.js';
 import {ControlPanel} from './userProfile.js';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const store = configureStore();

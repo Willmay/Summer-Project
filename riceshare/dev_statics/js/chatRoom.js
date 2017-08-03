@@ -28,21 +28,21 @@ class ChatRoom extends React.Component{
     // this is an "echo" websocket service for testing pusposes
     this.state.connection = new WebSocket('ws://localhost:8000/chat/');
     // listen to onmessage event
-    this.state.connection.onmessage = evt => {
+    this.state.connection.onmessage = evt => { 
       // add the new message to state
         this.setState({
         	messages : this.state.messages.concat([ evt.data ])
       	});
     };
 
-    // for testing: sending a message to the echo service every 2 seconds,
+    // for testing: sending a message to the echo service every 2 seconds, 
     // the service sends it right back
-
+    
     /*
     setInterval( _ =>{
         this.state.connection.send( "hello, websocket\n" )
     }, 2000 );*/
-
+	
 	}
 
     render() {
@@ -51,15 +51,15 @@ class ChatRoom extends React.Component{
     return (
     	<div>
     	  <ChatBox messages={this.state.messages}/>
-    	  <InBox
-    	    handleClick={this.handleClick}
+    	  <InBox 
+    	    handleClick={this.handleClick} 
     	    inputText={this.state.inputText}
     	    handleChange={this.handleChange}/>
     	</div>
     	);
     }
 
-
+  
 };
 
 class ChatBox extends React.Component{

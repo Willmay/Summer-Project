@@ -4,13 +4,15 @@ import {
     REQUEST_LOGIN,
     RECEIVE_LOGIN,
     LOGIN_ERROR,
-    DISPLAY_USER_PROFILE,
+    UPDATE_USER_PROFILE,
     REQUEST_USER_PROFILE,
     RECEIVE_USER_PROFILE
 } from './actions';
 
 function updateUserProfile(state = {}, action) {
-    return Object.assign({}, state, action.data);
+    return Object.assign({}, state,
+        action.data
+    );
 }
 
 /*
@@ -42,15 +44,13 @@ function updateUserProfile(state = {}, action) {
 
 function updateUsers(state = {}, action) {
     return Object.assign({}, state, {
-        [action.id]: updateUserProfile(state[1], action)
+        [action.id]: updateUserProfile(state[action.id], action)
     });
 }
 
-function updateEntities(state = {
-    isFetching: false
-}, action) {
+function updateEntities(state = {}, action) {
     switch (action.type) {
-        case DISPLAY_USER_PROFILE:
+        case UPDATE_USER_PROFILE:
             return Object.assign({}, state, {
                 users: updateUsers(state.users, action)
             });

@@ -4,7 +4,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 export const REQUEST_USER_PROFILE = 'REQUEST_USER_PROFILE';
 export const RECEIVE_USER_PROFILE = 'RECEIVE_USER_PROFILE';
 
-export const DISPLAY_USER_PROFILE = 'DISPLAY_USER_PROFILE';
+export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
@@ -23,11 +23,11 @@ function requestLogin() {
 }
 
 function userProfile(data) {
-    console.log('aaa', data.id);
+    console.log('user: ', data.id);
     return {
-        type: DISPLAY_USER_PROFILE,
+        type: UPDATE_USER_PROFILE,
         id: data.id,
-        data: data,
+        data: data
     }
 }
 
@@ -69,7 +69,7 @@ export function login(username, password) {
         })
             .then(function (response) {
                 dispatch(userProfile(response.data));
-                dispatch(receiveLogin(response.data.id));
+                dispatch(receiveLogin(response.data.id))
             })
             .catch(function (error) {
                 dispatch(loginError(error));

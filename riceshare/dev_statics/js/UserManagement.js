@@ -1,4 +1,5 @@
 import React from 'react';
+//import ReactDOM from 'react-dom';
 import {
     BrowserRouter as Router,
     Route,
@@ -9,6 +10,7 @@ import {
 
 import {connect} from 'react-redux';
 import {login} from './actions';
+
 import {
     Button,
     Form,
@@ -16,9 +18,7 @@ import {
     FormGroup,
     Checkbox
 } from 'react-bootstrap';
-import {FieldGroup} from './FieldGroup.js';
-
-import {MuiThemeProvider} from 'material-ui/styles';
+import {FieldGroup} from './FieldGroup.js'
 
 
 class LoginForm extends React.Component {
@@ -37,6 +37,7 @@ class LoginForm extends React.Component {
     handleClick(event) {
         event.preventDefault();
         this.props.dispatch(login(this.state.username, this.state.password));
+        this.setState({password: ''});
     }
 
     handleUsernameChange(event) {
@@ -173,7 +174,6 @@ class SignupForm extends React.Component {
     render() {
         return (
             <Form horizontal onSubmit={this.handleClick}>
-
                 <FieldGroup
                     id="formControlsSignupUsername"
                     type="text"
@@ -221,7 +221,6 @@ class SignupForm extends React.Component {
                         </Button>
                     </Col>
                 </FormGroup>
-
             </Form>
         );
     }

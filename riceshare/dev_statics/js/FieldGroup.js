@@ -21,7 +21,7 @@ class FieldGroup extends React.Component {
 	        	aria-label={this.props.label}
 	        	required={this.props.required}
 	        />
-	    </Col>
+	      </Col>
         {this.props.help && <HelpBlock>{this.props.help}</HelpBlock>}
       </FormGroup>
     );
