@@ -33204,7 +33204,7 @@ var _redux = __webpack_require__(274);
 var _actions = __webpack_require__(175);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-//import expect from 'expect';
+// import expect from 'expect';
 
 
 function updateUserProfile() {
@@ -33249,7 +33249,9 @@ function updateUsers() {
 }
 
 function updateEntities() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+        isFetching: false
+    };
     var action = arguments[1];
 
     switch (action.type) {
@@ -33682,7 +33684,6 @@ var UserProfile = function (_React$Component2) {
         key: 'render',
         value: function render() {
             // alert('child UserProfile render!');
-
             var classes = this.props.myClassStyle;
             var bull = _react2.default.createElement(
                 'span',

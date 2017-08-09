@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-//import expect from 'expect';
+// import expect from 'expect';
 import {
     REQUEST_LOGIN,
     RECEIVE_LOGIN,
@@ -48,7 +48,9 @@ function updateUsers(state = {}, action) {
     });
 }
 
-function updateEntities(state = {}, action) {
+function updateEntities(state = {
+    isFetching: false,
+}, action) {
     switch (action.type) {
         case UPDATE_USER_PROFILE:
             return Object.assign({}, state, {

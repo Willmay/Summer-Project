@@ -1,5 +1,6 @@
 {
   entities: {
+    isFetching: true,
     users: {
       2: {
         id: 2,

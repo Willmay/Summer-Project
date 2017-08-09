@@ -289,7 +289,6 @@ class UserProfile extends React.Component {
 
     render() {
         // alert('child UserProfile render!');
-
         const classes = this.props.myClassStyle;
         const bull = <span className={classes.bullet}>•</span>;
 
